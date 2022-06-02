@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/01 16:13:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/02 13:09:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	main(void)
 {
-
+	//testing getcwd and chdir
 	char cwd[PATH_MAX];
 	
 	printf("%s\n", getcwd(cwd, sizeof(cwd)));
