@@ -1,0 +1,17 @@
+test.c
+bonus_main.c
+misc_main.c
+jts_main.c
+equsub_main.c
+iter_main.c
+mem2_main.c
+is_main.c
+atoi_main.c
+mem_main.c
+str_main.c
+main.c
+*.o
+*.a
+a.out
+test.txt
+
