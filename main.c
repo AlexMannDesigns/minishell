@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/15 15:36:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/15 17:15:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(void)
 {
 	pid_t	pid;
 	int 	status, new_line;
-	char	*command;
+	char	*command, **arg_list, *path;
 
 	ft_putstr(PROMPT);
 	while (1)
@@ -36,12 +36,13 @@ int	main(void)
 			}
 			else if (pid == 0)
 			{
-				char *argv[] = {"ls", "-l", "/", NULL};
-				execve("/bin/ls", argv, environ);
+				//char *argv[] = {"ls", "-l", "/", NULL};
+				parser_control(command, &path, &arg_list);
+				if (execve(path, arg_list + 1, environ) == -1)
+					ft_putendl("there was an error");
 			}
 			if (waitpid(pid, &status, 0) > 0)
 			{
-				ft_putendl(command);
 				ft_putstr(PROMPT);
 			}
 		}

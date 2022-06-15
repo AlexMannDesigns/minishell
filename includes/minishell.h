@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/15 15:31:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/15 17:07:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ extern char	**environ;
 /***** STRUCT PROTOTYPES *****/
 
 /***** FUNCTION PROTOTYPES *****/
+
+int	parser_control(char *command, char **path, char ***arg_list);
 
 #endif
