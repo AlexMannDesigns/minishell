@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/06 19:18:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/15 15:36:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,37 @@
 #include <stdio.h>
 #include <limits.h>
 
+
 /* testing again */
 int	main(void)
 {
 	pid_t	pid;
-	int status;
-		
-	pid = fork();
-	if (pid == -1)
+	int 	status, new_line;
+	char	*command;
+
+	ft_putstr(PROMPT);
+	while (1)
 	{
-		ft_putendl("cant fork! error");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-	//	ft_putstr("$> ");
-	//	sleep(5);
-		char *argv[] = {"ls", "-lart", "/", NULL};
-		sleep(5);
-		execv("ls", argv);
-		printf("hello\n");
-		exit(0);
-	}
-	else
-	{
-		if (waitpid(pid, &status, 0) > 0)
-			ft_putendl("\ndone!");
+		new_line = get_next_line(STDIN_FD, &command);
+		if (new_line == 1)
+		{
+			pid = fork();
+			if (pid == -1)
+			{
+				ft_putendl("cant fork! error");
+				exit(EXIT_FAILURE);
+			}
+			else if (pid == 0)
+			{
+				char *argv[] = {"ls", "-l", "/", NULL};
+				execve("/bin/ls", argv, environ);
+			}
+			if (waitpid(pid, &status, 0) > 0)
+			{
+				ft_putendl(command);
+				ft_putstr(PROMPT);
+			}
+		}
 	}
 
 

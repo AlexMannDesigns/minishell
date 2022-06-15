@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/06 18:10:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/15 15:31:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,21 @@
 # include <signal.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/uio.h>
 
 /***** MACROS *****/
 
 # define TRUE 1
 # define FALSE 0
+# define PROMPT "$> "
+# define STDIN_FD 1
+
+/***** GLOBAL VARIABLES *****/
+
+extern char	**environ;
+
+/***** STRUCT PROTOTYPES *****/
+
+/***** FUNCTION PROTOTYPES *****/
 
 #endif
