@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/15 17:07:51 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/16 15:38:26 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define FALSE 0
 # define PROMPT "$> "
 # define STDIN_FD 1
+# define BUILTINS "cd echo env setenv unsetenv exit"
 
 /***** GLOBAL VARIABLES *****/
 
@@ -39,6 +40,12 @@ extern char	**environ;
 
 /***** FUNCTION PROTOTYPES *****/
 
-int	parser_control(char *command, char **path, char ***arg_list);
+/* array_len.c */
+size_t	array_len(char **arr);
 
+/* parser.c */
+int	parser_control(char *cli, char ***arg_list);
+
+/* validate_command.c */
+int	is_builtin(char *s);
 #endif

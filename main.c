@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/15 17:15:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/16 15:39:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ int	main(void)
 {
 	pid_t	pid;
 	int 	status, new_line;
-	char	*command, **arg_list, *path;
+	char	*cli, **arg_list;//, *path;
 
 	ft_putstr(PROMPT);
+	cli = NULL;
+	arg_list = NULL;
 	while (1)
 	{
-		new_line = get_next_line(STDIN_FD, &command);
+		new_line = get_next_line(STDIN_FD, &cli);
 		if (new_line == 1)
 		{
 			pid = fork();
@@ -36,10 +38,14 @@ int	main(void)
 			}
 			else if (pid == 0)
 			{
-				//char *argv[] = {"ls", "-l", "/", NULL};
-				parser_control(command, &path, &arg_list);
-				if (execve(path, arg_list + 1, environ) == -1)
-					ft_putendl("there was an error");
+				if (parser_control(cli, &arg_list))
+				{
+					if (execve(*arg_list, arg_list, environ) == -1)
+						ft_putendl("there was an error");
+				}
+				ft_freearray((void ***) &arg_list, array_len(arg_list));
+				ft_memdel((void **) &cli);
+				exit(EXIT_SUCCESS);
 			}
 			if (waitpid(pid, &status, 0) > 0)
 			{
