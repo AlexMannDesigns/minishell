@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/16 15:47:40 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/17 17:59:07 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,67 @@ static void builtin_control(char *command, char **arg_list)
 }
 
 //NB "" and '' must be handled by the parser before args are handled.
+static char	**handle_quotes(char *cli)
+{
+	size_t	ac, i;
+
+	ac = i = 0;
+	while (cli[i])
+	{
+		if (cli[i] != ' ' && cli[i] != '\"')
+		{
+			ac++;
+			while (cli[i] != ' ')
+				i++;
+		}
+		else if (cli[i] == '\"')
+		{
+			//ft_putstr("here");
+			i++;
+			ac++;
+			while (cli[i] != '\"' && cli[i] != '\0')
+				i++;
+			if (cli[i] == '\0')
+				break ;
+			i++;
+		}
+		else
+			i++;
+	}
+	ft_printf("%zu\n", ac);
+	return (ft_strsplit(cli, ' '));
+
+}
+
+char	**parse_args(char *cli)
+{
+	int	i, quotes;
+
+	i = quotes = 0;
+	while (cli[i])
+	{
+		if (cli[i] == ' ') 
+		{
+			if (cli[i + 1] == '\"' || cli[i + 1] == '\'')
+			{
+				quotes++;
+				break ;
+			}
+		}
+		i++;	
+	}
+//	ft_printf("db_quote = %d | sing_quote = %d\n", db_quote, sing_quote);
+	if (!quotes)
+		return (ft_strsplit(cli, ' '));
+	return (handle_quotes(cli));
+}
+
 
 int	parser_control(char *cli, char ***arg_list)
 {
 	char	*command;
 
-	*arg_list = ft_strsplit(cli, ' ');
+	*arg_list = parse_args(cli);
 	command = ft_strdup((*arg_list)[0]);
 	//ft_putendl((*arg_list)[0]);	
 	if (is_builtin(command))
