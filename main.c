@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/16 15:39:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/17 12:09:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,30 @@
 #include <stdio.h>
 #include <limits.h>
 
+static void	minishell_control(char *cli, char **env)
+{
+	char	**arg_list;
 
-/* testing again */
+	if (parser_control(cli, &arg_list))
+	{
+		if (execve(*arg_list, arg_list, env) == -1)
+			ft_putendl("there was an error");
+	}
+	ft_freearray((void ***) &arg_list, array_len(arg_list));
+	ft_memdel((void **) &cli);
+	exit(EXIT_SUCCESS);
+}
+
 int	main(void)
 {
 	pid_t	pid;
-	int 	status, new_line;
-	char	*cli, **arg_list;//, *path;
+	int 	status;
+	int		new_line;
+	char	*cli;//, *path;
+	char	**env;
 
+	env = get_env();
 	ft_putstr(PROMPT);
-	cli = NULL;
-	arg_list = NULL;
 	while (1)
 	{
 		new_line = get_next_line(STDIN_FD, &cli);
@@ -38,19 +51,10 @@ int	main(void)
 			}
 			else if (pid == 0)
 			{
-				if (parser_control(cli, &arg_list))
-				{
-					if (execve(*arg_list, arg_list, environ) == -1)
-						ft_putendl("there was an error");
-				}
-				ft_freearray((void ***) &arg_list, array_len(arg_list));
-				ft_memdel((void **) &cli);
-				exit(EXIT_SUCCESS);
+				minishell_control(cli, env);
 			}
 			if (waitpid(pid, &status, 0) > 0)
-			{
 				ft_putstr(PROMPT);
-			}
 		}
 	}
 

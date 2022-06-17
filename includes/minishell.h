@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/16 15:38:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/17 12:09:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 /***** GLOBAL VARIABLES *****/
 
-extern char	**environ;
+//extern char	**environ;
 
 /***** STRUCT PROTOTYPES *****/
 
@@ -42,6 +42,9 @@ extern char	**environ;
 
 /* array_len.c */
 size_t	array_len(char **arr);
+
+/* environment.c */
+char	**get_env(void);
 
 /* parser.c */
 int	parser_control(char *cli, char ***arg_list);
