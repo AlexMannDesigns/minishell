@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/17 17:59:07 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/20 13:58:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,28 @@ static void builtin_control(char *command, char **arg_list)
 static char	**handle_quotes(char *cli)
 {
 	size_t	ac, i;
+	char	quote_type;
 
 	ac = i = 0;
 	while (cli[i])
 	{
-		if (cli[i] != ' ' && cli[i] != '\"')
+		if (cli[i] == '\"' || cli[i] == '\'')
 		{
-			ac++;
-			while (cli[i] != ' ')
-				i++;
-		}
-		else if (cli[i] == '\"')
-		{
-			//ft_putstr("here");
+			quote_type = cli[i];
 			i++;
 			ac++;
-			while (cli[i] != '\"' && cli[i] != '\0')
+			while (cli[i] != quote_type && cli[i])
 				i++;
-			if (cli[i] == '\0')
+			if (!cli[i])
 				break ;
-			i++;
 		}
-		else
-			i++;
+		else if (ft_isalpha(cli[i]))
+		{
+			ac++;
+			while (cli[i] && cli[i] != ' ')
+				i++;
+		}
+		i++;
 	}
 	ft_printf("%zu\n", ac);
 	return (ft_strsplit(cli, ' '));
