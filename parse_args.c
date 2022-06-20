@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 12:02:02 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 16:20:55 by amann            ###   ########.fr       */
+/*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
+/*   Updated: 2022/06/20 16:14:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	**get_env(void)
+char	**parse_args(char *cli)
 {
-	char		**ms_env;
-	extern char	**environ;	
-	int			i;
+	int	i;
+	int	quotes;
 
-	ms_env = (char **) ft_memalloc(sizeof(char *) * array_len(environ));
 	i = 0;
-	while (environ[i])
+	quotes = 0;
+	while (cli[i])
 	{
-		ms_env[i] = ft_strdup(environ[i]);
+		if (cli[i] == ' ')
+		{
+			if (cli[i + 1] == '\"' || cli[i + 1] == '\'')
+			{
+				quotes++;
+				break ;
+			}
+		}
 		i++;
 	}
-	return (ms_env);
+	if (!quotes)
+		return (ft_strsplit(cli, ' '));
+	return (handle_quotes(cli));
 }

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/17 12:09:22 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/20 17:17:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,17 @@ size_t	array_len(char **arr);
 /* environment.c */
 char	**get_env(void);
 
+/* handle_quotes.c */
+char	**handle_quotes(char *cli);
+
+/* parse_args.c */
+char	**parse_args(char *cli);
+
 /* parser.c */
-int	parser_control(char *cli, char ***arg_list);
+int	parser_control(char *cli, char ***arg_list, char ***env);
 
 /* validate_command.c */
 int	is_builtin(char *s);
+int	is_in_path(char *command, char **env);
+
 #endif
