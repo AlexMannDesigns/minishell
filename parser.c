@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 13:58:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/20 15:03:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,21 @@ static void builtin_control(char *command, char **arg_list)
 		handle_echo(arg_list);
 }
 
-//NB "" and '' must be handled by the parser before args are handled.
-static char	**handle_quotes(char *cli)
+static size_t	count_args(char *cli)
 {
-	size_t	ac, i;
+	size_t	arg_count;
+	size_t	i;
 	char	quote_type;
 
-	ac = i = 0;
+	arg_count = 0;
+	i = 0;
 	while (cli[i])
 	{
 		if (cli[i] == '\"' || cli[i] == '\'')
 		{
 			quote_type = cli[i];
 			i++;
-			ac++;
+			arg_count++;
 			while (cli[i] != quote_type && cli[i])
 				i++;
 			if (!cli[i])
@@ -70,15 +71,60 @@ static char	**handle_quotes(char *cli)
 		}
 		else if (ft_isalpha(cli[i]))
 		{
-			ac++;
+			arg_count++;
 			while (cli[i] && cli[i] != ' ')
 				i++;
 		}
 		i++;
 	}
-	ft_printf("%zu\n", ac);
-	return (ft_strsplit(cli, ' '));
+	return (arg_count);
+}
 
+static void	copy_args(char ***res, char *cli)
+{
+	size_t	i, len, idx;
+	char	quote_type;
+
+	i = 0;
+	idx = 0;
+	while (cli[i])
+	{
+		if (cli[i] == '\"' || cli[i] == '\'' || ft_isalpha(cli[i]))
+		{
+			len = 0;
+			if (ft_isalpha(cli[i]))
+			{
+				while (cli[i + len] && cli[i + len] != ' ')
+					len++;		
+			}
+			else
+			{
+				quote_type = cli[i];
+				i++;
+				while (cli[i + len] && cli[i + len] != quote_type)
+					len++;
+			}
+			(*res)[idx] = ft_strndup(cli + i, len);
+			idx++;
+			i += len;
+		//	ft_printf("%zu *%c*\n", len, cli[i]);
+		}
+		i++;
+	}
+}
+
+static char	**handle_quotes(char *cli)
+{
+	size_t	arg_count;
+	char	**res;
+
+	arg_count = count_args(cli);
+	//ft_printf("%zu\n", arg_count);
+	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));
+	if (!res)
+		return (NULL);
+	copy_args(&res, cli);
+	return (res);
 }
 
 char	**parse_args(char *cli)
@@ -114,6 +160,7 @@ int	parser_control(char *cli, char ***arg_list)
 	//ft_putendl((*arg_list)[0]);	
 	if (is_builtin(command))
 	{
+		//ft_putendl("hello");
 		builtin_control(command, *arg_list);
 		free(command);
 		return (0);
