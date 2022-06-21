@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 19:09:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/21 18:17:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	populate_path_array(char *path, char ***path_array)
 	}
 }
 
-int	is_in_path(char *command, char **env)
+int	is_in_path(char **command, char **env)
 {
 	size_t	i;
 	char	*path;
@@ -92,7 +92,7 @@ int	is_in_path(char *command, char **env)
 		return (0);
 	}
 	populate_path_array(path, &path_array);
-	command_plus_slash = ft_strjoin("/", command);
+	command_plus_slash = ft_strjoin("/", *command);
 	i = 0;
 	while (path_array[i])
 	{
@@ -102,8 +102,10 @@ int	is_in_path(char *command, char **env)
 		free(test_path);
 		i++;
 	}
-	ft_putendl(test_path);
+	free(*command);
+	*command = test_path;
+	//ft_putendl(test_path);
 	//ft_printf("%d %d\n", access("/bin/ls", X_OK), access("/usr/local/bin/ls", X_OK));
-	ft_putendl(command);	
+	//ft_putendl(icommand);	
 	return (1);
 }

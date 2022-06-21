@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 17:17:24 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/21 18:35:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ int	parser_control(char *cli, char ***arg_list, char ***env);
 
 /* validate_command.c */
 int	is_builtin(char *s);
-int	is_in_path(char *command, char **env);
-
+int	is_in_path(char **command, char **env);
 #endif

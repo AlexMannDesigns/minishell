@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 17:16:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/21 18:21:46 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 #include <stdio.h>
 #include <limits.h>
 
-static void	minishell_control(char *cli, char ***env)
+static void	minishell_control(char *cli, char **env)
 {
 	char	**arg_list;
 
-	if (parser_control(cli, &arg_list, env))
-	{
-		if (execve(*arg_list, arg_list, *env) == -1)
-			ft_putendl("there was an error");
-	}
+	parser_control(cli, &arg_list, &env);
 	ft_freearray((void ***) &arg_list, array_len(arg_list));
 	ft_memdel((void **) &cli);
 	exit(EXIT_SUCCESS);
@@ -51,14 +47,13 @@ int	main(void)
 			}
 			else if (pid == 0)
 			{
-				minishell_control(cli, &env);
+				minishell_control(cli, env);
 			}
 			if (waitpid(pid, &status, 0) > 0)
 				ft_putstr(PROMPT);
 		}
 	}
-	//if control + c handled, everything must be freed before the program exits
-	ft_freearray((void ***) &env, array_len(env));
+
 
 //	else if (pid == 0) //child process was created
 //	{

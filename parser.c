@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 18:12:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/21 18:43:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	builtin_control(char *command, char **arg_list)
 int	parser_control(char *cli, char ***arg_list, char ***env)
 {
 	char	*command;
+	extern char **environ;
 
 	*arg_list = parse_args(cli);
 	command = ft_strdup((*arg_list)[0]);
@@ -61,9 +62,17 @@ int	parser_control(char *cli, char ***arg_list, char ***env)
 		free(command);
 		return (0);
 	}
-	else if (is_in_path(command, *env))
+	else if (is_in_path(&command, *env))
 	{
-		;	
+	//	ft_putendl(command);
+	//	int i = 0;
+	//	while ((*arg_list)[i])
+	//		ft_putendl((*arg_list)[i++]);
+	//	int i = 0;
+	//	while ((*env)[i])
+	//		ft_putendl((*env)[i++]);
+		if (execve(command, *arg_list, environ) == -1)
+			ft_putendl("there was an error");
 	}
 	free(command);
 	return (1);
