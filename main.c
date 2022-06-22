@@ -6,21 +6,48 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/21 18:21:46 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/22 18:24:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-#include <stdio.h>
-#include <limits.h>
 
-static void	minishell_control(char *cli, char **env)
+#include <stdio.h> // DELETE ME
+
+void	builtin_control(char *command, t_sh *shell)
 {
-	char	**arg_list;
+	int		func;
+	int		i;
 
-	parser_control(cli, &arg_list, &env);
-	ft_freearray((void ***) &arg_list, array_len(arg_list));
-	ft_memdel((void **) &cli);
+	i = 0;
+	while (i < 6)
+	{
+		if (ft_strcmp(command, shell->builtin_names[i]) == 0)
+		{
+			func = i;
+			break ;
+		}
+		i++;
+	}
+	if (i < 6)
+		shell->builtin[func](shell);
+}
+
+static void	bin_control(char *path, t_sh *shell)
+{
+	
+//		ft_putendl(command);
+//		int i = 0;
+//		while ((environ)[i])
+//			ft_putendl((environ)[i++]);
+//		write(1, "\n", 1);
+//		i = 0;
+//		while ((shell->env)[i])
+//			ft_putendl((shell->env)[i++]);
+	if (execve(path, shell->arg_list, shell->env) == -1)
+			ft_putendl("there was an error");
+	ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
+	ft_memdel((void **) &(shell->cli));
 	exit(EXIT_SUCCESS);
 }
 
@@ -29,28 +56,45 @@ int	main(void)
 	pid_t	pid;
 	int 	status;
 	int		new_line;
-	char	*cli;//, *path;
-	char	**env;
+	t_sh	*shell;
+	char	*command;
 
-	env = get_env();
+	initialise_shell(&shell);
+	if (!shell)
+		exit(EXIT_FAILURE);
 	ft_putstr(PROMPT);
 	while (1)
 	{
-		new_line = get_next_line(STDIN_FD, &cli);
+		new_line = get_next_line(STDIN_FD, &(shell->cli));
 		if (new_line == 1)
 		{
-			pid = fork();
-			if (pid == -1)
-			{
-				ft_putendl("cant fork! error");
-				exit(EXIT_FAILURE);
-			}
-			else if (pid == 0)
-			{
-				minishell_control(cli, env);
-			}
-			if (waitpid(pid, &status, 0) > 0)
+			parser_control(shell);
+			command = ft_strdup(shell->arg_list[0]);
+			if (is_builtin(shell->arg_list[0]))
+			{	
+				builtin_control(shell->arg_list[0], shell);
 				ft_putstr(PROMPT);
+			}
+			else if (is_in_path(&command, shell->env))
+			{
+				pid = fork();
+				if (pid == -1)
+				{
+					ft_putendl("cant fork! error");
+					exit(EXIT_FAILURE);
+				}
+				else if (pid == 0)
+				{
+					bin_control(command, shell);
+				}
+				if (waitpid(pid, &status, 0) > 0)
+					ft_putstr(PROMPT);
+			}
+			else
+			{
+				ft_printf("%s: command not found\n", shell->arg_list[0]);
+				ft_putstr(PROMPT);
+			}
 		}
 	}
 

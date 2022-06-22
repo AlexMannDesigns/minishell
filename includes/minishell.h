@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/21 18:35:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/22 17:39:06 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 
+# include <limits.h> //just for PATH_MAX in cd function... maybe define it myself...
+
 /***** MACROS *****/
 
 # define TRUE 1
@@ -38,10 +40,21 @@
 
 /***** STRUCT PROTOTYPES *****/
 
+typedef void	(*t_function)();
+
+typedef struct	s_sh
+{
+	char		**arg_list;
+	char		**env;
+	char		*cli;
+	char		**history;
+	t_function	builtin[6];
+	char		*builtin_names[6];
+}				t_sh;
+
 /***** FUNCTION PROTOTYPES *****/
 
-/* array_len.c */
-size_t	array_len(char **arr);
+void	builtin_control(char *command, t_sh *shell);
 
 /* environment.c */
 char	**get_env(void);
@@ -49,11 +62,24 @@ char	**get_env(void);
 /* handle_quotes.c */
 char	**handle_quotes(char *cli);
 
+/* handle_echo.c */
+void	handle_echo(t_sh *shell);
+
+/* handle_cd.c */
+void	handle_cd(t_sh *shell);
+
+/* helpers.c */
+size_t	array_len(char **arr);
+int		get_env_idx(t_sh *shell, char *str);
+
+/* initialise_shell.c */
+void	initialise_shell(t_sh **shell);
+
 /* parse_args.c */
 char	**parse_args(char *cli);
 
 /* parser.c */
-int	parser_control(char *cli, char ***arg_list, char ***env);
+int	parser_control(t_sh *shell);
 
 /* validate_command.c */
 int	is_builtin(char *s);

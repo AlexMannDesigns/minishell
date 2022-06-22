@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   array_len.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 15:15:58 by amann            ###   ########.fr       */
+/*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
+/*   Updated: 2022/06/22 17:35:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	**parse_args(char *cli)
+size_t	array_len(char **arr)
 {
-	int	i;
-	int	quotes;
+	size_t	res;
 
+	res = 0;
+	while (arr[res])
+		res++;
+	return (res);
+}
+
+int		get_env_idx(t_sh *shell, char *str)
+{
+	int		i;
+	size_t	len;
+
+	len = ft_strlen(str);
 	i = 0;
-	quotes = 0;
-	while (cli[i])
+	while (shell->env[i])
 	{
-		if (cli[i] == ' ')
-		{
-			if (cli[i + 1] == '\"' || cli[i + 1] == '\'')
-			{
-				quotes++;
-				break ;
-			}
-		}
+		if (ft_strncmp(shell->env[i], str, len) == 0)
+			return (i);		
 		i++;
 	}
-	if (!quotes)
-		return (ft_strsplit(cli, ' '));
-	return (handle_quotes(cli));
+	return (-1);
 }

@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   handle_echo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 15:15:58 by amann            ###   ########.fr       */
+/*   Created: 2022/06/22 13:40:40 by amann             #+#    #+#             */
+/*   Updated: 2022/06/22 18:34:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	**parse_args(char *cli)
+//process needed to print variables such as $PATH or $USER
+//echo with no args causes a seg fault
+
+void	handle_echo(t_sh *shell)
 {
 	int	i;
-	int	quotes;
+	int	no_nl;
 
-	i = 0;
-	quotes = 0;
-	while (cli[i])
+	if (!(shell->arg_list)[1])
 	{
-		if (cli[i] == ' ')
-		{
-			if (cli[i + 1] == '\"' || cli[i + 1] == '\'')
-			{
-				quotes++;
-				break ;
-			}
-		}
+		ft_putendl("");
+		return ;
+	}
+	i = 1;
+	no_nl = 0;
+	if (ft_strcmp((shell->arg_list)[i], "-n") == 0)
+	{	
+		i++;
+		no_nl++;
+	}
+	while ((shell->arg_list)[i])
+	{
+		ft_putstr((shell->arg_list)[i]);
+		if ((shell->arg_list)[i + 1])
+			ft_putchar(' ');
 		i++;
 	}
-	if (!quotes)
-		return (ft_strsplit(cli, ' '));
-	return (handle_quotes(cli));
+	if (!no_nl)
+		ft_putchar('\n');
 }

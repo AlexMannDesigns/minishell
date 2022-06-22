@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/06/21 18:17:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/22 15:38:25 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	populate_path_array(char *path, char ***path_array)
 int	is_in_path(char **command, char **env)
 {
 	size_t	i;
+	int		path_found;
 	char	*path;
 	char	**path_array;
 	char	*command_plus_slash;
@@ -93,19 +94,28 @@ int	is_in_path(char **command, char **env)
 	}
 	populate_path_array(path, &path_array);
 	command_plus_slash = ft_strjoin("/", *command);
+	path_found = FALSE;
 	i = 0;
 	while (path_array[i])
 	{
 		test_path = ft_strjoin(path_array[i], command_plus_slash);
 		if (access(test_path, X_OK) == 0)
+		{
+			path_found = TRUE;
 			break ;
+		}
 		free(test_path);
 		i++;
 	}
-	free(*command);
-	*command = test_path;
+	ft_memdel((void **)command);
 	//ft_putendl(test_path);
 	//ft_printf("%d %d\n", access("/bin/ls", X_OK), access("/usr/local/bin/ls", X_OK));
 	//ft_putendl(icommand);	
-	return (1);
+	if (path_found)
+	{
+		*command = test_path;
+		return (1);
+	}
+	else
+		return (0); //DISPLAY ERROR
 }
