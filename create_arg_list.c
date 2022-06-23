@@ -1,50 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_len.c                                        :+:      :+:    :+:   */
+/*   parse_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 15:53:42 by amann            ###   ########.fr       */
+/*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
+/*   Updated: 2022/06/23 13:49:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	print_arr(char **arr)
+char	**create_arg_list(char *cli)
 {
-	int i;
+	int	i;
+	int	quotes;
 
 	i = 0;
-	while (arr[i])
-		ft_printf("%s ", arr[i++]);
-	write(1, "\n", 1);
-
-}
-
-size_t	array_len(char **arr)
-{
-	size_t	res;
-
-	res = 0;
-	while (arr[res])
-		res++;
-	return (res);
-}
-
-int		get_env_idx(t_sh *shell, char *str)
-{
-	int		i;
-	size_t	len;
-
-	len = ft_strlen(str);
-	i = 0;
-	while (shell->env[i])
+	quotes = 0;
+	while (cli[i])
 	{
-		if (ft_strncmp(shell->env[i], str, len) == 0)
-			return (i);		
+		if (cli[i] == ' ')
+		{
+			if (cli[i + 1] == '\"' || cli[i + 1] == '\'')
+			{
+				quotes++;
+				break ;
+			}
+		}
 		i++;
 	}
-	return (-1);
+	if (!quotes)
+		return (ft_strsplit(cli, ' '));
+	return (handle_quotes(cli));
 }

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:11:33 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 15:16:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/23 16:02:35 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,8 @@ void	initialise_shell(t_sh **shell)
 	(*shell)->builtin_names[3] = "exit";
 	(*shell)->builtin_names[4] = "setenv";
 	(*shell)->builtin_names[5] = "unsetenv";
+	(*shell)->parse.tilde = NULL;
+	(*shell)->parse.tilde_idx = 0;
+	(*shell)->parse.dollar = NULL;
+	(*shell)->parse.dollar_idx = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 17:39:06 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/23 16:03:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@
 
 typedef void	(*t_function)();
 
+typedef struct	s_parse
+{
+	char	*tilde;
+	int		tilde_idx;
+	char	*dollar;
+	int		dollar_idx;
+}			t_parse;
+
 typedef struct	s_sh
 {
 	char		**arg_list;
@@ -50,11 +58,15 @@ typedef struct	s_sh
 	char		**history;
 	t_function	builtin[6];
 	char		*builtin_names[6];
+	t_parse		parse;
 }				t_sh;
 
 /***** FUNCTION PROTOTYPES *****/
 
 void	builtin_control(char *command, t_sh *shell);
+
+/* create_arg_list.c */
+char	**create_arg_list(char *cli);
 
 /* environment.c */
 char	**get_env(void);
@@ -71,12 +83,10 @@ void	handle_cd(t_sh *shell);
 /* helpers.c */
 size_t	array_len(char **arr);
 int		get_env_idx(t_sh *shell, char *str);
+void	print_arr(char **arr);
 
 /* initialise_shell.c */
 void	initialise_shell(t_sh **shell);
-
-/* parse_args.c */
-char	**parse_args(char *cli);
 
 /* parser.c */
 int	parser_control(t_sh *shell);
