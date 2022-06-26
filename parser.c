@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 18:09:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/26 15:19:15 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ static char *first_char_in_arr(t_sh *shell, char c)
 static void	expand_tilde_helper(char **str, t_sh *shell)
 {
 	size_t	len;
-	size_t	idx;
+	int		idx;
 	char	*new_str;
 
 	//count length of string (-1 for tilde being replaced)
 	len = ft_strlen(*str) - 1;
+	new_str = NULL;
 	//if length is 0  simply replace string with HOME
 	if (len == 0)
 	{
@@ -59,23 +60,66 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 	//	ft_putendl(new_str);
 	}
 	//if length is 1 check if last char is '+' (PWD) or '-' (OLDPWD - not expanded if it is unset)
-	if (len == 1 && (*str[1] == '+' || *str[1] == '-'))
+	if (len == 1 && ((*str)[1] == '+' || (*str)[1] == '-'))
 	{
-		if (*str[1] == '+')
+		if ((*str)[1] == '+')
 		{
-			ft_putendl("here");
 			idx = get_env_idx(shell, "PWD=");
 			new_str = ft_strdup((shell->env[idx]) + 4);
 			if (!new_str)
 				return ;
-			ft_putendl(new_str);
 		}
-
+		else if ((*str)[1] == '-')
+		{
+			idx = get_env_idx(shell, "OLDPWD=");
+			if (idx == -1)
+				return ;
+			new_str = ft_strdup((shell->env[idx]) + 7);
+			if (!new_str)
+				return ;
+		}
 	}
 	//if length > 1 check if remaining string is a valid username
-	ft_strdel(str);
-	*str = new_str;
-	return ;
+	if (len > 1)
+	{
+		DIR *users;
+		struct dirent *current_obj;
+		int	user_exists;
+		size_t len;
+
+		user_exists = FALSE;
+		len = 0;
+		while ((*str)[len])
+		{
+			if ((*str)[len] == '/')
+				break ;
+			len++;
+		}
+		users = opendir("/Users");
+		current_obj = readdir(users);
+		while (current_obj != NULL)
+		{
+			if (ft_strncmp(current_obj->d_name, (*str) + 1, len - 1) == 0)
+			{	
+				user_exists = TRUE;
+				break ;
+			}
+			current_obj = readdir(users);
+		}
+		if (user_exists)
+		{
+			new_str = ft_strjoin("/Users/" , (*str) + 1);
+			if (!new_str)
+				return ;
+		}
+		closedir(users);
+	
+	}
+	if (new_str)
+	{
+		ft_strdel(str);
+		*str = new_str;
+	}
 }
 
 static void	expand_tildes(t_sh *shell)
