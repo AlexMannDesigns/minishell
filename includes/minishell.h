@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/26 15:07:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/26 16:10:11 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ char	**create_arg_list(char *cli);
 
 /* environment.c */
 char	**get_env(void);
+
+/* expand_tildes.c */
+void	expand_tildes(t_sh *shell);
 
 /* handle_quotes.c */
 char	**handle_quotes(char *cli);
