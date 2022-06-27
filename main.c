@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 13:50:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/27 17:35:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,12 @@ int	main(void)
 	while (1)
 	{
 		new_line = get_next_line(STDIN_FD, &(shell->cli));
-		if (new_line == 1)
+		if (new_line == 1 && shell->cli[0])
 		{
 			parser_control(shell);
 			command = ft_strdup(shell->arg_list[0]);
 			if (is_builtin(shell->arg_list[0]))
-			{	
 				builtin_control(shell->arg_list[0], shell);
-				ft_putstr(PROMPT);
-			}
 			else if (is_in_path(&command, shell->env))
 			{
 				pid = fork();
@@ -84,18 +81,16 @@ int	main(void)
 					exit(EXIT_FAILURE);
 				}
 				else if (pid == 0)
-				{
 					bin_control(command, shell);
-				}
 				if (waitpid(pid, &status, 0) > 0)
-					ft_putstr(PROMPT);
+					;
 			}
 			else
-			{
 				ft_printf("%s: command not found\n", shell->arg_list[0]);
-				ft_putstr(PROMPT);
-			}
+			ft_putstr(PROMPT);
 		}
+		else
+			ft_putstr(PROMPT);
 	}
 
 

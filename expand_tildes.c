@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/06/26 18:10:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/27 15:36:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*tilde_plus_minus(char **str, t_sh *shell)
 		if (!new_str)
 			return (NULL);
 	}
-	else 
+	else
 	{
 		idx = get_env_idx(shell, "OLDPWD=");
 		if (idx == -1)
@@ -73,20 +73,31 @@ static int	check_users(char *str, size_t len)
 	return (res);
 }
 
-static char	*tilde_username(char **str)
+static char	*tilde_username_or_slash(t_sh *shell, char **str)
 {
 	int				user_exists;
+	int				idx;
 	size_t			len;
 	char			*new_str;
 
 	new_str = NULL;
-	len = name_length(*str);
-	user_exists = check_users(*str, len);
-	if (user_exists)
+	if ((*str)[1] == '/')
 	{
-		new_str = ft_strjoin("/Users/" , (*str) + 1);
+		idx = get_env_idx(shell, "HOME=");
+		new_str = ft_strjoin((shell->env[idx]) + 5, (*str) + 1);
 		if (!new_str)
 			return (NULL);
+	}
+	else
+	{
+		len = name_length(*str);
+		user_exists = check_users(*str, len);
+		if (user_exists)
+		{
+			new_str = ft_strjoin("/Users/", (*str) + 1);
+			if (!new_str)
+				return (NULL);
+		}
 	}
 	return (new_str);
 }
@@ -103,13 +114,13 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 	{
 		idx = get_env_idx(shell, "HOME=");
 		new_str = ft_strdup((shell->env[idx]) + 5);
-		if (!new_str) 
+		if (!new_str)
 			return ;
 	}
 	if (len == 1 && ((*str)[1] == '+' || (*str)[1] == '-'))
 		new_str = tilde_plus_minus(str, shell);
-	if (len > 1)
-		new_str = tilde_username(str);
+	else if (len >= 1)
+		new_str = tilde_username_or_slash(shell, str);
 	if (new_str)
 	{
 		ft_strdel(str);
