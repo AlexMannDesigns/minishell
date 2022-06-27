@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/06/26 16:41:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/26 18:10:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,17 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 	int		idx;
 	char	*new_str;
 
-	//count length of string (-1 for tilde being replaced)
 	len = ft_strlen(*str) - 1;
 	new_str = NULL;
-	//if length is 0  simply replace string with HOME
 	if (len == 0)
 	{
 		idx = get_env_idx(shell, "HOME=");
 		new_str = ft_strdup((shell->env[idx]) + 5);
-		if (!new_str) //if malloc fails we can just ignore the tilde and move on safely
+		if (!new_str) 
 			return ;
-	//	ft_putendl(new_str);
 	}
-	//if length is 1 check if last char is '+' (PWD) or '-' (OLDPWD - not expanded if it is unset)
 	if (len == 1 && ((*str)[1] == '+' || (*str)[1] == '-'))
 		new_str = tilde_plus_minus(str, shell);
-	//if length > 1 check if remaining string is a valid username
 	if (len > 1)
 		new_str = tilde_username(str);
 	if (new_str)
