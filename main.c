@@ -6,13 +6,14 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/27 17:35:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 12:36:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 #include <stdio.h> // DELETE ME
+#include <errno.h> // DELETE ME
 
 void	builtin_control(char *command, t_sh *shell)
 {
@@ -44,8 +45,19 @@ static void	bin_control(char *path, t_sh *shell)
 //		i = 0;
 //		while ((shell->env)[i])
 //			ft_putendl((shell->env)[i++]);
+	
+	shell->arg_list[0] = path;
 	if (execve(path, shell->arg_list, shell->env) == -1)
-			ft_putendl("there was an error");
+	{
+		ft_putendl(path);
+//		int i = 0;
+//		while (shell->arg_list[i])
+//			ft_printf("%s\n", shell->arg_list[i++]);
+//	
+//		i = 0;
+//		while (shell->env[i])
+//			ft_putendl(shell->env[i++]);
+	}
 	ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
 	ft_memdel((void **) &(shell->cli));
 	exit(EXIT_SUCCESS);
@@ -59,6 +71,7 @@ int	main(void)
 	t_sh	*shell;
 	char	*command;
 
+	errno = 0;
 	initialise_shell(&shell);
 	if (!shell)
 		exit(EXIT_FAILURE);
@@ -81,12 +94,14 @@ int	main(void)
 					exit(EXIT_FAILURE);
 				}
 				else if (pid == 0)
+				{	
 					bin_control(command, shell);
+				}
 				if (waitpid(pid, &status, 0) > 0)
 					;
 			}
 			else
-				ft_printf("%s: command not found\n", shell->arg_list[0]);
+				ft_printf("%s: command not found\n", shell->arg_list[0]); //print to stderr
 			ft_putstr(PROMPT);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/06/27 15:36:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 13:17:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static char	*tilde_plus_minus(char **str, t_sh *shell)
 	new_str = NULL;
 	if ((*str)[1] == '+')
 	{
-		idx = get_env_idx(shell, "PWD=");
+		idx = get_env_idx(shell, "PWD");
 		new_str = ft_strdup((shell->env[idx]) + 4);
 		if (!new_str)
 			return (NULL);
 	}
 	else
 	{
-		idx = get_env_idx(shell, "OLDPWD=");
+		idx = get_env_idx(shell, "OLDPWD");
 		if (idx == -1)
 			return (NULL);
 		new_str = ft_strdup((shell->env[idx]) + 7);
@@ -83,7 +83,7 @@ static char	*tilde_username_or_slash(t_sh *shell, char **str)
 	new_str = NULL;
 	if ((*str)[1] == '/')
 	{
-		idx = get_env_idx(shell, "HOME=");
+		idx = get_env_idx(shell, "HOME");
 		new_str = ft_strjoin((shell->env[idx]) + 5, (*str) + 1);
 		if (!new_str)
 			return (NULL);
@@ -112,7 +112,7 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 	new_str = NULL;
 	if (len == 0)
 	{
-		idx = get_env_idx(shell, "HOME=");
+		idx = get_env_idx(shell, "HOME");
 		new_str = ft_strdup((shell->env[idx]) + 5);
 		if (!new_str)
 			return ;

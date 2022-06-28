@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 15:53:42 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 13:16:52 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,20 @@ int		get_env_idx(t_sh *shell, char *str)
 {
 	int		i;
 	size_t	len;
+	char	*str_plus_equals;
 
-	len = ft_strlen(str);
+	str_plus_equals = ft_strjoin(str, "=");
+	len = ft_strlen(str_plus_equals);
 	i = 0;
 	while (shell->env[i])
 	{
-		if (ft_strncmp(shell->env[i], str, len) == 0)
-			return (i);		
+		if (ft_strncmp(shell->env[i], str_plus_equals, len) == 0)
+		{	
+			ft_strdel(&str_plus_equals);
+			return (i);
+		}
 		i++;
 	}
+	ft_strdel(&str_plus_equals);
 	return (-1);
 }

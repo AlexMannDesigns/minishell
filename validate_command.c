@@ -6,11 +6,12 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 15:38:25 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 12:35:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+#include <errno.h> 
 
 int	is_builtin(char *s)
 {
@@ -28,13 +29,13 @@ static char	*get_path_string(char **env)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], "PATH", 4) == 0)
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
 			path = ft_strdup((env[i]) + 5);
 			break ;
 		}
 		i++;
-	}
+	}	
 	return (path);
 }
 

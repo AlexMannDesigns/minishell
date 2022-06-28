@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/27 18:23:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 13:47:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,26 @@ static size_t	var_name_len(char *dollar)
 	return (len);
 }
 
-static void	update_arg(t_sh *shell, char **arg)
+static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
+{	
+	char	*temp2;
+	char	*temp3;
+
+	if (*arg + i + len + 1 == '\0')
+		return (1);
+	temp2 = *arg + i + len + 1;
+	temp3 = ft_strjoin(*temp, temp2);
+	ft_strdel(temp);
+	if (!temp3)
+		return (0);
+	*temp = temp3;
+	return (1);
+}
+
+static int	update_arg(t_sh *shell, char **arg)
 {
 	char	*temp;
-	char	*temp2, *temp3;
-	char	*var_name, *var_name_with_equals;
+	char	*var_name; 
 	size_t	len;
 
 	int i = 1;
@@ -160,64 +175,52 @@ static void	update_arg(t_sh *shell, char **arg)
 		len = var_name_len((*arg) + i + 1);
 		var_name = ft_strndup((*arg) + i + 1, len);
 		if (!var_name)
-			;
-		var_name_with_equals = ft_strjoin(var_name, "=");
-		if (!var_name_with_equals)
-			;
-		if (get_env_idx(shell, var_name_with_equals) == -1)
-		{	
+			return (0);
+		if (get_env_idx(shell, var_name) == -1)
+		{
+			ft_strdel(&var_name);
 			temp = ft_strndup(*arg, i);
-			if (*arg + i + len + 1 != '\0')
-			{	
-				temp2 = ft_strdup(*arg + i + len + 1);
-				if (!temp2)
-					;
-				temp3 = ft_strjoin(temp, temp2);
-				if (!temp3)
-					;
-				ft_strdel(&temp);
-				ft_strdel(&temp2);
-				temp = temp3;
-			}
+			if (!temp)
+				return (0);
+			if (!remove_invalid_env(arg, len, i, &temp))
+				return (0);
 		}
 		else
 		{
+			ft_strdel(&var_name);
 			temp = ft_strdup((*arg) + i);
 			if (!temp)
-				;
+				return (0);
 		}
 		ft_strdel(arg);
-		ft_strdel(&var_name);
-		ft_strdel(&var_name_with_equals);
 		*arg = temp;
 	}
+	return (1);
 }
 
 static int	expand_dollars_loop(int idx, char **dollar_start, t_sh *shell)
 {
 	int		env_idx;
-	char	*var_name_with_equals;
 	char	*var_name;
 
 	var_name = ft_strndup(*dollar_start + 1, var_name_len(*dollar_start + 1));
 	if (!var_name)
 		return (0);
-	var_name_with_equals = ft_strjoin(var_name, "=");
-	if (!var_name_with_equals)
-		return (0); 
-	env_idx = get_env_idx(shell, var_name_with_equals);
+	env_idx = get_env_idx(shell, var_name);
 	if (env_idx > -1)
 	{
 		if (!expand_dollar_helper(shell, idx, env_idx))
 			return (0);
 	}
 	else
-		update_arg(shell, &(shell->arg_list[idx]));
+	{
+		if (!update_arg(shell, &(shell->arg_list[idx])))
+			return (0);
+	}
 	if (shell->arg_list[idx])
 		*dollar_start = ft_strchr(shell->arg_list[idx], '$');
 	else
 		*dollar_start = NULL;
-	ft_strdel(&var_name_with_equals);
 	ft_strdel(&var_name);
 	return (1);
 }

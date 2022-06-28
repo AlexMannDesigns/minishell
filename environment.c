@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 12:02:02 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 16:20:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 12:29:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**get_env(void)
 	extern char	**environ;	
 	int			i;
 
-	ms_env = (char **) ft_memalloc(sizeof(char *) * array_len(environ));
+	ms_env = (char **) ft_memalloc(sizeof(char *) * (array_len(environ) + 1));
 	i = 0;
 	while (environ[i])
 	{
