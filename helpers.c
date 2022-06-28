@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 13:16:52 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 17:06:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	print_arr(char **arr)
 
 	i = 0;
 	while (arr[i])
-		ft_printf("%s ", arr[i++]);
-	write(1, "\n", 1);
-
+		ft_printf("%s\n", arr[i++]);
 }
 
 size_t	array_len(char **arr)

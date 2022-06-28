@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/06/22 19:35:33 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 16:28:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	no_args(t_sh *shell)
 	if (!shell->arg_list)
 		return (0); //safely takes us back to builtin control and prompts for next cli
 	shell->arg_list[0] = ft_strdup("cd");
-	shell->arg_list[1] = ft_strdup((shell->env[get_env_idx(shell, "HOME=")]) + 5);
+	shell->arg_list[1] = ft_strdup((shell->env[get_env_idx(shell, "HOME")]) + 5);
 	if (!shell->arg_list[0] || !shell->arg_list[1])
 		return (0);
 	return (1);
@@ -110,7 +110,7 @@ void	handle_cd(t_sh *shell)
 	char	cwd[PATH_MAX];
 	
 	dash_flag = 0;
-	if (!(shell->arg_list)[1])
+	if (array_len(shell->arg_list) == 1)
 	{
 		if (!no_args(shell))
 			return ;

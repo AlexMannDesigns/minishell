@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 13:47:22 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 14:11:33 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,9 @@ static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
 
 	if (*arg + i + len + 1 == '\0')
 		return (1);
+	*temp = ft_strndup(*arg, i);
+	if (!(*temp))
+		return (0);
 	temp2 = *arg + i + len + 1;
 	temp3 = ft_strjoin(*temp, temp2);
 	ft_strdel(temp);
@@ -159,13 +162,40 @@ static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
 	return (1);
 }
 
-static int	update_arg(t_sh *shell, char **arg)
+static int	handle_remaining_arg(size_t len, int i, char **arg, t_sh *shell)
 {
 	char	*temp;
 	char	*var_name; 
-	size_t	len;
+	int		idx;
 
-	int i = 1;
+	var_name = ft_strndup((*arg) + i + 1, len);
+	if (!var_name)
+		return (0);
+	idx = get_env_idx(shell, var_name);
+	ft_strdel(&var_name);
+	temp = NULL;
+	if (idx == -1)
+	{
+		if (!remove_invalid_env(arg, len, i, &temp))
+			return (0);
+	}
+	else
+	{
+		temp = ft_strdup((*arg) + i);
+		if (!temp)
+			return (0);
+	}
+	ft_strdel(arg);
+	*arg = temp;
+	return (1);
+}
+
+static int	update_arg(t_sh *shell, char **arg)
+{
+	size_t	len;
+	int		i;
+
+	i = 1;
 	while ((*arg)[i] != '$' && (*arg)[i])
 		i++;
 	if ((*arg)[i] == '\0')
@@ -173,27 +203,8 @@ static int	update_arg(t_sh *shell, char **arg)
 	else
 	{
 		len = var_name_len((*arg) + i + 1);
-		var_name = ft_strndup((*arg) + i + 1, len);
-		if (!var_name)
+		if (!handle_remaining_arg(len, i, arg, shell))
 			return (0);
-		if (get_env_idx(shell, var_name) == -1)
-		{
-			ft_strdel(&var_name);
-			temp = ft_strndup(*arg, i);
-			if (!temp)
-				return (0);
-			if (!remove_invalid_env(arg, len, i, &temp))
-				return (0);
-		}
-		else
-		{
-			ft_strdel(&var_name);
-			temp = ft_strdup((*arg) + i);
-			if (!temp)
-				return (0);
-		}
-		ft_strdel(arg);
-		*arg = temp;
 	}
 	return (1);
 }

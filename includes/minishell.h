@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 12:35:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 17:00:52 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct	s_sh
 
 /***** FUNCTION PROTOTYPES *****/
 
-void	builtin_control(char *command, t_sh *shell);
+void	builtin_control(t_sh *shell);
 
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
@@ -75,14 +75,17 @@ char	**get_env(void);
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);
 
+/* handle_cd.c */
+void	handle_cd(t_sh *shell);
+
 /* handle_quotes.c */
 char	**handle_quotes(char *cli);
 
 /* handle_echo.c */
 void	handle_echo(t_sh *shell);
 
-/* handle_cd.c */
-void	handle_cd(t_sh *shell);
+/* handle_env.c */
+void	handle_env(t_sh *shell);
 
 /* helpers.c */
 size_t	array_len(char **arr);

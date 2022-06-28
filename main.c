@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 12:36:13 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 16:22:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,15 @@
 #include <stdio.h> // DELETE ME
 #include <errno.h> // DELETE ME
 
-void	builtin_control(char *command, t_sh *shell)
+void	free_mem(t_sh *shell)
+{
+	if (shell->arg_list && shell->arg_list[0])
+		ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
+	if (shell->cli)
+		ft_memdel((void **) &(shell->cli));
+}
+
+void	builtin_control(t_sh *shell)
 {
 	int		func;
 	int		i;
@@ -23,7 +31,7 @@ void	builtin_control(char *command, t_sh *shell)
 	i = 0;
 	while (i < 6)
 	{
-		if (ft_strcmp(command, shell->builtin_names[i]) == 0)
+		if (ft_strcmp(shell->arg_list[0], shell->builtin_names[i]) == 0)
 		{
 			func = i;
 			break ;
@@ -31,10 +39,13 @@ void	builtin_control(char *command, t_sh *shell)
 		i++;
 	}
 	if (i < 6)
+	{	
 		shell->builtin[func](shell);
+		free_mem(shell);
+	}
 }
 
-static void	bin_control(char *path, t_sh *shell)
+static void	bin_control(char *path, t_sh *shell, pid_t pid)
 {
 	
 //		ft_putendl(command);
@@ -45,11 +56,16 @@ static void	bin_control(char *path, t_sh *shell)
 //		i = 0;
 //		while ((shell->env)[i])
 //			ft_putendl((shell->env)[i++]);
-	
-	shell->arg_list[0] = path;
-	if (execve(path, shell->arg_list, shell->env) == -1)
+	if (pid == -1)
 	{
-		ft_putendl(path);
+		ft_putendl("cant fork! error");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{	
+		if (execve(path, shell->arg_list, shell->env) == -1)
+		{
+			ft_putendl(path);
 //		int i = 0;
 //		while (shell->arg_list[i])
 //			ft_printf("%s\n", shell->arg_list[i++]);
@@ -57,10 +73,8 @@ static void	bin_control(char *path, t_sh *shell)
 //		i = 0;
 //		while (shell->env[i])
 //			ft_putendl(shell->env[i++]);
+		}
 	}
-	ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
-	ft_memdel((void **) &(shell->cli));
-	exit(EXIT_SUCCESS);
 }
 
 int	main(void)
@@ -82,21 +96,13 @@ int	main(void)
 		if (new_line == 1 && shell->cli[0])
 		{
 			parser_control(shell);
-			command = ft_strdup(shell->arg_list[0]);
+			command = shell->arg_list[0];
 			if (is_builtin(shell->arg_list[0]))
-				builtin_control(shell->arg_list[0], shell);
+				builtin_control(shell);
 			else if (is_in_path(&command, shell->env))
 			{
 				pid = fork();
-				if (pid == -1)
-				{
-					ft_putendl("cant fork! error");
-					exit(EXIT_FAILURE);
-				}
-				else if (pid == 0)
-				{	
-					bin_control(command, shell);
-				}
+				bin_control(command, shell, pid);
 				if (waitpid(pid, &status, 0) > 0)
 					;
 			}

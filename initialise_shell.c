@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:11:33 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 16:02:35 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/28 17:03:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	initialise_shell(t_sh **shell)
 	(*shell)->history = NULL;
 	(*shell)->builtin[0] = &handle_cd;
 	(*shell)->builtin[1] = &handle_echo;
-	(*shell)->builtin[2] = NULL;
+	(*shell)->builtin[2] = &handle_env;
 	(*shell)->builtin[3] = NULL;
 	(*shell)->builtin[4] = NULL;
 	(*shell)->builtin[5] = NULL;
