@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 16:22:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/29 11:53:27 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	main(void)
 			parser_control(shell);
 			command = shell->arg_list[0];
 			if (is_builtin(shell->arg_list[0]))
-				builtin_control(shell);
+				builtin_control(shell, 0);
 			else if (is_in_path(&command, shell->env))
 			{
 				pid = fork();
