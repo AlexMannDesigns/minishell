@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/06/29 11:57:30 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/30 19:08:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,32 @@ static int	env_parser(t_sh *shell, size_t *i)
 	return (1);
 }
 
+void	update_arg_list(t_sh *shell, size_t i)
+{
+	char	**new_arg_list;
+	size_t	j, len;
+
+	len = array_len(shell->arg_list + i) + 1;
+//	print_arr(shell->arg_list);
+	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
+//	ft_printf("%zu\n", len);
+	if (!new_arg_list)
+		return ;
+	j = 0;
+	while (shell->arg_list[i])
+	{
+		new_arg_list[j] = ft_strdup(shell->arg_list[i]);
+		i++;
+		j++;
+	}
+	ft_freearray((void ***) &shell->arg_list, array_len(shell->arg_list));
+	shell->arg_list = new_arg_list;
+}
+
 void	handle_env(t_sh *shell)
 {
-	size_t i;
+	size_t	i;
+	char	**orig_env;
 
 	i = 0;
 	if (array_len(shell->arg_list) == 1)
@@ -84,17 +107,21 @@ void	handle_env(t_sh *shell)
 		print_arr(shell->env);
 		return ;	
 	}
+	orig_env = copy_arr(shell->env);
+	if (!orig_env)
+		return ;
 	if (!env_parser(shell, &i))
 	{
 		ft_putendl("something bad happened"); //stderr
 		return ;
 	}
 	update_arg_list(shell, i); // reset begining of arg_list to idx i, so the rest of the args can be ran as a new process
-	if (is_builtin(shell->arg_list))
-		builtin_control(shell);	
-	else if (is_bin(shell))
-		//fork & execve
-	else	
-		ft_putendl("not a builtin");
-	//print_arr(shell->env);
+	shell_control(shell);
+//		//fork & execve
+//	else	
+//		ft_putendl("not a builtin");
+//	//print_arr(shell->env);
+	//make sure the env is reset after env finishes executing
+	ft_freearray((void ***) &shell->env, array_len(shell->env));
+	shell->env = orig_env;
 }

@@ -6,11 +6,35 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 17:06:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/30 18:43:01 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+char	**copy_arr(char **arr)
+{
+	char	**res;
+	size_t	len;
+	size_t	i;
+
+	len = array_len(arr);
+	res = (char **) ft_memalloc(sizeof(char *) * (len + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (arr[i])
+	{
+		res[i] = ft_strdup(arr[i]);
+		if (!res[i])
+		{
+			ft_freearray((void ***) &res, i);
+			return (NULL);
+		}
+		i++;
+	}
+	return (res);
+}
 
 void	print_arr(char **arr)
 {

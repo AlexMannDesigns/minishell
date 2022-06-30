@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/06/29 11:53:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/06/30 19:06:17 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	builtin_control(t_sh *shell)
 	if (i < 6)
 	{	
 		shell->builtin[func](shell);
-		free_mem(shell);
+	//	free_mem(shell); this causes problems with env because of the changes made to arg_list
 	}
 }
 
-static void	bin_control(char *path, t_sh *shell, pid_t pid)
+void	bin_control(char *path, t_sh *shell, pid_t pid)
 {
 	
 //		ft_putendl(command);
@@ -77,13 +77,30 @@ static void	bin_control(char *path, t_sh *shell, pid_t pid)
 	}
 }
 
-int	main(void)
+void	shell_control(t_sh *shell)
 {
+	char	*command;
 	pid_t	pid;
 	int 	status;
+	
+	command = shell->arg_list[0];
+	if (is_builtin(shell->arg_list[0]))
+		builtin_control(shell);	
+	else if (is_in_path(&command, shell->env))
+	{
+		pid = fork();
+		bin_control(command, shell, pid);
+		if (waitpid(pid, &status, 0) > 0)
+			;
+	}
+	else
+		ft_printf("%s: command not found\n", shell->arg_list[0]); //print to stderr
+}
+
+int	main(void)
+{
 	int		new_line;
 	t_sh	*shell;
-	char	*command;
 
 	errno = 0;
 	initialise_shell(&shell);
@@ -96,18 +113,7 @@ int	main(void)
 		if (new_line == 1 && shell->cli[0])
 		{
 			parser_control(shell);
-			command = shell->arg_list[0];
-			if (is_builtin(shell->arg_list[0]))
-				builtin_control(shell, 0);
-			else if (is_in_path(&command, shell->env))
-			{
-				pid = fork();
-				bin_control(command, shell, pid);
-				if (waitpid(pid, &status, 0) > 0)
-					;
-			}
-			else
-				ft_printf("%s: command not found\n", shell->arg_list[0]); //print to stderr
+			shell_control(shell);
 			ft_putstr(PROMPT);
 		}
 		else
