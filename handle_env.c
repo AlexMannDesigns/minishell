@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 19:21:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 19:25:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ void	handle_env(t_sh *shell)
 		ft_putendl("something bad happened");
 		return ;
 	}
-	ft_putendl("hello");
 	print_arr(shell->env);
 	update_arg_list(shell, i);
 	shell_control(shell);

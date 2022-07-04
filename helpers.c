@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 19:23:29 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 19:25:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ char	**copy_arr(char **arr)
 void	print_arr(char **arr)
 {
 	int	i;
-
-	ft_putendl("again");
 
 	if (!arr)
 		return ;
