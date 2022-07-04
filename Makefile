@@ -6,16 +6,17 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/06/28 17:09:14 by amann            ###   ########.fr        #
+#    Updated: 2022/07/04 15:49:15 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #variables
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -ansi -std=c99 -pedantic -O3
-SRCS = create_arg_list.c environment.c expand_tildes.c handle_cd.c 				\
-		handle_echo.c handle_env.c handle_quotes.c helpers.c					\
-		initialise_shell.c main.c parser.c validate_command.c
+SRCS = check_user_dir.c create_arg_list.c dollar_next_middle_start_end.c		\
+		environment.c expand_tildes.c expand_dollars.c handle_cd.c				\
+		handle_echo.c handle_env.c handle_quotes.c helpers.c initialise_shell.c	\
+		main.c parser.c update_dollar_arg.c update_oldpwd.c validate_command.c
 OBJ = $(SRCS:%.c=%.o)
 HEADER = -I includes/minishell.h
 LIB_DIR = libft/

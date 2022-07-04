@@ -6,21 +6,27 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/06/30 19:08:24 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 15:18:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+//BUGS:
+// - if arg exists, it should be temporarily overwritten, not added to the end
+
 //env creates and environment for an executable to be run in
 //when ran without args, it simply prints the environment variables
 //arguments are passed as KEY=value pairs, and added to the current environment
-//if the -i flag is passed, the environment will be made up of the args passed exclusively
+//if the -i flag is passed, the environment will be made up of the args passed
+//exclusively
 
 //process plan:
 //if only one arg in arg_list - print env and return
-//otherwise, parse key=value pairs, add to environment, and fork/execve with remaining args as arg_list
-//key=value pairs must be at least one char, then '=', then the value string, which can be blank
+//otherwise, parse key=value pairs, add to environment, and fork/execve with
+//remaining args as arg_list
+//key=value pairs must be at least one char, then '=', then the value string,
+//which can be blank
 
 static int	update_env(t_sh *shell, size_t i)
 {
@@ -66,7 +72,7 @@ static int	env_parser(t_sh *shell, size_t *i)
 		if (ft_strchr(shell->arg_list[*i], '=') == NULL)
 			break ;
 		else
-			error = update_env(shell, *i);	
+			error = update_env(shell, *i);
 		(*i)++;
 	}
 	if (!error)
@@ -77,12 +83,11 @@ static int	env_parser(t_sh *shell, size_t *i)
 void	update_arg_list(t_sh *shell, size_t i)
 {
 	char	**new_arg_list;
-	size_t	j, len;
+	size_t	j;
+	size_t	len;
 
 	len = array_len(shell->arg_list + i) + 1;
-//	print_arr(shell->arg_list);
 	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
-//	ft_printf("%zu\n", len);
 	if (!new_arg_list)
 		return ;
 	j = 0;
@@ -96,6 +101,8 @@ void	update_arg_list(t_sh *shell, size_t i)
 	shell->arg_list = new_arg_list;
 }
 
+/* remember to print error messages to stderr */
+
 void	handle_env(t_sh *shell)
 {
 	size_t	i;
@@ -105,23 +112,18 @@ void	handle_env(t_sh *shell)
 	if (array_len(shell->arg_list) == 1)
 	{
 		print_arr(shell->env);
-		return ;	
+		return ;
 	}
 	orig_env = copy_arr(shell->env);
 	if (!orig_env)
 		return ;
 	if (!env_parser(shell, &i))
 	{
-		ft_putendl("something bad happened"); //stderr
+		ft_putendl("something bad happened");
 		return ;
 	}
-	update_arg_list(shell, i); // reset begining of arg_list to idx i, so the rest of the args can be ran as a new process
+	update_arg_list(shell, i);
 	shell_control(shell);
-//		//fork & execve
-//	else	
-//		ft_putendl("not a builtin");
-//	//print_arr(shell->env);
-	//make sure the env is reset after env finishes executing
 	ft_freearray((void ***) &shell->env, array_len(shell->env));
 	shell->env = orig_env;
 }

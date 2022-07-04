@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/30 18:43:01 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 15:10:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**copy_arr(char **arr)
 
 void	print_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])
@@ -55,7 +55,7 @@ size_t	array_len(char **arr)
 	return (res);
 }
 
-int		get_env_idx(t_sh *shell, char *str)
+int	get_env_idx(t_sh *shell, char *str)
 {
 	int		i;
 	size_t	len;

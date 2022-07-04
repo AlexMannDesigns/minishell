@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 13:17:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 15:49:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,6 @@ static size_t	name_length(char *str)
 		len++;
 	}
 	return (len);
-}
-
-static int	check_users(char *str, size_t len)
-{
-	DIR				*users;
-	struct dirent	*current_obj;
-	int				res;
-
-	res = FALSE;
-	users = opendir("/Users");
-	current_obj = readdir(users);
-	while (current_obj != NULL)
-	{
-		if (ft_strncmp(current_obj->d_name, str + 1, len - 1) == 0)
-		{	
-			res = TRUE;
-			break ;
-		}
-		current_obj = readdir(users);
-	}
-	closedir(users);
-	return (res);
 }
 
 static char	*tilde_username_or_slash(t_sh *shell, char **str)

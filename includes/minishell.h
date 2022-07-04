@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/06/30 18:54:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 15:49:26 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 
-# include <limits.h> //just for PATH_MAX in cd function... maybe define it myself...
+# include <limits.h>
+//just for PATH_MAX in cd function... maybe define it myself...
 
 /***** MACROS *****/
 
@@ -43,7 +44,7 @@
 
 typedef void	(*t_function)();
 
-typedef struct	s_parse
+typedef struct s_parse
 {
 	char	*tilde;
 	int		tilde_idx;
@@ -51,7 +52,7 @@ typedef struct	s_parse
 	int		dollar_idx;
 }			t_parse;
 
-typedef struct	s_sh
+typedef struct s_sh
 {
 	char		**arg_list;
 	char		**env;
@@ -68,11 +69,22 @@ void	builtin_control(t_sh *shell);
 void	bin_control(char *path, t_sh *shell, pid_t pid);
 void	shell_control(t_sh *shell);
 
+/* check_user_dir.c */
+int	check_users(char *str, size_t len);
+
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
 
+/* dollar_start_middle_end.c */
+int		dollar_in_middle(char **arg, char *exp, int i);
+int		dollar_at_start(char **arg, char *exp);
+
 /* environment.c */
 char	**get_env(void);
+
+/* expand_dollars.c */
+void	expand_dollars(t_sh *shell);
+size_t	var_name_len(char *dollar);
 
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);
@@ -99,9 +111,15 @@ char	**copy_arr(char **arr);
 void	initialise_shell(t_sh **shell);
 
 /* parser.c */
-int	parser_control(t_sh *shell);
+int		parser_control(t_sh *shell);
+
+/* update_dollar_arg.c */
+int		update_arg(t_sh *shell, char **arg, int idx);
+
+/* update_oldpwd.c */
+void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
-int	is_builtin(char *s);
-int	is_in_path(char **command, char **env);
+int		is_builtin(char *s);
+int		is_in_path(char **command, char **env);
 #endif
