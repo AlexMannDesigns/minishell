@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 13:43:11 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 19:17:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	is_in_path(char **command, char **env)
 	char	*path;
 	char	**path_array;
 
+	if (!env)
+		return (0);
 	path_array = NULL;
 	path = get_path_string(env);
 	if (!path)

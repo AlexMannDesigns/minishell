@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 17:06:40 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 19:23:29 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	print_arr(char **arr)
 {
 	int	i;
 
+	ft_putendl("again");
+
+	if (!arr)
+		return ;
 	i = 0;
 	while (arr[i])
 		ft_printf("%s\n", arr[i++]);

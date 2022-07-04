@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 18:06:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 19:21:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	update_env_control(t_sh *shell, size_t i)
 {
 	char	*str;
 	char	*var_name;
-	int		env_idx;	
+	int		env_idx;
 	int		equals_idx;
 	int		error;
 
@@ -99,16 +99,38 @@ static int	update_env_control(t_sh *shell, size_t i)
 	return (1);
 }
 
+static int	i_flag_control(t_sh *shell, char *str)
+{
+	if (!shell->env)
+	{
+		shell->env = (char **) ft_memalloc(sizeof(char *) * 2);
+		if (!shell->env)
+			return (0);
+		shell->env[0] = ft_strdup(str);
+		if (!shell->env[0])
+		{
+			free(shell->env);
+			shell->env = NULL;
+			return (0);		
+		}
+	}
+	else
+		add_new_env_var(shell, str);
+	return (1);
+}
+
 static int	env_parser(t_sh *shell, size_t *i)
 {
 	int		error;
 	int		i_flag;
 
 	i_flag = FALSE;
+	error = 1;
 	if (ft_strcmp(shell->arg_list[1], "-i") == 0)
 	{
 		*i = 2;
 		i_flag = TRUE;
+		ft_freearray((void ***) &shell->env, array_len(shell->env));
 	}
 	else
 		*i = 1;
@@ -116,10 +138,13 @@ static int	env_parser(t_sh *shell, size_t *i)
 	{
 		if (ft_strchr(shell->arg_list[*i], '=') == NULL)
 			break ;
+		else if (i_flag)
+			error = i_flag_control(shell, shell->arg_list[*i]);
 		else
 			error = update_env_control(shell, *i);
 		(*i)++;
 	}
+//	ft_printf("%s %d\n", shell->arg_list[*i], error);
 	if (!error)
 		return (0);
 	return (1);
@@ -167,6 +192,8 @@ void	handle_env(t_sh *shell)
 		ft_putendl("something bad happened");
 		return ;
 	}
+	ft_putendl("hello");
+	print_arr(shell->env);
 	update_arg_list(shell, i);
 	shell_control(shell);
 	ft_freearray((void ***) &shell->env, array_len(shell->env));
