@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:56:15 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 14:39:11 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/04 15:52:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static int	expand_dollars_loop(int idx, char **dollar_start, t_sh *shell)
 	}
 	else
 	{
-		ft_putendl("hello");
 		if (!update_arg(shell, &(shell->arg_list[idx]), idx))
 			return (0);
 	}
