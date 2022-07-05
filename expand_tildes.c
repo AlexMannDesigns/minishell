@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 15:49:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 15:28:52 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static char	*tilde_plus_minus(char **str, t_sh *shell)
 	if ((*str)[1] == '+')
 	{
 		idx = get_env_idx(shell, "PWD");
+		if (idx == -1)
+			return (NULL);
 		new_str = ft_strdup((shell->env[idx]) + 4);
 		if (!new_str)
 			return (NULL);
@@ -51,17 +53,17 @@ static size_t	name_length(char *str)
 	return (len);
 }
 
-static char	*tilde_username_or_slash(t_sh *shell, char **str)
+static char	*tilde_username_or_slash(t_sh *shell, char **str, int idx)
 {
 	int				user_exists;
-	int				idx;
 	size_t			len;
 	char			*new_str;
 
 	new_str = NULL;
 	if ((*str)[1] == '/')
 	{
-		idx = get_env_idx(shell, "HOME");
+		if (idx == -1)
+			return (NULL);
 		new_str = ft_strjoin((shell->env[idx]) + 5, (*str) + 1);
 		if (!new_str)
 			return (NULL);
@@ -88,9 +90,11 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 
 	len = ft_strlen(*str) - 1;
 	new_str = NULL;
+	idx = get_env_idx(shell, "HOME");
 	if (len == 0)
 	{
-		idx = get_env_idx(shell, "HOME");
+		if (idx == -1)
+			return ;
 		new_str = ft_strdup((shell->env[idx]) + 5);
 		if (!new_str)
 			return ;
@@ -98,7 +102,7 @@ static void	expand_tilde_helper(char **str, t_sh *shell)
 	if (len == 1 && ((*str)[1] == '+' || (*str)[1] == '-'))
 		new_str = tilde_plus_minus(str, shell);
 	else if (len >= 1)
-		new_str = tilde_username_or_slash(shell, str);
+		new_str = tilde_username_or_slash(shell, str, idx);
 	if (new_str)
 	{
 		ft_strdel(str);

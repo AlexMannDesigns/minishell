@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:11:33 by amann             #+#    #+#             */
-/*   Updated: 2022/06/28 17:03:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 15:02:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	initialise_shell(t_sh **shell)
 	(*shell)->builtin[1] = &handle_echo;
 	(*shell)->builtin[2] = &handle_env;
 	(*shell)->builtin[3] = NULL;
-	(*shell)->builtin[4] = NULL;
-	(*shell)->builtin[5] = NULL;
+	(*shell)->builtin[4] = &handle_setenv;
+	(*shell)->builtin[5] = &handle_unsetenv;
 	(*shell)->builtin_names[0] = "cd";
 	(*shell)->builtin_names[1] = "echo";
 	(*shell)->builtin_names[2] = "env";

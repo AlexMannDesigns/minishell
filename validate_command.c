@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 19:17:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 12:50:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,41 +31,6 @@ static char	*get_path_string(char **env)
 	return (path);
 }
 
-static void	allocate_path_array(char *path, char ***path_array)
-{
-	size_t	i;
-	size_t	len;
-
-	len = 0;
-	i = 0;
-	while (path[i])
-	{
-		if (path[i] == ':')
-			len++;
-		i++;
-	}
-	*path_array = (char **) ft_memalloc(sizeof(char *) * (len + 2));
-}
-
-static void	populate_path_array(char *path, char ***path_array)
-{
-	size_t	i;
-	size_t	len;
-	size_t	idx;
-
-	i = 0;
-	idx = 0;
-	while (path[i])
-	{
-		len = 0;
-		while (path[i + len] != ':' && path[i + len] != '\0')
-			len++;
-		(*path_array)[idx] = ft_strndup(path + i, len);
-		i += len + 1;
-		idx++;
-	}
-}
-
 static int	find_path(char **path_array, char **command, char **test_path)
 {
 	int		i;
@@ -86,29 +51,30 @@ static int	find_path(char **path_array, char **command, char **test_path)
 		free(*test_path);
 		i++;
 	}
+	free(command_plus_slash);
 	return (FALSE);
 }
 
-int	is_in_path(char **command, char **env)
+int	is_in_path(t_sh *shell, char **command)
 {
 	char	*test_path;
 	char	*path;
 	char	**path_array;
+	char	*path_start;
 
-	if (!env)
+	if (!shell->env)
 		return (0);
-	path_array = NULL;
-	path = get_path_string(env);
+	path = get_path_string(shell->env);
 	if (!path)
 		return (0);
-	allocate_path_array(path, &path_array);
+	path_start = ft_strchr(shell->env[get_env_idx(shell, "PATH")], '=') + 1; 
+	path_array = ft_strsplit(path_start, ':');
 	if (!path_array)
 	{
 		free(path);
 		return (0);
 	}
 	test_path = NULL;
-	populate_path_array(path, &path_array);
 	if (find_path(path_array, command, &test_path))
 	{
 		ft_memdel((void **)command);

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 15:49:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 15:01:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,6 @@ typedef struct s_sh
 
 /***** FUNCTION PROTOTYPES *****/
 
-void	builtin_control(t_sh *shell);
-void	bin_control(char *path, t_sh *shell, pid_t pid);
-void	shell_control(t_sh *shell);
-
 /* check_user_dir.c */
 int	check_users(char *str, size_t len);
 
@@ -92,14 +88,18 @@ void	expand_tildes(t_sh *shell);
 /* handle_cd.c */
 void	handle_cd(t_sh *shell);
 
-/* handle_quotes.c */
-char	**handle_quotes(char *cli);
-
 /* handle_echo.c */
 void	handle_echo(t_sh *shell);
 
 /* handle_env.c */
 void	handle_env(t_sh *shell);
+
+/* handle_setenv.c */
+void	handle_setenv(t_sh *shell);
+void	handle_unsetenv(t_sh *shell);
+
+/* handle_quotes.c */
+char	**handle_quotes(char *cli);
 
 /* helpers.c */
 size_t	array_len(char **arr);
@@ -110,16 +110,25 @@ char	**copy_arr(char **arr);
 /* initialise_shell.c */
 void	initialise_shell(t_sh **shell);
 
+/* main.c */
+void	builtin_control(t_sh *shell);
+void	bin_control(char *path, t_sh *shell, pid_t pid);
+void	shell_control(t_sh *shell);
+
 /* parser.c */
 int		parser_control(t_sh *shell);
 
 /* update_dollar_arg.c */
 int		update_arg(t_sh *shell, char **arg, int idx);
 
+/* update_env.c */
+int	add_new_env_var(t_sh *shell, char *str);
+int	update_env_control(t_sh *shell, size_t i);
+
 /* update_oldpwd.c */
 void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(char **command, char **env);
+int		is_in_path(t_sh *shell, char **command);
 #endif
