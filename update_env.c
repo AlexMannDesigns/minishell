@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 15:01:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 16:31:44 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	add_new_env_var(t_sh *shell, char *str)
 	size_t	len;
 	size_t	j;
 	char	**new_env;
-	
+
 	len = array_len(shell->env);
 	new_env = (char **) ft_memalloc(sizeof(char *) * (len + 2));
 	if (!new_env)
@@ -51,8 +51,8 @@ int	add_new_env_var(t_sh *shell, char *str)
 		new_env[j] = shell->env[j];
 		j++;
 	}
-	new_env[j] = ft_strdup(str); //if this malloc fails, this will not cause problems.
-	free(shell->env); //I want to free the pointers, but not what they are pointing to, think this is ok...
+	new_env[j] = ft_strdup(str);
+	free(shell->env);
 	shell->env = new_env;
 	return (1);
 }

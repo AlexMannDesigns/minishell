@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_user_dir.c                                   :+:      :+:    :+:   */
+/*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 15:47:10 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 16:51:49 by amann            ###   ########.fr       */
+/*   Created: 2022/07/05 17:04:35 by amann             #+#    #+#             */
+/*   Updated: 2022/07/05 17:39:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	check_users(char *str, size_t len)
+void	handle_exit(t_sh *shell)
 {
-	DIR				*users;
-	struct dirent	*current_obj;
-	int				res;
+	int	ret;
 
-	res = FALSE;
-	users = opendir("/Users");
-	if (!users)
-		return (res);
-	current_obj = readdir(users);
-	while (current_obj != NULL)
-	{
-		if (ft_strncmp(current_obj->d_name, str + 1, len - 1) == 0)
-		{
-			res = TRUE;
-			break ;
-		}
-		current_obj = readdir(users);
-	}
-	closedir(users);
-	return (res);
+	ft_putendl("exit");
+	if (shell->arg_list[1] == NULL)
+		exit(EXIT_SUCCESS);
+	ret = ft_atoi(shell->arg_list[1]);
+	if (ret && (ft_strlen(shell->arg_list[1]) < 10))
+		exit(ret);
+	ft_printf("minishell: exit: %s: numeric argument required\n", shell->arg_list[1]); //print on error output
+	exit(EXIT_FAILURE);
 }

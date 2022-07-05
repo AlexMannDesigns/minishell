@@ -6,28 +6,28 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 14:59:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 16:23:57 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+/*
+BUGS:
+- if random junk passed as arg, incorrect error message is displayed
 
-//BUGS:
-// - if arg exists, it should be temporarily overwritten, not added to the end
-// - if random junk passed as arg, incorrect error message is displayed
+env creates and environment for an executable to be run in
+when ran without args, it simply prints the environment variables
+arguments are passed as KEY=value pairs, and added to the current environment
+if the -i flag is passed, the environment will be made up of the args passed
+exclusively
 
-//env creates and environment for an executable to be run in
-//when ran without args, it simply prints the environment variables
-//arguments are passed as KEY=value pairs, and added to the current environment
-//if the -i flag is passed, the environment will be made up of the args passed
-//exclusively
-
-//process plan:
-//if only one arg in arg_list - print env and return
-//otherwise, parse key=value pairs, add to environment, and fork/execve with
-//remaining args as arg_list
-//key=value pairs must be at least one char, then '=', then the value string,
-//which can be blank
+process plan:
+if only one arg in arg_list - print env and return
+otherwise, parse key=value pairs, add to environment, and fork/execve with
+remaining args as arg_list
+key=value pairs must be at least one char, then '=', then the value string,
+which can be blank
+*/
 
 static int	i_flag_control(t_sh *shell, char *str)
 {
@@ -41,7 +41,7 @@ static int	i_flag_control(t_sh *shell, char *str)
 		{
 			free(shell->env);
 			shell->env = NULL;
-			return (0);		
+			return (0);
 		}
 	}
 	else
@@ -56,14 +56,13 @@ static int	env_parser(t_sh *shell, size_t *i)
 
 	i_flag = FALSE;
 	error = 1;
+	*i = 1;
 	if (ft_strcmp(shell->arg_list[1], "-i") == 0)
 	{
 		*i = 2;
 		i_flag = TRUE;
 		ft_freearray((void ***) &shell->env, array_len(shell->env));
 	}
-	else
-		*i = 1;
 	while (shell->arg_list[*i])
 	{
 		if (ft_strchr(shell->arg_list[*i], '=') == NULL)
@@ -74,9 +73,6 @@ static int	env_parser(t_sh *shell, size_t *i)
 			error = update_env_control(shell, *i);
 		(*i)++;
 	}
-//	ft_printf("%s %d\n", shell->arg_list[*i], error);
-//	print_arr(shell->env);
-//	ft_putendl("hello");
 	if (!error)
 		return (0);
 	return (1);
@@ -104,18 +100,12 @@ void	update_arg_list(t_sh *shell, size_t i)
 }
 
 /* remember to print error messages to stderr */
-
-void	handle_env(t_sh *shell)
+static void	handle_env_control(t_sh *shell)
 {
-	size_t	i;
 	char	**orig_env;
+	size_t	i;
 
 	i = 0;
-	if (array_len(shell->arg_list) == 1)
-	{
-		print_arr(shell->env);
-		return ;
-	}
 	orig_env = copy_arr(shell->env);
 	if (!orig_env)
 		return ;
@@ -125,7 +115,7 @@ void	handle_env(t_sh *shell)
 		return ;
 	}
 	if (shell->arg_list[i] == NULL)
-		print_arr(shell->env);	
+		print_arr(shell->env);
 	else
 	{
 		update_arg_list(shell, i);
@@ -134,4 +124,15 @@ void	handle_env(t_sh *shell)
 	if (shell->env)
 		ft_freearray((void ***) &shell->env, array_len(shell->env));
 	shell->env = orig_env;
+}
+
+void	handle_env(t_sh *shell)
+{
+	if (array_len(shell->arg_list) == 1)
+	{
+		print_arr(shell->env);
+		return ;
+	}
+	else
+		handle_env_control(shell);
 }

@@ -6,14 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 12:42:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 17:00:39 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-#include <stdio.h> // DELETE ME
-#include <errno.h> // DELETE ME
 
 void	free_mem(t_sh *shell)
 {
@@ -52,7 +49,7 @@ void	bin_control(char *path, t_sh *shell, pid_t pid)
 	else if (pid == 0)
 	{
 		if (execve(path, shell->arg_list, shell->env) == -1)
-			ft_putendl(path);
+			ft_putendl("system bin crashed!");
 	}
 }
 
@@ -64,9 +61,7 @@ void	shell_control(t_sh *shell)
 
 	command = shell->arg_list[0];
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
-	{	
 		builtin_control(shell);
-	}
 	else if (is_in_path(shell, &command))
 	{
 		pid = fork();

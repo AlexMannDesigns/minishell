@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 15:01:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 17:26:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_sh
 /***** FUNCTION PROTOTYPES *****/
 
 /* check_user_dir.c */
-int	check_users(char *str, size_t len);
+int		check_users(char *str, size_t len);
 
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
@@ -93,6 +93,9 @@ void	handle_echo(t_sh *shell);
 
 /* handle_env.c */
 void	handle_env(t_sh *shell);
+
+/* handle_exit.c */
+void	handle_exit(t_sh *shell);
 
 /* handle_setenv.c */
 void	handle_setenv(t_sh *shell);
@@ -122,8 +125,8 @@ int		parser_control(t_sh *shell);
 int		update_arg(t_sh *shell, char **arg, int idx);
 
 /* update_env.c */
-int	add_new_env_var(t_sh *shell, char *str);
-int	update_env_control(t_sh *shell, size_t i);
+int		add_new_env_var(t_sh *shell, char *str);
+int		update_env_control(t_sh *shell, size_t i);
 
 /* update_oldpwd.c */
 void	update_oldpwd(t_sh *shell);

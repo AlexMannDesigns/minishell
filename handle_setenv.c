@@ -6,17 +6,37 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 15:18:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/05 16:30:18 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+static void	remove_env_var_loop(t_sh *shell, int idx, char ***new_env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (shell->env[i])
+	{
+		if (i == idx)
+		{	
+			j++;
+			idx = -1;
+		}
+		else
+		{
+			(*new_env)[i] = shell->env[j];
+			i++;
+			j++;
+		}
+	}
+}
+
 void	remove_env_var(t_sh *shell, int idx)
 {
-	int		i;
-	int		j;
-	int		k;
 	size_t	len;
 	char	**new_env;
 
@@ -24,23 +44,7 @@ void	remove_env_var(t_sh *shell, int idx)
 	new_env = (char **) ft_memalloc(sizeof(char *) * len);
 	if (!new_env)
 		return ;
-	i = idx;
-	j = 0;
-	k = 0;
-	while (shell->env[j])
-	{
-		if (j == i)
-		{	
-			k++;
-			i = -1;
-		}
-		else
-		{
-			new_env[j] = shell->env[k];
-			j++;
-			k++;
-		}
-	}
+	remove_env_var_loop(shell, idx, &new_env);
 	ft_strdel(&(shell->env[idx]));
 	free(shell->env);
 	shell->env = new_env;
@@ -71,6 +75,6 @@ void	handle_setenv(t_sh *shell)
 		if (ft_strchr(shell->arg_list[i], '=') == NULL)
 			break ;
 		update_env_control(shell, i);
-		i++;	
+		i++;
 	}
 }
