@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 17:26:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/06 11:23:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # define FALSE 0
 # define PROMPT "$> "
 # define STDIN_FD 1
+# define STDERR_FD 2
+# define MINISHELL "minishell"
+# define COLON ": "
 # define BUILTINS "cd echo env setenv unsetenv exit"
 
 /***** GLOBAL VARIABLES *****/
@@ -120,6 +123,9 @@ void	shell_control(t_sh *shell);
 
 /* parser.c */
 int		parser_control(t_sh *shell);
+
+/* print_error.c */
+void	print_error_start(t_sh *shell, int idx);
 
 /* update_dollar_arg.c */
 int		update_arg(t_sh *shell, char **arg, int idx);

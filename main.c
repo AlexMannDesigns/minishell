@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 17:00:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/06 11:22:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void	bin_control(char *path, t_sh *shell, pid_t pid)
 {
 	if (pid == -1)
 	{
-		ft_putendl("cant fork! error");
+		ft_putstr_fd("cant fork! error\n", STDERR_FD);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
 	{
 		if (execve(path, shell->arg_list, shell->env) == -1)
-			ft_putendl("system bin crashed!");
+			ft_putstr_fd("system bin crashed!\n", STDERR_FD);
 	}
 }
 
@@ -70,7 +70,10 @@ void	shell_control(t_sh *shell)
 			;
 	}
 	else
-		ft_printf("%s: command not found\n", command);
+	{
+		print_error_start(shell, 0);
+		ft_putstr_fd(": command not found\n", STDERR_FD);
+	}
 }
 /* remember to print error outputs to stderr! */
 
