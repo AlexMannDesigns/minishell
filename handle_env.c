@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 16:23:57 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/06 14:17:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	env_parser(t_sh *shell, size_t *i)
 	return (1);
 }
 
-void	update_arg_list(t_sh *shell, size_t i)
+int	update_arg_list(t_sh *shell, size_t i)
 {
 	char	**new_arg_list;
 	size_t	j;
@@ -87,16 +87,22 @@ void	update_arg_list(t_sh *shell, size_t i)
 	len = array_len(shell->arg_list + i) + 1;
 	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
 	if (!new_arg_list)
-		return ;
+		return (0);
 	j = 0;
 	while (shell->arg_list[i])
 	{
 		new_arg_list[j] = ft_strdup(shell->arg_list[i]);
+		if (!new_arg_list[j])
+		{
+			ft_freearray((void ***) &new_arg_list, array_len(new_arg_list));
+			return (0);
+		}
 		i++;
 		j++;
 	}
 	ft_freearray((void ***) &shell->arg_list, array_len(shell->arg_list));
 	shell->arg_list = new_arg_list;
+	return (1);
 }
 
 /* remember to print error messages to stderr */
@@ -118,7 +124,8 @@ static void	handle_env_control(t_sh *shell)
 		print_arr(shell->env);
 	else
 	{
-		update_arg_list(shell, i);
+		if (!update_arg_list(shell, i))
+			return ;
 		shell_control(shell);
 	}
 	if (shell->env)

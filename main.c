@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 11:22:59 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/06 12:55:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	shell_control(t_sh *shell)
 	else
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(": command not found\n", STDERR_FD);
+		ft_putstr_fd("command not found\n", STDERR_FD);
 	}
 }
 /* remember to print error outputs to stderr! */

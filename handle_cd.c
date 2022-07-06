@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 11:55:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/06 13:29:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 static int	no_args(t_sh *shell)
 {
+	int	idx;
 	ft_freearray((void ***) &shell->arg_list, 1);
 	shell->arg_list = (char **) ft_memalloc(sizeof(char *) * 3);
 	if (!shell->arg_list)
 		return (0);
 	shell->arg_list[0] = ft_strdup("cd");
-	shell->arg_list[1] = ft_strdup(shell->env[get_env_idx(shell, "HOME")] + 5);
-	if (!shell->arg_list[0] || !shell->arg_list[1])
+	if (!shell->arg_list[0])
+		return (0);
+	idx = get_env_idx(shell, "HOME");
+	if (idx == -1)
+	{
+		print_error_start(shell, 0);
+		ft_putstr_fd("HOME not set\n", STDERR_FD);
+		return (0);
+	}
+	shell->arg_list[1] = ft_strdup(shell->env[idx] + 5);
+	if (!shell->arg_list[1])
 		return (0);
 	return (1);
 }
@@ -62,10 +72,11 @@ static int	change_directory(t_sh *shell)
 	return (1);
 }
 
-void static	handle_cd_helper(t_sh *shell, char *cwd, int dash_flag)
+void static	handle_cd_helper(t_sh *shell, int dash_flag)
 {
 	struct stat	sb;
 	int			exists;
+	char		cwd[PATH_MAX];
 
 	if (access(shell->arg_list[1], X_OK) == 0)
 	{
@@ -90,7 +101,6 @@ void static	handle_cd_helper(t_sh *shell, char *cwd, int dash_flag)
 void	handle_cd(t_sh *shell)
 {
 	int		dash_flag;
-	char	cwd[PATH_MAX];
 
 	dash_flag = 0;
 	if (array_len(shell->arg_list) == 1)
@@ -104,5 +114,5 @@ void	handle_cd(t_sh *shell)
 		if (!dash_arg(shell))
 			return ;
 	}
-	handle_cd_helper(shell, cwd, dash_flag);
+	handle_cd_helper(shell, dash_flag);
 }
