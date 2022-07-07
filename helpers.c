@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 11:58:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 13:39:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**copy_arr(char **arr)
 		res[i] = ft_strdup(arr[i]);
 		if (!res[i])
 		{
-			ft_freearray((void ***) &res, i);
+			ft_freearray((void ***) &res, array_len(res));
 			return (NULL);
 		}
 		i++;

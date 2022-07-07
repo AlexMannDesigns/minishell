@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:54:45 by amann             #+#    #+#             */
-/*   Updated: 2022/06/20 17:02:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 13:29:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ static void	copy_args(char ***res, char *cli)
 		{
 			len = get_len(cli, &i);
 			(*res)[idx] = ft_strndup(cli + i, len);
+			if (!(*res)[idx])
+			{
+				ft_freearray((void ***) res, array_len(*res));
+				return ;
+			}
 			idx++;
 			i += len;
 		}
@@ -101,5 +106,7 @@ char	**handle_quotes(char *cli)
 	if (!res)
 		return (NULL);
 	copy_args(&res, cli);
+	if (!res)
+		return (NULL);
 	return (res);
 }

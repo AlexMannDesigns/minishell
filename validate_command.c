@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 13:49:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:36:14 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ static char	*get_path_string(t_sh *shell)
 	return (path);
 }
 
+/* as above, strjoin does not need protection, returning NULL will just
+ * result in bin not being found. ft_strdel will check if pointer was
+ * assigned, so no risk of double free
+ */
+
 static int	find_path(char **path_array, char **command, char **test_path)
 {
 	int		i;
@@ -44,11 +49,20 @@ static int	find_path(char **path_array, char **command, char **test_path)
 			free(command_plus_slash);
 			return (TRUE);
 		}
-		free(*test_path);
+		ft_strdel(test_path);
 		i++;
 	}
 	free(command_plus_slash);
 	return (FALSE);
+}
+
+static int	update_comm(char **comm, char ***p_arr, char **path, char *t_path)
+{
+	ft_strdel(comm);
+	ft_strdel(path);
+	ft_freearray((void ***) p_arr, array_len(*p_arr));
+	*comm = t_path;
+	return (1);
 }
 
 int	is_in_path(t_sh *shell, char **command)
@@ -72,15 +86,8 @@ int	is_in_path(t_sh *shell, char **command)
 	}
 	test_path = NULL;
 	if (find_path(path_array, command, &test_path))
-	{
-		ft_memdel((void **)command);
-		free(path);
-		ft_freearray((void ***) &path_array, array_len(path_array));
-		*command = test_path;
-		return (1);
-	}
+		return (update_comm(command, &path_array, &path, test_path));
 	free(path);
 	ft_freearray((void ***) &path_array, array_len(path_array));
 	return (0);
 }
-//Rember to display an error if the file is not found.

@@ -6,14 +6,14 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:10:14 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 15:05:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:09:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
-{	
+{
 	char	*temp2;
 	char	*temp3;
 

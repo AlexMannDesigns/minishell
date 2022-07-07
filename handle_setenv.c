@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 16:30:18 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 13:34:33 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	remove_env_var_loop(t_sh *shell, int idx, char ***new_env)
 	while (shell->env[i])
 	{
 		if (i == idx)
-		{	
+		{
 			j++;
 			idx = -1;
 		}

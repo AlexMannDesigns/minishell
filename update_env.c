@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/05 16:31:44 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:13:58 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	update_existing_env(t_sh *shell, char *str, int env_idx)
 		return (0);
 	return (1);
 }
+
+/* strdup in this function does not need malloc protection */
 
 int	add_new_env_var(t_sh *shell, char *str)
 {
@@ -70,6 +72,8 @@ int	update_env_control(t_sh *shell, size_t i)
 	if (equals_idx == 0 || equals_idx == -1)
 		return (0);
 	var_name = ft_strndup(str, equals_idx);
+	if (!var_name)
+		return (0);
 	env_idx = get_env_idx(shell, var_name);
 	free(var_name);
 	if (env_idx != -1)

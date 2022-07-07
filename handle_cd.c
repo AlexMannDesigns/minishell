@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 13:29:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:37:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	no_args(t_sh *shell)
 {
 	int	idx;
+
 	ft_freearray((void ***) &shell->arg_list, 1);
 	shell->arg_list = (char **) ft_memalloc(sizeof(char *) * 3);
 	if (!shell->arg_list)

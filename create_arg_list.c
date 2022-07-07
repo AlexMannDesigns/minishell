@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/06/23 13:49:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:23:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	**create_arg_list(char *cli)
 {
-	int	i;
-	int	quotes;
+	int		i;
+	int		quotes;
+	char	**res;
 
 	i = 0;
 	quotes = 0;
@@ -33,5 +34,8 @@ char	**create_arg_list(char *cli)
 	}
 	if (!quotes)
 		return (ft_strsplit(cli, ' '));
-	return (handle_quotes(cli));
+	res = handle_quotes(cli);
+	if (!res)
+		return (ft_strsplit(cli, ' '));
+	return (res);
 }

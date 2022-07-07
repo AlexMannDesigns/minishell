@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:14:40 by amann             #+#    #+#             */
-/*   Updated: 2022/07/04 15:20:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 15:25:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ static int	handle_next_dollar(char **arg, char *exp, int i, char *temp)
 	ft_strdel(&temp2);
 	ft_strdel(&end_of_arg);
 	if (!(*arg))
-	{
-		ft_strdel(&temp);
 		return (0);
-	}
 	return (1);
 }
 
@@ -87,7 +84,7 @@ int	dollar_in_middle(char **arg, char *exp, int i)
 	if (!temp)
 		return (0);
 	if ((*arg)[i + next_dollar] == '\0')
-	{	
+	{
 		ft_strdel(arg);
 		(*arg) = ft_strjoin(temp, exp);
 		if (!(*arg))

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 12:55:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:24:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ void	shell_control(t_sh *shell)
 	{
 		pid = fork();
 		bin_control(command, shell, pid);
-		if (waitpid(pid, &status, 0) > 0)
-			;
+		waitpid(pid, &status, 0);
 	}
 	else
 	{
@@ -75,7 +74,6 @@ void	shell_control(t_sh *shell)
 		ft_putstr_fd("command not found\n", STDERR_FD);
 	}
 }
-/* remember to print error outputs to stderr! */
 
 int	main(void)
 {
@@ -91,7 +89,8 @@ int	main(void)
 		new_line = get_next_line(STDIN_FD, &(shell->cli));
 		if (new_line == 1 && shell->cli[0])
 		{
-			parser_control(shell);
+			if (!parser_control(shell))
+				exit(EXIT_FAILURE);
 			shell_control(shell);
 		}
 		ft_putstr(PROMPT);
