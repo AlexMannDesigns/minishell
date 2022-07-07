@@ -6,26 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 16:36:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/07 17:43:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-/* no malloc protection needed here, returning null wont break anything */
-
-static char	*get_path_string(t_sh *shell)
-{
-	int		idx;
-	char	*path;
-
-	path = NULL;
-	idx = get_env_idx(shell, "PATH");
-	if (idx == -1)
-		return (NULL);
-	path = ft_strdup((shell->env[idx]) + 5);
-	return (path);
-}
 
 /* as above, strjoin does not need protection, returning NULL will just
  * result in bin not being found. ft_strdel will check if pointer was
@@ -56,10 +41,9 @@ static int	find_path(char **path_array, char **command, char **test_path)
 	return (FALSE);
 }
 
-static int	update_comm(char **comm, char ***p_arr, char **path, char *t_path)
+static int	update_comm(char **comm, char ***p_arr, char *t_path)
 {
 	ft_strdel(comm);
-	ft_strdel(path);
 	ft_freearray((void ***) p_arr, array_len(*p_arr));
 	*comm = t_path;
 	return (1);
@@ -68,26 +52,20 @@ static int	update_comm(char **comm, char ***p_arr, char **path, char *t_path)
 int	is_in_path(t_sh *shell, char **command)
 {
 	char	*test_path;
-	char	*path;
 	char	**path_array;
 	char	*path_start;
 
 	if (!shell->env)
 		return (0);
-	path = get_path_string(shell);
-	if (!path)
-		return (0);
+	if (ft_strchr(*command, '/'))
+		return (1);
 	path_start = ft_strchr(shell->env[get_env_idx(shell, "PATH")], '=') + 1;
 	path_array = ft_strsplit(path_start, ':');
 	if (!path_array)
-	{
-		free(path);
 		return (0);
-	}
 	test_path = NULL;
 	if (find_path(path_array, command, &test_path))
-		return (update_comm(command, &path_array, &path, test_path));
-	free(path);
+		return (update_comm(command, &path_array, test_path));
 	ft_freearray((void ***) &path_array, array_len(path_array));
 	return (0);
 }
