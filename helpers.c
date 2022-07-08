@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 11:59:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 17:33:35 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**copy_arr(char **arr)
 	size_t	len;
 	size_t	i;
 
+	if (!arr)
+		return (NULL);
 	len = array_len(arr);
 	res = (char **) ft_memalloc(sizeof(char *) * (len + 1));
 	if (!res)
@@ -51,6 +53,8 @@ size_t	array_len(char **arr)
 {
 	size_t	res;
 
+	if (!arr)
+		return (0);
 	res = 0;
 	while (arr[res])
 		res++;
@@ -64,7 +68,7 @@ int	get_env_idx(t_sh *shell, char *str)
 	char	*str_plus_equals;
 
 	str_plus_equals = ft_strjoin(str, "=");
-	if (!str_plus_equals)
+	if (!str_plus_equals || !shell->env)
 		return (-1);
 	len = ft_strlen(str_plus_equals);
 	i = 0;

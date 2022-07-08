@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 15:37:25 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 14:14:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 18:08:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	update_oldpwd(t_sh *shell)
 		new_env = (char **) ft_memalloc(sizeof(char *) * (len + 2));
 		if (!new_env)
 			return ;
-		copy_env_to_new(shell, new_env);
+		if (shell->env)
+			copy_env_to_new(shell, new_env);
 		new_env[len] = ft_strjoin("OLDPWD=", cwd);
 		if (!new_env[len])
 			return ;

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 16:37:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 18:13:18 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,27 @@ static int	change_directory(t_sh *shell)
 {
 	int		i;
 	char	cwd[PATH_MAX];
+	char	*str;
 
 	update_oldpwd(shell);
 	chdir(shell->arg_list[1]);
 	getcwd(cwd, sizeof(cwd));
 	i = get_env_idx(shell, "PWD");
-	ft_strdel(&(shell->env[i]));
-	shell->env[i] = ft_strjoin("PWD=", cwd);
-	if (!shell->env[i])
-		return (0);
+	if (i != -1)
+	{
+		ft_strdel(&(shell->env[i]));
+		shell->env[i] = ft_strjoin("PWD=", cwd);
+		if (!shell->env[i])
+			return (0);
+	}
+	else
+	{
+		str = ft_strjoin("PWD=", cwd);
+		if (!str)
+			return (0);
+		add_new_env_var(shell, str);
+		free(str);
+	}
 	return (1);
 }
 

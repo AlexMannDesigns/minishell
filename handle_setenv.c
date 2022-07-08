@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 13:27:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 17:47:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,22 @@ void	remove_env_var(t_sh *shell, int idx)
 	char	**new_env;
 
 	len = array_len(shell->env);
-	new_env = (char **) ft_memalloc(sizeof(char *) * len);
-	if (!new_env)
-		return ;
-	remove_env_var_loop(shell, idx, &new_env);
-	ft_strdel(&(shell->env[idx]));
-	free(shell->env);
-	shell->env = new_env;
+	if (len > 1)
+	{
+		new_env = (char **) ft_memalloc(sizeof(char *) * len);
+		if (!new_env)
+			return ;
+		remove_env_var_loop(shell, idx, &new_env);
+		ft_strdel(&(shell->env[idx]));
+		free(shell->env);
+		shell->env = new_env;
+	}
+	else
+	{
+		ft_strdel(&(shell->env[0]));
+		free(shell->env);
+		shell->env = NULL;
+	}
 }
 
 void	handle_unsetenv(t_sh *shell)

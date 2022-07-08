@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 16:06:57 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 17:34:16 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	env_parser(t_sh *shell, size_t *i)
 		else if (i_flag)
 			error = i_flag_control(shell, shell->arg_list[*i]);
 		else
-			error = update_env_control(shell, *i);
+			error = update_env_control(shell, *i, TRUE);
 		(*i)++;
 	}
 	if (!error)
@@ -111,8 +111,9 @@ static void	handle_env_control(t_sh *shell)
 	size_t	i;
 
 	i = 0;
+//	ft_printf("%d\n", array_len(shell->env));
 	orig_env = copy_arr(shell->env);
-	if (!orig_env)
+	if (!orig_env && array_len(shell->env) != 0)
 		return ;
 	if (!env_parser(shell, &i))
 		return ;
