@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 17:51:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 16:04:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_mem(t_sh *shell)
 {
-	if (shell->arg_list && shell->arg_list[0])
+	if (shell->arg_list)
 		ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
 	if (shell->cli)
 		ft_memdel((void **) &(shell->cli));
@@ -39,13 +39,13 @@ void	builtin_control(t_sh *shell)
 		shell->builtin[func](shell);
 }
 
-void	bin_control(char *path, t_sh *shell, pid_t pid)
+void	bin_control(t_sh *shell, pid_t pid)
 {
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
-		if (execve(path, shell->arg_list, shell->env) == -1)
+		if (execve(shell->arg_list[0], shell->arg_list, shell->env) == -1)
 		{
 			print_error_start(shell, 0);
 			ft_putstr_fd("No such file or directory\n", STDERR_FD);
@@ -55,17 +55,15 @@ void	bin_control(char *path, t_sh *shell, pid_t pid)
 
 void	shell_control(t_sh *shell)
 {
-	char	*command;
 	pid_t	pid;
 	int		status;
 
-	command = shell->arg_list[0];
-	if (ft_strstr(BUILTINS, command))
+	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 		builtin_control(shell);
-	else if (is_in_path(shell, &command))
+	else if (is_in_path(shell))
 	{
 		pid = fork();
-		bin_control(command, shell, pid);
+		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
 	else
@@ -73,6 +71,7 @@ void	shell_control(t_sh *shell)
 		print_error_start(shell, 0);
 		ft_putstr_fd("command not found\n", STDERR_FD);
 	}
+	free_mem(shell);
 }
 
 int	main(void)
@@ -89,9 +88,8 @@ int	main(void)
 		new_line = get_next_line(STDIN_FD, &(shell->cli));
 		if (new_line == 1 && shell->cli[0])
 		{
-			if (!parser_control(shell))
-				exit(EXIT_FAILURE);
-			shell_control(shell);
+			if (parser_control(shell))
+				shell_control(shell);
 		}
 		ft_putstr(PROMPT);
 	}

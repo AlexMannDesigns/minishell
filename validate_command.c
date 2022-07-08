@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 17:43:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 16:03:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
  * assigned, so no risk of double free
  */
 
-static int	find_path(char **path_array, char **command, char **test_path)
+static int	find_path(t_sh *shell, char **path_array, char **test_path)
 {
 	int		i;
 	char	*command_plus_slash;
 
-	command_plus_slash = ft_strjoin("/", *command);
+	command_plus_slash = ft_strjoin("/", shell->arg_list[0]);
 	if (!command_plus_slash)
 		return (FALSE);
 	i = 0;
@@ -41,15 +41,16 @@ static int	find_path(char **path_array, char **command, char **test_path)
 	return (FALSE);
 }
 
-static int	update_comm(char **comm, char ***p_arr, char *t_path)
+static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 {
-	ft_strdel(comm);
+	ft_strdel(&(shell->arg_list[0]));
 	ft_freearray((void ***) p_arr, array_len(*p_arr));
-	*comm = t_path;
+	shell->arg_list[0] = ft_strdup(t_path);
+	free(t_path);
 	return (1);
 }
 
-int	is_in_path(t_sh *shell, char **command)
+int	is_in_path(t_sh *shell)
 {
 	char	*test_path;
 	char	**path_array;
@@ -57,15 +58,15 @@ int	is_in_path(t_sh *shell, char **command)
 
 	if (!shell->env)
 		return (0);
-	if (ft_strchr(*command, '/'))
+	if (ft_strchr(shell->arg_list[0], '/'))
 		return (1);
 	path_start = ft_strchr(shell->env[get_env_idx(shell, "PATH")], '=') + 1;
 	path_array = ft_strsplit(path_start, ':');
 	if (!path_array)
 		return (0);
 	test_path = NULL;
-	if (find_path(path_array, command, &test_path))
-		return (update_comm(command, &path_array, test_path));
+	if (find_path(shell, path_array, &test_path))
+		return (update_comm(shell, &path_array, test_path));
 	ft_freearray((void ***) &path_array, array_len(path_array));
 	return (0);
 }

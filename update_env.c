@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 16:13:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:27:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,22 @@ int	add_new_env_var(t_sh *shell, char *str)
 	return (1);
 }
 
-int	update_env_control(t_sh *shell, size_t i)
+static int	check_valid_var_name(t_sh *shell, char *str, int is_env)
+{
+	if (is_env)
+		return (1);
+	if (ft_isalpha(str[0]) || str[0] == '_')
+		return (1);
+	print_error_start(shell, 0);
+	ft_putstr_fd("\'", STDERR_FD);
+	ft_putstr_fd(str, STDERR_FD);
+	ft_putstr_fd("\'", STDERR_FD);
+	ft_putstr_fd(COLON, STDERR_FD);
+	ft_putstr_fd("not a valid identifier\n", STDERR_FD);
+	return (0);
+}
+
+int	update_env_control(t_sh *shell, size_t i, int is_env)
 {
 	char	*str;
 	char	*var_name;
@@ -68,6 +83,8 @@ int	update_env_control(t_sh *shell, size_t i)
 	int		error;
 
 	str = shell->arg_list[i];
+	if (!check_valid_var_name(shell, str, is_env))
+		return (0);
 	equals_idx = get_equals_idx(str);
 	if (equals_idx == 0 || equals_idx == -1)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 16:04:21 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 16:06:57 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int	update_arg_list(t_sh *shell, size_t i)
 	return (1);
 }
 
-/* remember to print error messages to stderr */
 static void	handle_env_control(t_sh *shell)
 {
 	char	**orig_env;

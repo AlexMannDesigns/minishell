@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 13:34:33 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:27:53 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ void	handle_setenv(t_sh *shell)
 	i = 1;
 	while (shell->arg_list[i])
 	{
-		if (ft_strchr(shell->arg_list[i], '=') == NULL)
-			break ;
-		update_env_control(shell, i);
+		update_env_control(shell, i, FALSE);
 		i++;
 	}
 }

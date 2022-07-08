@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 11:23:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/08 16:05:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	initialise_shell(t_sh **shell);
 
 /* main.c */
 void	builtin_control(t_sh *shell);
-void	bin_control(char *path, t_sh *shell, pid_t pid);
+void	bin_control(t_sh *shell, pid_t pid);
 void	shell_control(t_sh *shell);
 
 /* parser.c */
@@ -132,12 +132,12 @@ int		update_arg(t_sh *shell, char **arg, int idx);
 
 /* update_env.c */
 int		add_new_env_var(t_sh *shell, char *str);
-int		update_env_control(t_sh *shell, size_t i);
+int		update_env_control(t_sh *shell, size_t i, int is_env);
 
 /* update_oldpwd.c */
 void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(t_sh *shell, char **command);
+int		is_in_path(t_sh *shell);
 #endif
