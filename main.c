@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 16:59:20 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/11 13:50:17 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,21 @@ void	builtin_control(t_sh *shell)
 void	bin_control(t_sh *shell, pid_t pid)
 {
 	if (pid == -1)
+	{
+		ft_putstr_fd("minishell: cannot create child process\n", STDERR_FD);
 		exit(EXIT_FAILURE);
+	}
 	else if (pid == 0)
 	{
 		if (execve(shell->arg_list[0], shell->arg_list, shell->env) == -1)
 		{
-			print_error_start(shell, 0);
-			ft_putstr_fd("No such file or directory\n", STDERR_FD);
+			ft_putstr_fd("minishell: cannot create child process\n", STDERR_FD);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
 
-void	shell_control(t_sh *shell)
+int	shell_control(t_sh *shell, int is_env)
 {
 	pid_t	pid;
 	int		status;
@@ -66,12 +69,15 @@ void	shell_control(t_sh *shell)
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
-	else
+	else if (!is_env)
 	{
 		print_error_start(shell, 0);
 		ft_putstr_fd("command not found\n", STDERR_FD);
+		return (0);
 	}
-	free_mem(shell);
+	else if (is_env)
+		return (0);
+	return (1);
 }
 
 int	main(void)
@@ -89,7 +95,8 @@ int	main(void)
 		if (new_line == 1 && shell->cli[0])
 		{
 			if (parser_control(shell))
-				shell_control(shell);
+				shell_control(shell, FALSE);
+			free_mem(shell);
 		}
 		ft_putstr(PROMPT);
 	}

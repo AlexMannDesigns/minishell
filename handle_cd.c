@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 18:13:18 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/11 11:58:18 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,9 @@ void static	handle_cd_helper(t_sh *shell, int dash_flag)
 	}
 	else
 	{
-		print_error_start(shell, 1);
+		print_error_start(shell, 0);
+		ft_putstr_fd(shell->arg_list[1], STDERR_FD);
+		ft_putstr_fd(COLON, STDERR_FD);
 		exists = stat(shell->arg_list[1], &sb);
 		if (exists == 0 && S_ISDIR(sb.st_mode))
 			ft_putstr_fd("Permission denied\n", STDERR_FD);

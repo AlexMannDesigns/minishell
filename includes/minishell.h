@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 16:05:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/11 11:55:41 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,14 @@ void	initialise_shell(t_sh **shell);
 /* main.c */
 void	builtin_control(t_sh *shell);
 void	bin_control(t_sh *shell, pid_t pid);
-void	shell_control(t_sh *shell);
+int		shell_control(t_sh *shell, int is_env);
 
 /* parser.c */
 int		parser_control(t_sh *shell);
 
 /* print_error.c */
 void	print_error_start(t_sh *shell, int idx);
+void	print_env_error(t_sh *shell);
 
 /* update_dollar_arg.c */
 int		update_arg(t_sh *shell, char **arg, int idx);
