@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:54:45 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 13:29:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/11 15:43:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	copy_args(char ***res, char *cli)
 	idx = 0;
 	while (cli[i])
 	{
-		if (cli[i] == '\"' || cli[i] == '\'' || cli[i] != ' ')
+		if (cli[i] != ' ')
 		{
 			len = get_len(cli, &i);
 			(*res)[idx] = ft_strndup(cli + i, len);
