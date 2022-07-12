@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 15:23:07 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 18:57:50 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,6 @@ int	shell_control(t_sh *shell, int is_env)
 	else if (is_env)
 		return (0);
 	return (1);
-}
-
-int	check_whitespaces(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_iswhitespace(s[i]))
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	main(void)

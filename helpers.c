@@ -6,11 +6,25 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 14:06:12 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 19:04:26 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	check_whitespaces(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_iswhitespace(s[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 char	**copy_arr(char **arr)
 {

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 15:54:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 19:04:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	handle_unsetenv(t_sh *shell);
 char	**handle_quotes(char *cli);
 
 /* helpers.c */
+int		check_whitespaces(char *s);
 size_t	array_len(char **arr);
 int		get_env_idx(t_sh *shell, char *str);
 void	print_arr(char **arr);

@@ -6,11 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 15:32:22 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 16:02:28 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 18:55:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+/* this function will be moved to libft */
 
 static size_t	word_count(char *str)
 {
@@ -45,7 +47,7 @@ static size_t	substrlen(char *str, size_t i)
 	return (len);
 }
 
-static void ft_split_ws_loop(char *str, char ***arr)
+static void	ft_split_ws_loop(char *str, char ***arr)
 {
 	size_t	i;
 	size_t	len;
