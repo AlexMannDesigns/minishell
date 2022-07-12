@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:01:20 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 16:59:16 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 13:31:20 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ int	parser_control(t_sh *shell)
 	shell->arg_list = create_arg_list(shell->cli);
 	if (!shell->arg_list || !shell->arg_list[0])
 		return (0);
-	shell->parse.tilde = ft_strchr(shell->cli, '~');
-	shell->parse.dollar = ft_strchr(shell->cli, '$');
-	if (shell->parse.tilde)
+	if (ft_strchr(shell->cli, '~'))
 		expand_tildes(shell);
-	if (shell->parse.dollar)
+	if (ft_strchr(shell->cli, '$'))
 		expand_dollars(shell);
 	return (1);
 }

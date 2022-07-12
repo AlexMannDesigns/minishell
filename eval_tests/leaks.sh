@@ -5,10 +5,10 @@ while true
 do
 	leaks minishell;
 	sleep 1;
-	echo waiting 1;
+	printf "waiting 1";
 	sleep 1;
-	echo waiting 2;
+	printf ", 2";
 	sleep 1;
-	echo waiting 3;
+	printf ", 3...\n";
 	sleep 1;
 done

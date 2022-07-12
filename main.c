@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/11 13:50:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 15:23:07 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,20 @@ int	shell_control(t_sh *shell, int is_env)
 	return (1);
 }
 
+int	check_whitespaces(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_iswhitespace(s[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	main(void)
 {
 	int		new_line;
@@ -92,12 +106,12 @@ int	main(void)
 	while (1)
 	{
 		new_line = get_next_line(STDIN_FD, &(shell->cli));
-		if (new_line == 1 && shell->cli[0])
+		if (new_line == 1 && shell->cli[0] && check_whitespaces(shell->cli))
 		{
 			if (parser_control(shell))
 				shell_control(shell, FALSE);
-			free_mem(shell);
 		}
+		free_mem(shell);
 		ft_putstr(PROMPT);
 	}
 	return (0);

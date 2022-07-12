@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/11 11:55:41 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/12 15:54:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,6 @@
 
 typedef void	(*t_function)();
 
-typedef struct s_parse
-{
-	char	*tilde;
-	int		tilde_idx;
-	char	*dollar;
-	int		dollar_idx;
-}			t_parse;
-
 typedef struct s_sh
 {
 	char		**arg_list;
@@ -63,7 +55,6 @@ typedef struct s_sh
 	char		**history;
 	t_function	builtin[6];
 	char		*builtin_names[6];
-	t_parse		parse;
 }				t_sh;
 
 /***** FUNCTION PROTOTYPES *****/
@@ -87,6 +78,9 @@ size_t	var_name_len(char *dollar);
 
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);
+
+/* ft_split_whitespace.c */
+char	**ft_split_whitespace(char *str);
 
 /* handle_cd.c */
 void	handle_cd(t_sh *shell);
