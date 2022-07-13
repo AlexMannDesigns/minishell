@@ -6,12 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:54:45 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 18:13:04 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:14:25 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 
 static size_t	get_len(char *cli, size_t *i)
 {
