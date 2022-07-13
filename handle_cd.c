@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 18:48:22 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:34:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	no_args(t_sh *shell)
 {
 	int	idx;
 
-	ft_freearray((void ***) &shell->arg_list, array_len(shell->arg_list));
+	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = (char **) ft_memalloc(sizeof(char *) * 3);
 	if (!shell->arg_list)
 		return (0);
@@ -118,7 +118,7 @@ void	handle_cd(t_sh *shell)
 	int		dash_flag;
 
 	dash_flag = 0;
-	if (array_len(shell->arg_list) == 1)
+	if (ft_array_len(shell->arg_list) == 1)
 	{
 		if (!no_args(shell))
 			return ;

@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/15 11:48:22 by amann             #+#    #+#              #
-#    Updated: 2022/04/06 16:35:11 by amann            ###   ########.fr        #
+#    Updated: 2022/07/13 15:32:28 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,9 @@ LIB = $(LIB_DIR)ft_atoi.c $(LIB_DIR)ft_bzero.c $(LIB_DIR)ft_isalnum.c			\
 		$(LIB_DIR)ft_iswhitespace.c $(LIB_DIR)ft_abs.c $(LIB_DIR)ft_strnstr.c	\
 		$(LIB_DIR)ft_strrchr.c $(LIB_DIR)ft_toupper.c $(LIB_DIR)ft_abs_long.c	\
 		$(LIB_DIR)ft_lstadd_back.c $(LIB_DIR)ft_strndup.c $(LIB_DIR)ft_isupper.c\
-		$(LIB_DIR)ft_itoa_base.c $(LIB_DIR)ft_itoa_base_unsigned.c 
+		$(LIB_DIR)ft_itoa_base.c $(LIB_DIR)ft_itoa_base_unsigned.c				\
+		$(LIB_DIR)ft_split_whitespace.c $(LIB_DIR)ft_array_len.c				\
+		$(LIB_DIR)ft_print_array.c
 GNL = $(GNL_DIR)get_next_line.c
 PRF = $(PRF_DIR)conversion_control.c $(PRF_DIR)ft_printf.c $(PRF_DIR)set_flags.c\
 		$(PRF_DIR)print_result.c $(PRF_DIR)hash_flag.c $(PRF_DIR)flag_control.c	\

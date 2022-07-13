@@ -9,6 +9,7 @@ do
 	sleep 1;
 	printf " ...2";
 	sleep 1;
-	printf " ...1\n";
+	printf " ...1";
 	sleep 1;
+	echo
 done

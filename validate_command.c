@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/11 14:51:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:40:41 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	find_path(t_sh *shell, char **path_array, char **test_path)
 static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 {
 	ft_strdel(&(shell->arg_list[0]));
-	ft_freearray((void ***) p_arr, array_len(*p_arr));
+	ft_freearray((void ***) p_arr, ft_array_len(*p_arr));
 	shell->arg_list[0] = ft_strdup(t_path);
 	free(t_path);
 	return (1);
@@ -71,7 +71,7 @@ int	is_in_path(t_sh *shell)
 		return (update_comm(shell, &path_array, test_path));
 	else
 	{
-		ft_freearray((void ***) &path_array, array_len(path_array));
+		ft_freearray((void ***) &path_array, ft_array_len(path_array));
 		return (0);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/01 13:44:30 by amann             #+#    #+#              #
-#    Updated: 2022/03/19 18:08:09 by amann            ###   ########.fr        #
+#    Updated: 2022/07/13 15:31:11 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ LIB =  ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c	
 		ft_strstr.c ft_strsub.c	ft_strtrim.c ft_tolower.c ft_freearray.c		\
 		ft_iswhitespace.c ft_abs.c ft_strnstr.c ft_strrchr.c ft_toupper.c		\
 		ft_isupper.c ft_lstadd_back.c ft_strndup.c ft_itoa_base.c				\
-		ft_itoa_base_unsigned.c	ft_abs_long.c
+		ft_itoa_base_unsigned.c	ft_abs_long.c ft_split_whitespace.c				\
+		ft_array_len.c ft_print_array.c
 OBJ = $(LIB:.c=.o)
 SRC_DIR = srcs/
 LEAKS = -g -fsanitize=address

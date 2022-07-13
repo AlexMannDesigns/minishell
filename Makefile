@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/07/12 15:54:24 by amann            ###   ########.fr        #
+#    Updated: 2022/07/13 15:45:49 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS = check_user_dir.c create_arg_list.c dollar_next_middle_start_end.c		\
 		handle_echo.c handle_env.c handle_exit.c handle_quotes.c				\
 		handle_setenv.c helpers.c initialise_shell.c main.c parser.c			\
 		print_error.c update_env.c update_dollar_arg.c update_oldpwd.c			\
-		validate_command.c ft_split_whitespace.c
+		validate_command.c 
 OBJ = $(SRCS:%.c=%.o)
 HEADER = -I includes/minishell.h
 LIB_DIR = libft/

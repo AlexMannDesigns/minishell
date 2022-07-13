@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 19:04:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:35:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**copy_arr(char **arr)
 
 	if (!arr)
 		return (NULL);
-	len = array_len(arr);
+	len = ft_array_len(arr);
 	res = (char **) ft_memalloc(sizeof(char *) * (len + 1));
 	if (!res)
 		return (NULL);
@@ -44,34 +44,11 @@ char	**copy_arr(char **arr)
 		res[i] = ft_strdup(arr[i]);
 		if (!res[i])
 		{
-			ft_freearray((void ***) &res, array_len(res));
+			ft_freearray((void ***) &res, ft_array_len(res));
 			return (NULL);
 		}
 		i++;
 	}
-	return (res);
-}
-
-void	print_arr(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-		ft_putendl(arr[i++]);
-}
-
-size_t	array_len(char **arr)
-{
-	size_t	res;
-
-	if (!arr)
-		return (0);
-	res = 0;
-	while (arr[res])
-		res++;
 	return (res);
 }
 

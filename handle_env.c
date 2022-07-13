@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/11 14:30:49 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:49:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	env_parser(t_sh *shell, size_t *i, int *i_flag)
 	{
 		*i = 2;
 		*i_flag = TRUE;
-		ft_freearray((void ***) &shell->env, array_len(shell->env));
+		ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
 	}
 	while (shell->arg_list[*i])
 	{
@@ -82,7 +82,7 @@ int	update_arg_list(t_sh *shell, size_t i)
 	size_t	j;
 	size_t	len;
 
-	len = array_len(shell->arg_list + i) + 1;
+	len = ft_array_len(shell->arg_list + i) + 1;
 	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
 	if (!new_arg_list)
 		return (0);
@@ -92,13 +92,13 @@ int	update_arg_list(t_sh *shell, size_t i)
 		new_arg_list[j] = ft_strdup(shell->arg_list[i]);
 		if (!new_arg_list[j])
 		{
-			ft_freearray((void ***) &new_arg_list, array_len(new_arg_list));
+			ft_freearray((void ***) &new_arg_list, ft_array_len(new_arg_list));
 			return (0);
 		}
 		i++;
 		j++;
 	}
-	ft_freearray((void ***) &shell->arg_list, array_len(shell->arg_list));
+	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = new_arg_list;
 	return (1);
 }
@@ -137,22 +137,22 @@ void	handle_env(t_sh *shell)
 	size_t	i;
 
 	i_flag = FALSE;
-	if (array_len(shell->arg_list) == 1)
-		print_arr(shell->env);
+	if (ft_array_len(shell->arg_list) == 1)
+		ft_print_array(shell->env);
 	else
 	{
 		i = 0;
 		orig_env = copy_arr(shell->env);
-		if (!orig_env && array_len(shell->env) != 0)
+		if (!orig_env && ft_array_len(shell->env) != 0)
 			return ;
 		if (!env_parser(shell, &i, &i_flag))
 			return ;
 		if (shell->arg_list[i] == NULL)
-			print_arr(shell->env);
+			ft_print_array(shell->env);
 		else
 			execute_env_command(shell, orig_env, i);
 		if (shell->env)
-			ft_freearray((void ***) &shell->env, array_len(shell->env));
+			ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
 		shell->env = orig_env;
 	}
 }

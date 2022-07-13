@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 19:04:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:35:21 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ size_t	var_name_len(char *dollar);
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);
 
-/* ft_split_whitespace.c */
-char	**ft_split_whitespace(char *str);
-
 /* handle_cd.c */
 void	handle_cd(t_sh *shell);
 
@@ -103,9 +100,7 @@ char	**handle_quotes(char *cli);
 
 /* helpers.c */
 int		check_whitespaces(char *s);
-size_t	array_len(char **arr);
 int		get_env_idx(t_sh *shell, char *str);
-void	print_arr(char **arr);
 char	**copy_arr(char **arr);
 
 /* initialise_shell.c */

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 15:37:25 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 19:08:01 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:40:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static int	copy_env_to_new(t_sh *shell, char **new_env)
 		new_env[i] = ft_strdup(shell->env[i]);
 		if (!new_env[i])
 		{
-			ft_freearray((void ***) &new_env, array_len(new_env));
+			ft_freearray((void ***) &new_env, ft_array_len(new_env));
 			return (0);
 		}
 		i++;
 	}
-	ft_freearray((void ***) &shell->env, array_len(shell->env));
+	ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
 	return (1);
 }
 
@@ -38,7 +38,7 @@ static int	create_oldpwd(t_sh *shell, char *cwd)
 	size_t	len;
 	char	**new_env;
 
-	len = array_len(shell->env);
+	len = ft_array_len(shell->env);
 	new_env = (char **) ft_memalloc(sizeof(char *) * (len + 2));
 	if (!new_env)
 		return (0);

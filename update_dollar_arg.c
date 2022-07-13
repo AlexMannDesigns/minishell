@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:10:14 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 16:09:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:38:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	fix_up_arg_list(t_sh *shell, int idx)
 	int		i;
 	int		j;
 
-	len = array_len(shell->arg_list);
+	len = ft_array_len(shell->arg_list);
 	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
 	if (!new_arg_list)
 		return (0);

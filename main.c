@@ -6,18 +6,18 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/12 18:57:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:50:15 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	free_mem(t_sh *shell)
+void	free_mem(t_sh *sh)
 {
-	if (shell->arg_list)
-		ft_freearray((void ***) &(shell->arg_list), array_len(shell->arg_list));
-	if (shell->cli)
-		ft_memdel((void **) &(shell->cli));
+	if (sh->arg_list)
+		ft_freearray((void ***) &(sh->arg_list), ft_array_len(sh->arg_list));
+	if (sh->cli)
+		ft_memdel((void **) &(sh->cli));
 }
 
 void	builtin_control(t_sh *shell)

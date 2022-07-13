@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 17:47:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:37:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	remove_env_var(t_sh *shell, int idx)
 	size_t	len;
 	char	**new_env;
 
-	len = array_len(shell->env);
+	len = ft_array_len(shell->env);
 	if (len > 1)
 	{
 		new_env = (char **) ft_memalloc(sizeof(char *) * len);

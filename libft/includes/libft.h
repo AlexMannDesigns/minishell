@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 12:41:30 by amann             #+#    #+#             */
-/*   Updated: 2022/03/15 12:21:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 15:50:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ int			ft_iswhitespace(char c);
 int			ft_abs(int i);
 long long	ft_abs_long(long long i);
 char		*ft_strndup(const char *s, size_t n);
+char		**ft_split_whitespace(const char *str);
+void		ft_print_array(char **arr);
+size_t		ft_array_len(char **arr);
 
 int			get_next_line(const int fd, char **line);
 int			ft_printf(const char *s, ...);
