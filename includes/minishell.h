@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:35:21 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:13:11 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 /***** HEADER FILES *****/
 
 # include "../libft/includes/libft.h"
-# include <unistd.h>
-# include <stdlib.h>
 # include <dirent.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -61,6 +59,9 @@ typedef struct s_sh
 
 /* check_user_dir.c */
 int		check_users(char *str, size_t len);
+
+/* count_quote_args.c */
+size_t	count_quote_args(char *cli);
 
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
