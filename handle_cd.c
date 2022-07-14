@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:34:37 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:08:44 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,7 @@ void static	handle_cd_helper(t_sh *shell, int dash_flag)
 		ft_putstr_fd(shell->arg_list[1], STDERR_FD);
 		ft_putstr_fd(COLON, STDERR_FD);
 		exists = stat(shell->arg_list[1], &sb);
-		if (exists == 0 && S_ISDIR(sb.st_mode))
-			ft_putstr_fd("Permission denied\n", STDERR_FD);
-		else if (exists == 0 && !S_ISDIR(sb.st_mode))
-			ft_putstr_fd("Not a directory\n", STDERR_FD);
-		else
-			ft_putstr_fd("No such file or directory\n", STDERR_FD);
+		print_access_error(exists, sb);
 	}
 }
 

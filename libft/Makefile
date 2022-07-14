@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/15 11:48:22 by amann             #+#    #+#              #
-#    Updated: 2022/07/13 15:32:28 by amann            ###   ########.fr        #
+#    Updated: 2022/07/14 17:49:38 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ GNL_OBJ = $(GNL:.c=.o)
 PRF_OBJ = $(PRF:.c=.o)  
 
 all: $(NAME)
+	@echo libft compiled
 
 $(NAME):
 	@$(MAKE) -C $(LIB_DIR)

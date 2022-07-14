@@ -6,11 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:50:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:21:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+//hello
 
 void	free_mem(t_sh *sh)
 {
@@ -37,6 +39,11 @@ void	builtin_control(t_sh *shell)
 	}
 	if (i < 6)
 		shell->builtin[func](shell);
+	else
+	{
+		print_error_start(shell, 0);
+		ft_putstr_fd("command not found\n", STDERR_FD);
+	}
 }
 
 void	bin_control(t_sh *shell, pid_t pid)
@@ -60,22 +67,24 @@ int	shell_control(t_sh *shell, int is_env)
 {
 	pid_t	pid;
 	int		status;
+	int		abs_path;
 
+	abs_path = FALSE;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 		builtin_control(shell);
-	else if (is_in_path(shell))
+	else if (is_in_path(shell, &abs_path))
 	{
 		pid = fork();
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
-	else if (!is_env)
+	else if (!is_env && !abs_path)
 	{
 		print_error_start(shell, 0);
 		ft_putstr_fd("command not found\n", STDERR_FD);
 		return (0);
 	}
-	else if (is_env)
+	else if (is_env && !abs_path)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/01 13:44:30 by amann             #+#    #+#              #
-#    Updated: 2022/07/13 15:31:11 by amann            ###   ########.fr        #
+#    Updated: 2022/07/14 17:40:09 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LEAKS = -g -fsanitize=address
 #rules
 all: $(NAME)
 
-$(NAME):
+$(NAME): 
 	@gcc $(FLAGS) -c $(LIB)
 
 clean:

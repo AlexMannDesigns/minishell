@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/07/13 18:13:00 by amann            ###   ########.fr        #
+#    Updated: 2022/07/14 17:54:42 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,21 +27,27 @@ LIB_DIR = libft/
 #rules
 all: $(NAME)
 
-$(NAME): libft_make $(OBJ)
-	@gcc -o $(NAME) $(OBJ) $(HEADER) -L $(LIB_DIR) -lft
-#-fsanitize=address -g
+$(NAME): libft_make compiling_msg $(OBJ)
+	@echo compiling minishell executable...
+	gcc -o $(NAME) $(OBJ) $(HEADER) -L $(LIB_DIR) -lft
 
 %.o: %.c
-	@gcc $(FLAGS) $(HEADER) -c $< -o $@
+	gcc $(FLAGS) $(HEADER) -c $< -o $@
 
 libft_make:
+	@echo compiling libft...
 	@$(MAKE) -C $(LIB_DIR)
 
+compiling_msg:
+	@echo creating minishell objects...
+
 clean:
+	@echo deleting objects...
 	@/bin/rm -f $(OBJ)
 	@$(MAKE) -C $(LIB_DIR) clean
 
 fclean: clean
+	@echo deleting executable...
 	@/bin/rm -f $(NAME)
 	@$(MAKE) -C $(LIB_DIR) fclean
 

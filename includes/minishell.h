@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 14:29:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:23:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int		parser_control(t_sh *shell);
 /* print_error.c */
 void	print_error_start(t_sh *shell, int idx);
 void	print_env_error(t_sh *shell);
+void	print_access_error(int exits, struct stat sb);
 
 /* update_dollar_arg.c */
 int		update_arg(t_sh *shell, char **arg, int idx);
@@ -142,5 +143,5 @@ void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(t_sh *shell);
+int		is_in_path(t_sh *shell, int *abs_path);
 #endif

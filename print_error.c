@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:10:41 by amann             #+#    #+#             */
-/*   Updated: 2022/07/11 12:01:50 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:11:11 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,14 @@ void	print_env_error(t_sh *shell)
 	ft_putstr_fd(shell->arg_list[0], STDERR_FD);
 	ft_putstr_fd(COLON, STDERR_FD);
 	ft_putstr_fd("No such file of directory\n", STDERR_FD);
+}
+
+void	print_access_error(int exists, struct stat sb)
+{
+	if (exists == 0 && S_ISDIR(sb.st_mode))
+		ft_putstr_fd("Permission denied\n", STDERR_FD);
+	else if (exists == 0 && !S_ISDIR(sb.st_mode))
+		ft_putstr_fd("Not a directory\n", STDERR_FD);
+	else
+		ft_putstr_fd("No such file or directory\n", STDERR_FD);
 }
