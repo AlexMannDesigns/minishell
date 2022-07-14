@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 18:13:11 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 14:29:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ typedef struct s_sh
 	char		*builtin_names[6];
 }				t_sh;
 
+typedef struct s_copy_args
+{
+	size_t	cursor;
+	size_t	concat;
+	size_t	quotes_flag;
+	size_t	len;
+	size_t	idx;
+}			t_copy_args;
+
 /***** FUNCTION PROTOTYPES *****/
 
 /* check_user_dir.c */
@@ -98,11 +107,13 @@ void	handle_unsetenv(t_sh *shell);
 
 /* handle_quotes.c */
 char	**handle_quotes(char *cli);
+char	*copy_args_helper(char *cli, t_copy_args args);
 
 /* helpers.c */
 int		check_whitespaces(char *s);
 int		get_env_idx(t_sh *shell, char *str);
 char	**copy_arr(char **arr);
+void	concat_args(char *cli, char ***res, t_copy_args args);
 
 /* initialise_shell.c */
 void	initialise_shell(t_sh **shell);

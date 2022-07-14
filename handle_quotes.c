@@ -6,65 +6,90 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:54:45 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 18:14:25 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 14:29:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static size_t	get_len(char *cli, size_t *i)
+static size_t	get_len(char *cli, t_copy_args *args)
 {
 	size_t	len;
 	char	quote_type;
 
 	len = 0;
-	if (cli[*i] == '\"' || cli[*i] == '\'')
+	if (cli[args->cursor] == '\"' || cli[args->cursor] == '\'')
 	{
-		quote_type = cli[*i];
-		(*i)++;
-		while (cli[*i + len] && cli[*i + len] != quote_type)
+		quote_type = cli[args->cursor];
+		(args->cursor)++;
+		while (cli[args->cursor + len] && cli[args->cursor + len] != quote_type)
 			len++;
+		if (cli[args->cursor + len] == quote_type)
+			args->quotes_flag = TRUE;
 	}
-	else if (cli[*i] != ' ')
+	else if (cli[args->cursor] != ' ')
 	{
-		while (cli[*i + len] && cli[*i + len] != ' ')
+		while (cli[args->cursor + len] && cli[args->cursor + len] != ' ')
 			len++;
 	}
 	return (len);
 }
 
-static char	*copy_args_helper(char *cli, size_t i, size_t len)
+char	*copy_args_helper(char *cli, t_copy_args args)
 {
-	if (len != 0)
-		return (ft_strndup(cli + i, len));
+	if (args.len != 0)
+		return (ft_strndup(cli + args.cursor, args.len));
 	else
 		return (ft_strdup("\0"));
 }
 
+static void	move_cursor(char *cli, t_copy_args *args)
+{
+	if (args->quotes_flag)
+	{
+		args->cursor += (args->len + 1);
+		if (cli[args->cursor] == '\'' || cli[args->cursor] == '\"')
+			args->concat = TRUE;
+		else
+		{
+			args->concat = FALSE;
+			args->idx++;
+		}
+	}
+	else
+	{
+		args->cursor += args->len;
+		args->concat = FALSE;
+		args->idx++;
+	}
+}
+
 static void	copy_args(char ***res, char *cli)
 {
-	size_t	i;
-	size_t	len;
-	size_t	idx;
+	t_copy_args	args;
 
-	i = 0;
-	idx = 0;
-	while (cli[i])
+	args.cursor = 0;
+	args.idx = 0;
+	args.concat = 0;
+	while (cli[args.cursor])
 	{
-		if (cli[i] != ' ')
+		if (cli[args.cursor] != ' ')
 		{
-			len = get_len(cli, &i);
-			(*res)[idx] = copy_args_helper(cli, i, len);
-			if (!(*res)[idx])
+			args.quotes_flag = FALSE;
+			args.len = get_len(cli, &args);
+			if (!args.concat)
+				(*res)[args.idx] = copy_args_helper(cli, args);
+			else
+				concat_args(cli, res, args);
+			if (!(*res)[args.idx])
 			{
 				ft_freearray((void ***) res, ft_array_len(*res));
 				return ;
 			}
-			idx++;
-			i += len;
+			move_cursor(cli, &args);
 		}
-		if (cli[i])
-			i++;
+		else
+			args.cursor++;
 	}
 }
 

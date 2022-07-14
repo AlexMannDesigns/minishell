@@ -6,11 +6,24 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:35:02 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 14:28:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void	concat_args(char *cli, char ***res, t_copy_args args)
+{
+	char		*temp;
+	char		*temp2;
+
+	temp = copy_args_helper(cli, args);
+	temp2 = ft_strdup((*res)[args.idx]);
+	ft_strdel(&((*res)[args.idx]));
+	(*res)[args.idx] = ft_strjoin(temp2, temp);
+	ft_strdel(&temp);
+	ft_strdel(&temp2);
+}
 
 int	check_whitespaces(char *s)
 {
