@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:23:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:32:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,5 @@ void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(t_sh *shell, int *abs_path);
+int		is_in_path(t_sh *shell, int *abs_path, int env);
 #endif

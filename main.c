@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:21:37 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:31:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	shell_control(t_sh *shell, int is_env)
 	abs_path = FALSE;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 		builtin_control(shell);
-	else if (is_in_path(shell, &abs_path))
+	else if (is_in_path(shell, &abs_path, FALSE))
 	{
 		pid = fork();
 		bin_control(shell, pid);

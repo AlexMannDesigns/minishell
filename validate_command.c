@@ -6,13 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:22:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/14 18:32:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static int	validate_abs_path(t_sh *shell, int *abs_path)
+static int	validate_abs_path(t_sh *shell, int *abs_path, int env)
 {
 	struct stat	sb;
 	int			exists;
@@ -22,13 +22,15 @@ static int	validate_abs_path(t_sh *shell, int *abs_path)
 	path = shell->arg_list[0];
 	if (access(path, X_OK) == 0)
 		return (1);
-	else
+	else if (!env)
 	{
 		print_error_start(shell, 0);
 		exists = stat(path, &sb);
 		print_access_error(exists, sb);
 		return (0);
 	}
+	else
+		return (0);
 }
 
 static int	find_path(t_sh *shell, char **path_array, char **test_path)
@@ -64,7 +66,7 @@ static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 	return (1);
 }
 
-int	is_in_path(t_sh *shell, int *abs_path)
+int	is_in_path(t_sh *shell, int *abs_path, int env)
 {
 	char	*test_path;
 	char	**path_array;
@@ -72,7 +74,7 @@ int	is_in_path(t_sh *shell, int *abs_path)
 	int		idx;
 
 	if (ft_strchr(shell->arg_list[0], '/'))
-		return (validate_abs_path(shell, abs_path));
+		return (validate_abs_path(shell, abs_path, env));
 	idx = get_env_idx(shell, "PATH");
 	if (idx == -1)
 		return (0);
