@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 17:04:35 by amann             #+#    #+#             */
-/*   Updated: 2022/07/06 12:01:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:59:39 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void	handle_exit(t_sh *shell)
 	print_error_start(shell, 0);
 	ft_putstr_fd(shell->arg_list[1], STDERR_FD);
 	ft_putstr_fd(COLON, STDERR_FD);
-	ft_putstr_fd("numeric argument required\n", STDERR_FD);
+	ft_putstr_fd(NUMERIC_ARG_ERR, STDERR_FD);
 	exit(EXIT_FAILURE);
 }

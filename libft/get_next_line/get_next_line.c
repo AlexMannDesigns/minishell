@@ -6,17 +6,16 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 14:06:31 by amann             #+#    #+#             */
-/*   Updated: 2022/03/15 12:18:49 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 16:36:29 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_read_file(int fd, t_lines **lst)
+static int	read_file(int fd, t_lines **lst)
 {
 	int		ret;
 	char	buf[BUFF_SIZE + 1];
-	char	*temp;
 
 	ft_bzero(buf, BUFF_SIZE + 1);
 	ret = read(fd, buf, BUFF_SIZE);
@@ -24,15 +23,8 @@ static int	ft_read_file(int fd, t_lines **lst)
 	{
 		if (ret == -1)
 			return (-1);
-		if (!((*lst)->str))
-			(*lst)->str = ft_strdup(buf);
-		else
-		{
-			temp = ft_strdup((*lst)->str);
-			free((*lst)->str);
-			(*lst)->str = ft_strjoin(temp, buf);
-			free(temp);
-		}
+		if (!read_file_helper(lst, buf))
+			return (-1);
 		if (ft_strchr((*lst)->str, '\n'))
 			return (1);
 		ft_bzero(buf, BUFF_SIZE + 1);
@@ -41,10 +33,9 @@ static int	ft_read_file(int fd, t_lines **lst)
 	return (0);
 }
 
-static int	ft_set_line(char **line, t_lines **lst, int end)
+static int	set_line(char **line, t_lines **lst, int end)
 {
 	size_t	i;
-	char	*temp;
 
 	if (((*lst)->str && (end && ft_strlen((*lst)->str))) || !end)
 	{
@@ -57,11 +48,8 @@ static int	ft_set_line(char **line, t_lines **lst, int end)
 		ft_strncpy(*line, (*lst)->str, i);
 		if (!end)
 		{
-			temp = ft_strdup(ft_strchr((*lst)->str, '\n'));
-			free((*lst)->str);
-			(*lst)->str = ft_strdup(temp + 1);
-			free(temp);
-			return (1);
+			if (!set_line_helper(lst))
+				return (-1);
 		}
 		ft_strdel(&(*lst)->str);
 		return (1);
@@ -113,16 +101,16 @@ int	get_next_line(const int fd, char **line)
 	find_node(&my_list, fd, &front);
 	if (my_list->str && ft_strchr(my_list->str, '\n'))
 	{
-		ret_val = ft_set_line(line, &my_list, end);
+		ret_val = set_line(line, &my_list, end);
 		my_list = front;
 		return (ret_val);
 	}
-	read_res = ft_read_file(fd, &my_list);
+	read_res = read_file(fd, &my_list);
 	if (read_res == -1)
 		return (-1);
 	else if (!read_res)
 		end = 1;
-	ret_val = ft_set_line(line, &my_list, end);
+	ret_val = set_line(line, &my_list, end);
 	my_list = front;
 	return (ret_val);
 }

@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 14:26:23 by amann             #+#    #+#             */
-/*   Updated: 2022/03/15 12:19:01 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 16:27:48 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,6 @@ typedef struct a_list
 }					t_lines;
 
 int	get_next_line(const int fd, char **line);
+int	read_file_helper(t_lines **lst, char *buf);
+int	set_line_helper(t_lines **lst);
 #endif

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/07/08 17:14:37 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 11:44:53 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static char	*tilde_plus_minus(char **str, t_sh *shell)
 	int		idx;
 	char	*new_str;
 
-	new_str = NULL;
 	if ((*str)[1] == '+')
 	{
 		idx = get_env_idx(shell, "PWD");

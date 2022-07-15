@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:32:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 14:01:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,16 @@
 # define COLON ": "
 # define BUILTINS "cd echo env setenv unsetenv exit"
 
-/***** GLOBAL VARIABLES *****/
+/* ERROR MACROS */
 
-//extern char	**environ;
+# define CMD_NOT_FOUND "command not found\n"
+# define OBJ_NOT_FOUND "No such file or directory\n"
+# define CHILD_PROC_ERR "cannot create child process\n"
+# define NO_HOME_ERR "HOME not set\n"
+# define NO_OLDPWD_ERR "OLDPWD not set\n"
+# define NUMERIC_ARG_ERR "numeric argument required\n"
+# define NOT_A_DIR "Not a directory\n"
+# define PERMISSION_DENIED "Permission denied\n"
 
 /***** STRUCT PROTOTYPES *****/
 

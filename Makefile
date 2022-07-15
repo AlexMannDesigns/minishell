@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/07/14 17:54:42 by amann            ###   ########.fr        #
+#    Updated: 2022/07/15 11:13:55 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,19 +27,15 @@ LIB_DIR = libft/
 #rules
 all: $(NAME)
 
-$(NAME): libft_make compiling_msg $(OBJ)
-	@echo compiling minishell executable...
+$(NAME): libft/libft.a $(OBJ)
 	gcc -o $(NAME) $(OBJ) $(HEADER) -L $(LIB_DIR) -lft
 
-%.o: %.c
+%.o:%.c
 	gcc $(FLAGS) $(HEADER) -c $< -o $@
 
-libft_make:
+libft/libft.a:
 	@echo compiling libft...
 	@$(MAKE) -C $(LIB_DIR)
-
-compiling_msg:
-	@echo creating minishell objects...
 
 clean:
 	@echo deleting objects...
@@ -53,4 +49,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean re fclean libft_make
+.PHONY: all clean re fclean 

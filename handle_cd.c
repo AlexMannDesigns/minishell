@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:08:44 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:49:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	no_args(t_sh *shell)
 	if (idx == -1)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd("HOME not set\n", STDERR_FD);
+		ft_putstr_fd(NO_HOME_ERR, STDERR_FD);
 		return (0);
 	}
 	shell->arg_list[1] = ft_strdup(shell->env[idx] + 5);
@@ -44,7 +44,7 @@ static int	dash_arg(t_sh *shell)
 	if (i == -1)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd("OLDPWD not set\n", STDERR_FD);
+		ft_putstr_fd(NO_OLDPWD_ERR, STDERR_FD);
 		return (0);
 	}
 	else

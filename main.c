@@ -6,13 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:31:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 13:47:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-//hello
 
 void	free_mem(t_sh *sh)
 {
@@ -42,7 +40,7 @@ void	builtin_control(t_sh *shell)
 	else
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd("command not found\n", STDERR_FD);
+		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
 	}
 }
 
@@ -50,14 +48,16 @@ void	bin_control(t_sh *shell, pid_t pid)
 {
 	if (pid == -1)
 	{
-		ft_putstr_fd("minishell: cannot create child process\n", STDERR_FD);
+		print_error_start(shell, 0);
+		ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
 	{
 		if (execve(shell->arg_list[0], shell->arg_list, shell->env) == -1)
 		{
-			ft_putstr_fd("minishell: cannot create child process\n", STDERR_FD);
+			print_error_start(shell, 0);
+			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -81,7 +81,7 @@ int	shell_control(t_sh *shell, int is_env)
 	else if (!is_env && !abs_path)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd("command not found\n", STDERR_FD);
+		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
 		return (0);
 	}
 	else if (is_env && !abs_path)
