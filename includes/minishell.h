@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 14:01:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 16:51:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	concat_args(char *cli, char ***res, t_copy_args args);
 void	initialise_shell(t_sh **shell);
 
 /* main.c */
-void	builtin_control(t_sh *shell);
+void	builtin_control(t_sh *shell, int is_env);
 void	bin_control(t_sh *shell, pid_t pid);
 int		shell_control(t_sh *shell, int is_env);
 

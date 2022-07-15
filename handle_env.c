@@ -6,27 +6,17 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:31:20 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 16:51:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 /*
-BUGS:
-- if random junk passed as arg, incorrect error message is displayed
-
 env creates and environment for an executable to be run in
 when ran without args, it simply prints the environment variables
 arguments are passed as KEY=value pairs, and added to the current environment
 if the -i flag is passed, the environment will be made up of the args passed
 exclusively
-
-process plan:
-if only one arg in arg_list - print env and return
-otherwise, parse key=value pairs, add to environment, and fork/execve with
-remaining args as arg_list
-key=value pairs must be at least one char, then '=', then the value string,
-which can be blank
 */
 
 static int	i_flag_control(t_sh *shell, char *str)
@@ -114,7 +104,7 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 	if (!update_arg_list(shell, i))
 		return ;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
-		builtin_control(shell);
+		builtin_control(shell, TRUE);
 	else
 	{
 		temp = shell->env;

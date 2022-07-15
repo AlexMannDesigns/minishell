@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 13:47:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/15 16:50:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_mem(t_sh *sh)
 		ft_memdel((void **) &(sh->cli));
 }
 
-void	builtin_control(t_sh *shell)
+void	builtin_control(t_sh *shell, int is_env)
 {
 	int		func;
 	int		i;
@@ -39,8 +39,13 @@ void	builtin_control(t_sh *shell)
 		shell->builtin[func](shell);
 	else
 	{
-		print_error_start(shell, 0);
-		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
+		if (is_env)
+			print_env_error(shell);
+		else
+		{
+			print_error_start(shell, 0);
+			ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
+		}
 	}
 }
 
@@ -71,7 +76,7 @@ int	shell_control(t_sh *shell, int is_env)
 
 	abs_path = FALSE;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
-		builtin_control(shell);
+		builtin_control(shell, is_env);
 	else if (is_in_path(shell, &abs_path, FALSE))
 	{
 		pid = fork();
