@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/18 15:19:01 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/18 17:21:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	bin_control(t_sh *shell, pid_t pid)
 		{
 			print_error_start(shell, 0);
 			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
-			exit(EXIT_FAILURE);
 		}
 	}
 }

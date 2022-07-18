@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/18 15:03:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/18 16:06:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@
 
 /***** STRUCT PROTOTYPES *****/
 
-typedef void	(t_function)();
-
 typedef struct s_sh
 {
 	char		**arg_list;
@@ -68,6 +66,8 @@ typedef struct s_copy_args
 	size_t	len;
 	size_t	idx;
 }			t_copy_args;
+
+typedef void	(t_function)();
 
 typedef struct s_builtin_disp
 {

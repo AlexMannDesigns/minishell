@@ -6,14 +6,13 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/07/18 15:02:26 by amann            ###   ########.fr        #
+#    Updated: 2022/07/18 16:05:11 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #variables
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -ansi -std=c99 -pedantic -O3 -g
-#-fsanitize=address -g
 SRCS =  builtin_control.c check_user_dir.c count_quote_args.c create_arg_list.c	\
 		dollar_next_middle_start_end.c environment.c expand_tildes.c			\
 		expand_dollars.c handle_cd.c handle_echo.c handle_env.c handle_exit.c	\

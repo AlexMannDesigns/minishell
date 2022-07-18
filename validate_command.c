@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 18:32:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/18 17:22:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 	ft_strdel(&(shell->arg_list[0]));
 	ft_freearray((void ***) p_arr, ft_array_len(*p_arr));
 	shell->arg_list[0] = ft_strdup(t_path);
+	if (!shell->arg_list[0])
+		return (0);
 	free(t_path);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 17:04:35 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 13:59:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/18 17:26:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	handle_exit(t_sh *shell)
 	ft_putstr_fd(shell->arg_list[1], STDERR_FD);
 	ft_putstr_fd(COLON, STDERR_FD);
 	ft_putstr_fd(NUMERIC_ARG_ERR, STDERR_FD);
-	exit(EXIT_FAILURE);
+	exit(255);
 }
