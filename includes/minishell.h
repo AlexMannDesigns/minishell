@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 16:51:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/18 15:03:27 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 
 /***** STRUCT PROTOTYPES *****/
 
-typedef void	(*t_function)();
+typedef void	(t_function)();
 
 typedef struct s_sh
 {
@@ -58,8 +58,6 @@ typedef struct s_sh
 	char		**env;
 	char		*cli;
 	char		**history;
-	t_function	builtin[6];
-	char		*builtin_names[6];
 }				t_sh;
 
 typedef struct s_copy_args
@@ -71,7 +69,16 @@ typedef struct s_copy_args
 	size_t	idx;
 }			t_copy_args;
 
+typedef struct s_builtin_disp
+{
+	const char	*name;
+	t_function	*func;
+}				t_builtin_disp;
+
 /***** FUNCTION PROTOTYPES *****/
+
+/* builtin_control.c */
+void	builtin_control(t_sh *shell, int is_env);
 
 /* check_user_dir.c */
 int		check_users(char *str, size_t len);
@@ -126,7 +133,6 @@ void	concat_args(char *cli, char ***res, t_copy_args args);
 void	initialise_shell(t_sh **shell);
 
 /* main.c */
-void	builtin_control(t_sh *shell, int is_env);
 void	bin_control(t_sh *shell, pid_t pid);
 int		shell_control(t_sh *shell, int is_env);
 
