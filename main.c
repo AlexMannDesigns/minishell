@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/18 17:21:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/19 16:46:00 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_mem(t_sh *sh)
 	if (sh->arg_list)
 		ft_freearray((void ***) &(sh->arg_list), ft_array_len(sh->arg_list));
 	if (sh->cli)
-		ft_memdel((void **) &(sh->cli));
+		ft_strdel(&(sh->cli));
 }
 
 void	bin_control(t_sh *shell, pid_t pid)
