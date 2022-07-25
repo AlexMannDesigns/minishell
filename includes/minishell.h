@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:06:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:46:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define TRUE 1
 # define FALSE 0
 # define PROMPT "$> "
-# define STDIN_FD 1
-# define STDERR_FD 2
 # define MINISHELL "minishell"
 # define COLON ": "
 # define BUILTINS "cd echo env setenv unsetenv exit"

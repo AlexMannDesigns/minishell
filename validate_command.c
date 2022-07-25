@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:06:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:52:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static void	print_abs_path_err(t_sh *shell, int err_flag)
 	if (err_flag == 1)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(IS_A_DIR, STDERR_FD);
+		ft_putstr_fd(IS_A_DIR, STDERR_FILENO);
 	}
 	else if (err_flag == 2)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(IS_NOT_A_DIR, STDERR_FD);
+		ft_putstr_fd(IS_NOT_A_DIR, STDERR_FILENO);
 	}
 	else if (err_flag == 3)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(OBJ_NOT_FOUND, STDERR_FD);
+		ft_putstr_fd(OBJ_NOT_FOUND, STDERR_FILENO);
 	}
 }
 
@@ -109,7 +109,7 @@ int	is_in_path(t_sh *shell, int is_env)
 	if (!is_env)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
+		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
 	}
 	return (0);
 }

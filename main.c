@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 14:10:36 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:52:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	bin_control(t_sh *shell, pid_t pid)
 	if (pid == -1)
 	{
 		print_error_start(shell, 0);
-		ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
+		ft_putstr_fd(CHILD_PROC_ERR, STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
@@ -33,7 +33,7 @@ void	bin_control(t_sh *shell, pid_t pid)
 		if (execve(shell->arg_list[0], shell->arg_list, shell->env) == -1)
 		{
 			print_error_start(shell, 0);
-			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
+			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FILENO);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -68,7 +68,7 @@ int	main(void)
 	ft_putstr(PROMPT);
 	while (1)
 	{
-		new_line = get_next_line(STDIN_FD, &(shell->cli));
+		new_line = get_next_line(STDIN_FILENO, &(shell->cli));
 		if (new_line == 1 && shell->cli[0] && check_whitespaces(shell->cli))
 		{
 			if (parser_control(shell))

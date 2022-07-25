@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 14:38:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/18 16:03:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:47:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	builtin_control(t_sh *shell, int is_env)
 		else
 		{
 			print_error_start(shell, 0);
-			ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
+			ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
 		}
 	}
 }

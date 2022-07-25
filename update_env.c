@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:39:21 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:51:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ static int	check_valid_var_name(t_sh *shell, char *str, int is_env)
 	if (ft_isalpha(str[0]) || str[0] == '_')
 		return (1);
 	print_error_start(shell, 0);
-	ft_putstr_fd("\'", STDERR_FD);
-	ft_putstr_fd(str, STDERR_FD);
-	ft_putstr_fd("\'", STDERR_FD);
-	ft_putstr_fd(COLON, STDERR_FD);
-	ft_putstr_fd("not a valid identifier\n", STDERR_FD);
+	ft_putstr_fd("\'", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd("\'", STDERR_FILENO);
+	ft_putstr_fd(COLON, STDERR_FILENO);
+	ft_putstr_fd("not a valid identifier\n", STDERR_FILENO);
 	return (0);
 }
 
