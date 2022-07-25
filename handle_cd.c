@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 13:49:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:34:35 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void static	handle_cd_helper(t_sh *shell, int dash_flag)
 	int			exists;
 	char		cwd[PATH_MAX];
 
-	if (access(shell->arg_list[1], X_OK) == 0)
+	if (ft_is_dir(shell->arg_list[1]) && access(shell->arg_list[1], X_OK) == 0)
 	{
 		if (!change_directory(shell))
 			return ;

@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 14:52:18 by amann             #+#    #+#             */
-/*   Updated: 2022/03/15 13:03:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:39:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 /***** HEADER FILES *****/
 
 # include "../includes/libft.h"
-# include <stdarg.h>
-# include <limits.h>
 
 /***** MACROS *****/
 

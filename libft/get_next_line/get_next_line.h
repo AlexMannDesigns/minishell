@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 14:26:23 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 16:27:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:39:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define GET_NEXT_LINE_H
 
 # include "../includes/libft.h"
-# include <unistd.h>
-# include <stdlib.h>
 
 # define BUFF_SIZE 32
 

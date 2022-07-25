@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/20 11:24:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:10:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	bin_control(t_sh *shell, pid_t pid)
 		{
 			print_error_start(shell, 0);
 			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FD);
+			exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -42,24 +43,16 @@ int	shell_control(t_sh *shell, int is_env)
 {
 	pid_t	pid;
 	int		status;
-	int		abs_path;
 
-	abs_path = FALSE;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 		builtin_control(shell, is_env);
-	else if (is_in_path(shell, &abs_path, FALSE))
+	else if (is_in_path(shell, is_env))
 	{
 		pid = fork();
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
-	else if (!is_env && !abs_path)
-	{
-		print_error_start(shell, 0);
-		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FD);
-		return (0);
-	}
-	else if (is_env && !abs_path)
+	else if (is_env)
 		return (0);
 	return (1);
 }

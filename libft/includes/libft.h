@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 12:41:30 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:50:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:47:15 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdarg.h>
+# include <limits.h>
+# include <sys/stat.h>
 
 typedef struct s_list
 {
@@ -103,6 +106,8 @@ char		*ft_strndup(const char *s, size_t n);
 char		**ft_split_whitespace(const char *str);
 void		ft_print_array(char **arr);
 size_t		ft_array_len(char **arr);
+int			ft_is_dir(char *path);
+int			ft_is_valid_path(char *path);
 
 int			get_next_line(const int fd, char **line);
 int			ft_printf(const char *s, ...);

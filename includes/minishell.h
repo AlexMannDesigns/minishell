@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/18 16:06:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 15:06:43 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@
 
 # include "../libft/includes/libft.h"
 # include <dirent.h>
-# include <sys/wait.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/uio.h>
-
-# include <limits.h>
-//just for PATH_MAX in cd function... maybe define it myself...
 
 /***** MACROS *****/
 
@@ -45,7 +37,8 @@
 # define NO_HOME_ERR "HOME not set\n"
 # define NO_OLDPWD_ERR "OLDPWD not set\n"
 # define NUMERIC_ARG_ERR "numeric argument required\n"
-# define NOT_A_DIR "Not a directory\n"
+# define IS_NOT_A_DIR "Not a directory\n"
+# define IS_A_DIR "Is a directory\n"
 # define PERMISSION_DENIED "Permission denied\n"
 
 /***** STRUCT PROTOTYPES *****/
@@ -156,5 +149,5 @@ void	update_oldpwd(t_sh *shell);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(t_sh *shell, int *abs_path, int env);
+int		is_in_path(t_sh *shell, int is_env);
 #endif

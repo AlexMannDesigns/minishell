@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 11:10:41 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 13:58:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:23:16 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_access_error(int exists, struct stat sb)
 	if (exists == 0 && S_ISDIR(sb.st_mode))
 		ft_putstr_fd(PERMISSION_DENIED, STDERR_FD);
 	else if (exists == 0 && !S_ISDIR(sb.st_mode))
-		ft_putstr_fd(NOT_A_DIR, STDERR_FD);
+		ft_putstr_fd(IS_NOT_A_DIR, STDERR_FD);
 	else
 		ft_putstr_fd(OBJ_NOT_FOUND, STDERR_FD);
 }

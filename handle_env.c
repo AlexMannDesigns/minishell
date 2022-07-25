@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/15 16:51:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/25 14:22:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 	char	**temp;
 	pid_t	pid;
 	int		status;
-	int		abs;
 
-	abs = FALSE;
 	if (!update_arg_list(shell, i))
 		return ;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
@@ -109,7 +107,7 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 	{
 		temp = shell->env;
 		shell->env = orig_env;
-		if (is_in_path(shell, &abs, TRUE))
+		if (is_in_path(shell, TRUE))
 		{
 			shell->env = temp;
 			pid = fork();
