@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:46:43 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/26 16:35:28 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		check_whitespaces(char *s);
 int		get_env_idx(t_sh *shell, char *str);
 char	**copy_arr(char **arr);
 void	concat_args(char *cli, char ***res, t_copy_args args);
+size_t	name_length(char *str);
 
 /* initialise_shell.c */
 void	initialise_shell(t_sh **shell);
@@ -135,15 +136,25 @@ void	print_error_start(t_sh *shell, int idx);
 void	print_env_error(t_sh *shell);
 void	print_access_error(int exits, struct stat sb);
 
+/* print_header.c */
+void	print_header();
+
+/* tilde_var_assignment.c */
+int		tilde_variable_assignment(char **str, char *home);
+
 /* update_dollar_arg.c */
 int		update_arg(t_sh *shell, char **arg, int idx);
 
 /* update_env.c */
 int		add_new_env_var(t_sh *shell, char *str);
 int		update_env_control(t_sh *shell, size_t i, int is_env);
+int		update_existing_env(t_sh *shell, char *str, int env_idx);
 
 /* update_oldpwd.c */
 void	update_oldpwd(t_sh *shell);
+
+/* update_underscore.c */
+void	update_underscore(t_sh *shell, unsigned int start);
 
 /* validate_command.c */
 int		is_builtin(char *s);

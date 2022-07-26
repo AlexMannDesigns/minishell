@@ -6,11 +6,25 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/14 14:28:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/26 13:01:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+size_t	name_length(char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (str[len])
+	{
+		if (str[len] == '/' || str[len] == ':')
+			break ;
+		len++;
+	}
+	return (len);
+}
 
 void	concat_args(char *cli, char ***res, t_copy_args args)
 {

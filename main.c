@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:52:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/26 16:36:17 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,18 @@ int	shell_control(t_sh *shell, int is_env)
 	int		status;
 
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
+	{
+		update_underscore(shell, TRUE);
 		builtin_control(shell, is_env);
+	}
 	else if (is_in_path(shell, is_env))
 	{
+		update_underscore(shell, TRUE);
 		pid = fork();
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
-	else if (is_env)
+	else
 		return (0);
 	return (1);
 }
@@ -65,6 +69,7 @@ int	main(void)
 	initialise_shell(&shell);
 	if (!shell)
 		exit(EXIT_FAILURE);
+	print_header();
 	ft_putstr(PROMPT);
 	while (1)
 	{
@@ -73,6 +78,7 @@ int	main(void)
 		{
 			if (parser_control(shell))
 				shell_control(shell, FALSE);
+			update_underscore(shell, FALSE);
 		}
 		free_mem(shell);
 		ft_putstr(PROMPT);

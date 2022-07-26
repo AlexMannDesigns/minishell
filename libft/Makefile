@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/15 11:48:22 by amann             #+#    #+#              #
-#    Updated: 2022/07/25 14:47:34 by amann            ###   ########.fr        #
+#    Updated: 2022/07/26 13:02:08 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ LIB = $(LIB_DIR)ft_atoi.c $(LIB_DIR)ft_bzero.c $(LIB_DIR)ft_isalnum.c			\
 		$(LIB_DIR)ft_itoa_base.c $(LIB_DIR)ft_itoa_base_unsigned.c				\
 		$(LIB_DIR)ft_split_whitespace.c $(LIB_DIR)ft_array_len.c				\
 		$(LIB_DIR)ft_print_array.c $(LIB_DIR)ft_is_dir.c						\
-		$(LIB_DIR)ft_is_valid_path.c
+		$(LIB_DIR)ft_is_valid_path.c $(LIB_DIR)ft_string_insert.c
 GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)gnl_helpers.c
 PRF = $(PRF_DIR)conversion_control.c $(PRF_DIR)ft_printf.c $(PRF_DIR)set_flags.c\
 		$(PRF_DIR)print_result.c $(PRF_DIR)hash_flag.c $(PRF_DIR)flag_control.c	\

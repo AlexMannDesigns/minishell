@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:37:40 by amann             #+#    #+#             */
-/*   Updated: 2022/01/10 11:26:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/26 14:14:38 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	{
 		res[i] = s[start + i];
 		i++;
-	}	
+	}
 	res[i] = '\0';
 	return (res);
 }

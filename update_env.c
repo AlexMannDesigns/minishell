@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:51:22 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/26 15:36:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	get_equals_idx(char *str)
 	return (-1);
 }
 
-static int	update_existing_env(t_sh *shell, char *str, int env_idx)
+int	update_existing_env(t_sh *shell, char *str, int env_idx)
 {
 	ft_strdel(&(shell->env[env_idx]));
 	shell->env[env_idx] = ft_strdup(str);
