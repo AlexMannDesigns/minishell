@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 16:36:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 14:55:35 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	shell_control(t_sh *shell, int is_env)
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 	{
 		update_underscore(shell, TRUE);
-		builtin_control(shell, is_env);
+		builtin_control(shell);
 	}
 	else if (is_in_path(shell, is_env))
 	{

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 13:36:54 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 14:53:18 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,23 +101,18 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 
 	if (!update_arg_list(shell, i))
 		return ;
-	if (ft_strstr(BUILTINS, shell->arg_list[0]))
-		builtin_control(shell, TRUE);
-	else
+	temp = shell->env;
+	shell->env = orig_env;
+	if (is_in_path(shell, TRUE))
 	{
-		temp = shell->env;
-		shell->env = orig_env;
-		if (is_in_path(shell, TRUE))
-		{
-			shell->env = temp;
-			pid = fork();
-			bin_control(shell, pid);
-			waitpid(pid, &status, 0);
-		}
-		else
-			print_env_error(shell);
 		shell->env = temp;
+		pid = fork();
+		bin_control(shell, pid);
+		waitpid(pid, &status, 0);
 	}
+	else
+		print_env_error(shell);
+	shell->env = temp;
 }
 
 void	handle_env(t_sh *shell)

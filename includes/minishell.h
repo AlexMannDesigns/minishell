@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 16:35:28 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 14:55:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "../libft/includes/libft.h"
 # include <dirent.h>
+# include <sys/ioctl.h>
 
 /***** MACROS *****/
 
@@ -26,6 +27,8 @@
 # define MINISHELL "minishell"
 # define COLON ": "
 # define BUILTINS "cd echo env setenv unsetenv exit"
+# define CLEAR_SCREEN "\x1B[2J"
+# define POSITION_CURSOR "\033[%d;%dH"
 
 /* ERROR MACROS */
 
@@ -69,7 +72,7 @@ typedef struct s_builtin_disp
 /***** FUNCTION PROTOTYPES *****/
 
 /* builtin_control.c */
-void	builtin_control(t_sh *shell, int is_env);
+void	builtin_control(t_sh *shell);
 
 /* check_user_dir.c */
 int		check_users(char *str, size_t len);
@@ -137,7 +140,7 @@ void	print_env_error(t_sh *shell);
 void	print_access_error(int exits, struct stat sb);
 
 /* print_header.c */
-void	print_header();
+void	print_header(void);
 
 /* tilde_var_assignment.c */
 int		tilde_variable_assignment(char **str, char *home);
