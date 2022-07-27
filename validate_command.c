@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 13:27:39 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 17:47:26 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_abs_path_err(t_sh *shell, int err_flag)
 	}
 }
 
-static int	validate_abs_path(t_sh *shell, int is_env)
+static int	validate_abs_path(t_sh *shell, int is_env, int *err)
 {
 	int		err_flag;
 	char	*path;
@@ -47,7 +47,10 @@ static int	validate_abs_path(t_sh *shell, int is_env)
 	if (err_flag && !is_env)
 		print_abs_path_err(shell, err_flag);
 	if (err_flag)
+	{
+		*err = TRUE;
 		return (0);
+	}
 	return (1);
 }
 
@@ -86,15 +89,17 @@ static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 	return (1);
 }
 
-int	is_in_path(t_sh *shell, int is_env)
+int	is_in_path(t_sh *shell, int is_env, int *err)
 {
 	char	*test_path;
 	char	**path_array;
 	char	*path_start;
 	int		idx;
 
-	if (ft_strchr(shell->arg_list[0], '/'))
-		return (validate_abs_path(shell, is_env));
+	if (ft_strchr(shell->arg_list[0], '/')
+		|| ft_strequ(shell->arg_list[0], ".")
+		|| ft_strequ(shell->arg_list[0], ".."))
+		return (validate_abs_path(shell, is_env, err));
 	idx = get_env_idx(shell, "PATH");
 	if (idx == -1)
 		return (0);
@@ -106,10 +111,5 @@ int	is_in_path(t_sh *shell, int is_env)
 	if (find_path(shell, path_array, &test_path))
 		return (update_comm(shell, &path_array, test_path));
 	ft_freearray((void ***) &path_array, ft_array_len(path_array));
-	if (!is_env)
-	{
-		print_error_start(shell, 0);
-		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
-	}
 	return (0);
 }

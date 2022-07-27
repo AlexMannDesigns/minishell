@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 14:55:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 17:02:19 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_sh
 	char		**arg_list;
 	char		**env;
 	char		*cli;
-	char		**history;
 }				t_sh;
 
 typedef struct s_copy_args
@@ -129,7 +128,6 @@ void	initialise_shell(t_sh **shell);
 
 /* main.c */
 void	bin_control(t_sh *shell, pid_t pid);
-int		shell_control(t_sh *shell, int is_env);
 
 /* parser.c */
 int		parser_control(t_sh *shell);
@@ -161,5 +159,5 @@ void	update_underscore(t_sh *shell, unsigned int start);
 
 /* validate_command.c */
 int		is_builtin(char *s);
-int		is_in_path(t_sh *shell, int is_env);
+int		is_in_path(t_sh *shell, int is_env, int *err);
 #endif

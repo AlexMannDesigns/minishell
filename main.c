@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 14:55:35 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 17:04:42 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,30 @@ void	bin_control(t_sh *shell, pid_t pid)
 	}
 }
 
-int	shell_control(t_sh *shell, int is_env)
+static void	shell_control(t_sh *shell)
 {
 	pid_t	pid;
 	int		status;
+	int		err;
 
+	err = FALSE;
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 	{
 		update_underscore(shell, TRUE);
 		builtin_control(shell);
 	}
-	else if (is_in_path(shell, is_env))
+	else if (is_in_path(shell, FALSE, &err))
 	{
 		update_underscore(shell, TRUE);
 		pid = fork();
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
 	}
-	else
-		return (0);
-	return (1);
+	else if (!err)
+	{
+		print_error_start(shell, 0);
+		ft_putstr_fd(CMD_NOT_FOUND, STDERR_FILENO);
+	}
 }
 
 int	main(void)
@@ -77,7 +81,7 @@ int	main(void)
 		if (new_line == 1 && shell->cli[0] && check_whitespaces(shell->cli))
 		{
 			if (parser_control(shell))
-				shell_control(shell, FALSE);
+				shell_control(shell);
 			update_underscore(shell, FALSE);
 		}
 		free_mem(shell);

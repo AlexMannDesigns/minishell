@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 14:55:44 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 15:15:57 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/27 16:25:47 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,27 @@ static void	get_cols_rows(int *cols, int *rows)
 
 void	print_header_line(int row, int cols)
 {
-	char	header[60];
+	char	header[58];
 
 	if (row == 2)
 		ft_strcpy(header, \
 				" {yellow}/***************************************\\");
-	if (row == 3)
+	else if (row == 3)
 		ft_strcpy(header, \
 				"      __  ____            __       ____");
-	if (row == 4)
+	else if (row == 4)
 		ft_strcpy(header, \
 				"     /  |/  (_)__  (_)__ / /  ___ / / /{reset}");
-	if (row == 5)
+	else if (row == 5)
 		ft_strcpy(header, \
 				"\033[38:5:208m    / /|_/ / / _ \\/ (_-</ _ \\/ -_) / / {reset}");
-	if (row == 6)
+	else if (row == 6)
 		ft_strcpy(header, \
 				" {red}  /_/  /_/_/_//_/_/___/_//_/\\__/_/_/  {reset}");
-	if (row == 8)
-		ft_strcpy(header, "{yellow}         |...a shell program...|            {reset}");
-	if (row == 10)
+	else if (row == 8)
+		ft_strcpy(header, \
+				"{yellow}         |...a shell program...|            {reset}");
+	else if (row == 10)
 		ft_strcpy(header, \
 				"{red} \\*** developed by Alex Mann || amann ***/{reset}");
 	ft_printf(POSITION_CURSOR, row, cols / 2);
