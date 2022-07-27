@@ -3,9 +3,11 @@ My very own shell program.
 
 To deepen my understanding of Unix systems I have built a very basic implementation of a shell, using bash as a reference.
 
-To compile the program, simply run the command: "make; make clean". You can then run the program with: "./minishell".
+To compile and run the program, simply run the following command. Please note, this program runs best on MacOS: 
 
-<img width="1025" alt="Screen Shot 2022-07-27 at 3 32 24 PM" src="https://user-images.githubusercontent.com/69106035/181247816-7545d6bf-5dfb-4c48-a9a1-4390f96e1e46.png">
+```
+make; make clean; ./minishell
+```
 
 You'll then be greeted with a title, and will be able to run commands as you would in a "normal" Unix shell:
 
@@ -24,4 +26,8 @@ The following built-in functions are supported:
   - exit (exits the shell)
 ```
 
-Simple tilde (~) and dollar ($) expansions are supported, as can be seen in the above screenshot.
+Beyond those built-in functions, any other command you attempt to run will be searched for in the $PATH environment variable, and if it can't be found an error message will be returned:
+
+<img width="1025" alt="Screen Shot 2022-07-27 at 3 53 39 PM" src="https://user-images.githubusercontent.com/69106035/181251724-26d7f984-33a4-480a-a8e4-a075c5ca5d74.png">
+
+Simple tilde `~` and dollar `$` expansions are supported, as can be seen in the 1st screenshot.
