@@ -26,7 +26,7 @@ The following built-in functions are supported:
   - exit (exits the shell)
 ```
 
-Beyond those built-in functions, any other command you attempt to run will be searched for in the $PATH environment variable, and if it can't be found an error message will be returned:
+Beyond those built-in functions, any other command you attempt to run will be searched for in the `$PATH` environment variable, and if it can't be found an error message will be printed and the prompt returned:
 
 <img width="1025" alt="Screen Shot 2022-07-27 at 3 53 39 PM" src="https://user-images.githubusercontent.com/69106035/181251724-26d7f984-33a4-480a-a8e4-a075c5ca5d74.png">
 
