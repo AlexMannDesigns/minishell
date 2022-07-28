@@ -6,18 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 17:08:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:33:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-/*
-env creates and environment for an executable to be run in
-when ran without args, it simply prints the environment variables
-arguments are passed as KEY=value pairs, and added to the current environment
-if the -i flag is passed, the environment will be made up of the args passed
-exclusively
-*/
 
 static int	i_flag_control(t_sh *shell, char *str)
 {
@@ -66,7 +59,7 @@ static int	env_parser(t_sh *shell, size_t *i, int *i_flag)
 	return (1);
 }
 
-int	update_arg_list(t_sh *shell, size_t i)
+static int	update_arg_list(t_sh *shell, size_t i)
 {
 	char	**new_arg_list;
 	size_t	j;

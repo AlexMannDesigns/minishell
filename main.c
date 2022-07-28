@@ -6,19 +6,33 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 12:00:06 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:44:27 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	free_mem(t_sh *sh)
+static int	parser_control(t_sh *shell)
+{
+	shell->arg_list = create_arg_list(shell->cli);
+	if (!shell->arg_list || !shell->arg_list[0])
+		return (0);
+	if (ft_strchr(shell->cli, '~'))
+		expand_tildes(shell);
+	if (ft_strchr(shell->cli, '$'))
+		expand_dollars(shell);
+	return (1);
+}
+
+static void	free_mem(t_sh *sh)
 {
 	if (sh->arg_list)
 		ft_freearray((void ***) &(sh->arg_list), ft_array_len(sh->arg_list));
 	if (sh->cli)
 		ft_strdel(&(sh->cli));
 }
+
+/* also called in handle_env.c */
 
 void	bin_control(t_sh *shell, pid_t pid)
 {

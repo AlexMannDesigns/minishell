@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:14:40 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 15:25:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:17:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	find_next_dollar(char **arg, int i)
 		next_dollar++;
 	return (next_dollar);
 }
+
+/* non-static func also called in expand_dollars.c */
 
 int	dollar_at_start(char **arg, char *exp)
 {

@@ -6,21 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:56:15 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 15:02:48 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:28:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-size_t	var_name_len(char *dollar)
-{
-	size_t	len;
-
-	len = 0;
-	while (dollar[len] && dollar[len] != '$')
-		len++;
-	return (len);
-}
 
 static int	expand_dollar_helper(t_sh *shell, int arg_idx, int env_idx)
 {

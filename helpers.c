@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 15:33:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 13:01:09 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:07:01 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,23 @@ size_t	name_length(char *str)
 	return (len);
 }
 
+/* ft_strjoin does not need malloc protection because other pointers
+ * are freed regardless */
+
 void	concat_args(char *cli, char ***res, t_copy_args args)
 {
 	char		*temp;
 	char		*temp2;
 
 	temp = copy_args_helper(cli, args);
+	if (!temp)
+		return ;
 	temp2 = ft_strdup((*res)[args.idx]);
+	if (!temp2)
+	{
+		free(temp);
+		return ;
+	}
 	ft_strdel(&((*res)[args.idx]));
 	(*res)[args.idx] = ft_strjoin(temp2, temp);
 	ft_strdel(&temp);
@@ -88,7 +98,8 @@ int	get_env_idx(t_sh *shell, char *str)
 	str_plus_equals = ft_strjoin(str, "=");
 	if (!str_plus_equals || !shell->env)
 	{
-		ft_strdel(&str_plus_equals);
+		if (str_plus_equals)
+			ft_strdel(&str_plus_equals);
 		return (-1);
 	}
 	len = ft_strlen(str_plus_equals);

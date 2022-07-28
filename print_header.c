@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 14:55:44 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 12:04:17 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:45:21 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,31 @@ static void	get_cols_rows(int *cols, int *rows)
 	*rows = window.ws_row;
 }
 
-void	print_header_line(int row, int cols)
+static void	print_header_line(int row, int cols)
 {
 	char	header[58];
 
 	if (row == 2)
-		ft_strcpy(header, HEADER_LINE_2);
+		ft_strcpy(header, \
+			" {yellow}/***************************************\\");
 	else if (row == 3)
-		ft_strcpy(header, HEADER_LINE_3);
+		ft_strcpy(header, \
+			"      __  ____            __       ____");
 	else if (row == 4)
-		ft_strcpy(header, HEADER_LINE_4);
+		ft_strcpy(header, \
+			"     /  |/  (_)__  (_)__ / /  ___ / / /{reset}");
 	else if (row == 5)
-		ft_strcpy(header, HEADER_LINE_5);
+		ft_strcpy(header, \
+			"\033[38:5:208m    / /|_/ / / _ \\/ (_-</ _ \\/ -_) / / {reset}");
 	else if (row == 6)
-		ft_strcpy(header, HEADER_LINE_6);
+		ft_strcpy(header, \
+			" {red}  /_/  /_/_/_//_/_/___/_//_/\\__/_/_/  {reset}");
 	else if (row == 8)
-		ft_strcpy(header, HEADER_LINE_8);
+		ft_strcpy(header, \
+			"{yellow}         |...a shell program...|            {reset}");
 	else if (row == 10)
-		ft_strcpy(header, HEADER_LINE_10);
+		ft_strcpy(header, \
+			"{red} \\*** developed by Alex Mann || amann ***/{reset}");
 	ft_printf(POSITION_CURSOR, row, cols / 2);
 	ft_printf(header);
 }

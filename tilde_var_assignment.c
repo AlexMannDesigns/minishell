@@ -6,13 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:49:40 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 13:42:25 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:47:31 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static int	tilde_var_assignment_helper(char **str, int i, char *home)
+static void	tilde_var_assignment_helper(char **str, int i, char *home)
 {
 	char	*temp;
 	int		user_exists;
@@ -32,7 +32,6 @@ static int	tilde_var_assignment_helper(char **str, int i, char *home)
 		*str = ft_strdup(temp);
 		ft_strdel(&temp);
 	}
-	return (1);
 }
 
 int	tilde_variable_assignment(char **str, char *home)

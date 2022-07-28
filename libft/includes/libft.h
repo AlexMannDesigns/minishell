@@ -6,19 +6,22 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 12:41:30 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 11:46:35 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 14:05:08 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <string.h>
+/***** EXTERNAL HEADERS *****/
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
 # include <limits.h>
 # include <sys/stat.h>
+
+/***** STRUCT PROTOTYPES *****/
 
 typedef struct s_list
 {
@@ -26,6 +29,8 @@ typedef struct s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+/***** FUNCTION PROTOTYPES *****/
 
 /* memory functions */
 void		*ft_memset(void *b, int c, size_t len);

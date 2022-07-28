@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 12:04:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 15:59:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@
 
 # define CLEAR_SCREEN "\x1B[2J"
 # define POSITION_CURSOR "\033[%d;%dH"
-# define HEADER_LINE_2 " {yellow}/***************************************\\"
-# define HEADER_LINE_3 "      __  ____            __       ____"
-# define HEADER_LINE_4 "     /  |/  (_)__  (_)__ / /  ___ / / /{reset}"
-# define HEADER_LINE_5 "\033[38:5:208m    / /|_/ / / _ \\/ (_-</ _ \\/ -_) / / {reset}"
-# define HEADER_LINE_6 " {red}  /_/  /_/_/_//_/_/___/_//_/\\__/_/_/  {reset}"
-# define HEADER_LINE_8 "{yellow}         |...a shell program...|            {reset}"
-# define HEADER_LINE_10 "{red} \\*** developed by Alex Mann || amann ***/{reset}"
 
 /* ERROR MACROS */
 
@@ -101,12 +94,8 @@ char	**create_arg_list(char *cli);
 int		dollar_in_middle(char **arg, char *exp, int i);
 int		dollar_at_start(char **arg, char *exp);
 
-/* environment.c */
-char	**get_env(void);
-
 /* expand_dollars.c */
 void	expand_dollars(t_sh *shell);
-size_t	var_name_len(char *dollar);
 
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);
@@ -114,22 +103,16 @@ void	expand_tildes(t_sh *shell);
 /* handle_cd.c */
 void	handle_cd(t_sh *shell);
 
-/* handle_echo.c */
+/* handle_echo_exit.c */
 void	handle_echo(t_sh *shell);
+void	handle_exit(t_sh *shell);
 
 /* handle_env.c */
 void	handle_env(t_sh *shell);
 
-/* handle_exit.c */
-void	handle_exit(t_sh *shell);
-
 /* handle_setenv.c */
 void	handle_setenv(t_sh *shell);
 void	handle_unsetenv(t_sh *shell);
-
-/* handle_quotes.c */
-char	**handle_quotes(char *cli);
-char	*copy_args_helper(char *cli, t_copy_args args);
 
 /* helpers.c */
 int		check_whitespaces(char *s);
@@ -138,14 +121,17 @@ char	**copy_arr(char **arr);
 void	concat_args(char *cli, char ***res, t_copy_args args);
 size_t	name_length(char *str);
 
+/* helpers2.c */
+char	*copy_args_helper(char *cli, t_copy_args args);
+size_t	var_name_len(char *dollar);
+int		add_new_env_var(t_sh *shell, char *str);
+int		update_existing_env(t_sh *shell, char *str, int env_idx);
+
 /* initialise_shell.c */
 void	initialise_shell(t_sh **shell);
 
 /* main.c */
 void	bin_control(t_sh *shell, pid_t pid);
-
-/* parser.c */
-int		parser_control(t_sh *shell);
 
 /* print_error.c */
 void	print_error_start(t_sh *shell, int idx);
@@ -162,9 +148,7 @@ int		tilde_variable_assignment(char **str, char *home);
 int		update_arg(t_sh *shell, char **arg, int idx);
 
 /* update_env.c */
-int		add_new_env_var(t_sh *shell, char *str);
 int		update_env_control(t_sh *shell, size_t i, int is_env);
-int		update_existing_env(t_sh *shell, char *str, int env_idx);
 
 /* update_oldpwd.c */
 void	update_oldpwd(t_sh *shell);
