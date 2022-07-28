@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:54:45 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 16:30:00 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 11:56:21 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static size_t	get_len(char *cli, t_copy_args *args)
 		if (cli[args->cursor + len] == quote_type)
 			args->quotes_flag = TRUE;
 	}
-	else if (cli[args->cursor] != ' ')
+	else if (!ft_iswhitespace(cli[args->cursor]))
 	{
-		while (cli[args->cursor + len] && cli[args->cursor + len] != ' ')
+		while (cli[args->cursor + len] && !ft_iswhitespace(cli[args->cursor + len]))
 			len++;
 	}
 	return (len);
@@ -73,7 +73,7 @@ static void	copy_args(char ***res, char *cli)
 	args.concat = 0;
 	while (cli[args.cursor])
 	{
-		if (cli[args.cursor] != ' ')
+		if (!ft_iswhitespace(cli[args.cursor]))
 		{
 			args.quotes_flag = FALSE;
 			args.len = get_len(cli, &args);

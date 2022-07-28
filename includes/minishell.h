@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/27 17:02:19 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 12:04:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 
 /***** HEADER FILES *****/
 
+/* most external headers are included in libft */
 # include "../libft/includes/libft.h"
+
+/* dirent is needed to check the user directory */
 # include <dirent.h>
+
+/* ioctl is needed to center my header in the terminal window */
 # include <sys/ioctl.h>
 
 /***** MACROS *****/
@@ -27,8 +32,18 @@
 # define MINISHELL "minishell"
 # define COLON ": "
 # define BUILTINS "cd echo env setenv unsetenv exit"
+
+/* HEADER MACROS */
+
 # define CLEAR_SCREEN "\x1B[2J"
 # define POSITION_CURSOR "\033[%d;%dH"
+# define HEADER_LINE_2 " {yellow}/***************************************\\"
+# define HEADER_LINE_3 "      __  ____            __       ____"
+# define HEADER_LINE_4 "     /  |/  (_)__  (_)__ / /  ___ / / /{reset}"
+# define HEADER_LINE_5 "\033[38:5:208m    / /|_/ / / _ \\/ (_-</ _ \\/ -_) / / {reset}"
+# define HEADER_LINE_6 " {red}  /_/  /_/_/_//_/_/___/_//_/\\__/_/_/  {reset}"
+# define HEADER_LINE_8 "{yellow}         |...a shell program...|            {reset}"
+# define HEADER_LINE_10 "{red} \\*** developed by Alex Mann || amann ***/{reset}"
 
 /* ERROR MACROS */
 

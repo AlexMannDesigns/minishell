@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 18:09:26 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 18:13:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 11:50:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ size_t	count_quote_args(char *cli)
 	i = 0;
 	while (cli[i])
 	{
-		if (cli[i] == '\"' || cli[i] == '\'' || cli[i] != ' ')
+		if (cli[i] == '\"' || cli[i] == '\'' || !ft_iswhitespace(cli[i]))
 		{
 			if (cli[i] == '\"' || cli[i] == '\'')
 				next_quote(cli, &i);
 			else
 			{
-				while (cli[i] && cli[i] != ' ')
+				while (cli[i] && !ft_iswhitespace(cli[i]))
 					i++;
 			}
 			arg_count++;
