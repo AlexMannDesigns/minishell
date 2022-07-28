@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:44:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/07/28 16:28:33 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	main(void)
 	if (!shell)
 		exit(EXIT_FAILURE);
 	print_header();
+	print_numbers(5);
 	ft_putstr(PROMPT);
 	while (1)
 	{
