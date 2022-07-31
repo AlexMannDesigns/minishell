@@ -3,7 +3,7 @@ My very own shell program.
 
 To deepen my understanding of Unix systems I have built a very basic implementation of a shell, using bash as a reference.
 
-To compile and run the program, simply run the following command. Please note, this program runs best on MacOS: 
+To compile and run the program, simply run the following command. This program runs best on MacOS but is also compatible with Linux systems.
 
 ```
 make; make clean; ./minishell
