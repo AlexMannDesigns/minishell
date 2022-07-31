@@ -12,7 +12,15 @@
 
 #variables
 NAME = libft.a
-FLAGS = -Wall -Wextra -Werror -ansi -pedantic -std=c99 -O3
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3 -D_DEFAULT_SOURCE
+endif
+ifeq ($(U_NAME_S), Darwin)
+	FLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -O3
+endif
+
 LIB =  ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c	\
 		ft_islower.c ft_lstiter.c ft_memcpy.c ft_memcmp.c ft_itoa.c ft_lstadd.c	\
 		ft_lstdel.c ft_lstdelone.c ft_isprint.c	ft_lstmap.c ft_lstnew.c			\

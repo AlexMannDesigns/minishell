@@ -12,9 +12,9 @@
 
 #include "includes/minishell.h"
 
-const static t_builtin_disp	*get_builtin_disp(void)
+static const t_builtin_disp	*get_builtin_disp(void)
 {
-	const static t_builtin_disp	dispatch_table[] = {
+	static const t_builtin_disp	dispatch_table[] = {
 	{"cd", &handle_cd},
 	{"echo", &handle_echo},
 	{"env", &handle_env},

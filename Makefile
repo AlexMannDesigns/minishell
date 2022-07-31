@@ -20,7 +20,7 @@ SRCS =  builtin_control.c check_user_dir.c count_quote_args.c create_arg_list.c	
 		print_header.c tilde_var_assignment.c update_dollar_arg.c update_env.c	\
 		update_oldpwd.c update_underscore.c validate_command.c 
 OBJ = $(SRCS:%.c=%.o)
-HEADER = -I includes/minishell.h
+HEADER = -I includes/
 LIB_DIR = libft/
 
 #rules

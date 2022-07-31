@@ -17,7 +17,7 @@ static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
 	char	*temp2;
 	char	*temp3;
 
-	if (*arg + i + len + 1 == '\0')
+	if ((*arg)[i + len + 1] == '\0')
 		return (1);
 	*temp = ft_strndup(*arg, i);
 	if (!(*temp))

@@ -85,7 +85,6 @@ int	main(void)
 	if (!shell)
 		exit(EXIT_FAILURE);
 	print_header();
-	print_numbers(5);
 	ft_putstr(PROMPT);
 	while (1)
 	{

@@ -64,8 +64,10 @@ static int	change_directory(t_sh *shell)
 	char	*str;
 
 	update_oldpwd(shell);
-	chdir(shell->arg_list[1]);
-	getcwd(cwd, sizeof(cwd));
+	if (chdir(shell->arg_list[1]))
+		return (0);
+	if (!getcwd(cwd, sizeof(cwd)))
+		return (0);
 	i = get_env_idx(shell, "PWD");
 	if (i != -1)
 	{
@@ -85,7 +87,7 @@ static int	change_directory(t_sh *shell)
 	return (1);
 }
 
-void static	handle_cd_helper(t_sh *shell, int dash_flag)
+static void	handle_cd_helper(t_sh *shell, int dash_flag)
 {
 	struct stat	sb;
 	int			exists;

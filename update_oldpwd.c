@@ -47,8 +47,6 @@ static int	create_oldpwd(t_sh *shell, char *cwd)
 		if (!copy_env_to_new(shell, new_env))
 			return (0);
 	}
-	if (cwd)
-		;
 	new_env[len] = ft_strjoin("OLDPWD=", cwd);
 	shell->env = new_env;
 	return (1);
@@ -59,7 +57,8 @@ void	update_oldpwd(t_sh *shell)
 	int		i;
 	char	cwd[PATH_MAX];
 
-	getcwd(cwd, sizeof(cwd));
+	if (!getcwd(cwd, sizeof(cwd)))
+		return ;
 	i = get_env_idx(shell, "OLDPWD");
 	if (i == -1)
 	{

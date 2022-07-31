@@ -24,6 +24,19 @@
 /* ioctl is needed to center my header in the terminal window */
 # include <sys/ioctl.h>
 
+#ifdef __linux__
+
+/* needed on linux for pid_t datatype */ 
+# include <sys/types.h>
+
+/* needed for PATH_MAX */
+# include <linux/limits.h>
+
+/* needed for waitpid, as it's not linked in stdlib.h on linux */
+# include <sys/wait.h>
+
+#endif
+
 /***** MACROS *****/
 
 # define TRUE 1
