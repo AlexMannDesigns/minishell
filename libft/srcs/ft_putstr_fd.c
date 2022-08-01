@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/11 15:31:24 by amann             #+#    #+#             */
-/*   Updated: 2022/07/07 17:55:57 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 11:14:09 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void	ft_putstr_fd(char const *s, int fd)
 		return ;
 	if (write(fd, s, ft_strlen(s)))
 	{
-		;
+		return ;
 	}
 }

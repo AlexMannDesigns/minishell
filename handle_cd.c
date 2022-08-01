@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/07/25 15:48:58 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 11:11:59 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ static int	change_directory(t_sh *shell)
 	char	*str;
 
 	update_oldpwd(shell);
-	if (chdir(shell->arg_list[1]))
-		return (0);
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (chdir(shell->arg_list[1]) || !getcwd(cwd, sizeof(cwd)))
 		return (0);
 	i = get_env_idx(shell, "PWD");
 	if (i != -1)

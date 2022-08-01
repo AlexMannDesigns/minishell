@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:59:12 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 11:34:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@
 /* ioctl is needed to center my header in the terminal window */
 # include <sys/ioctl.h>
 
-#ifdef __linux__
+# ifdef __linux__
 
-/* needed on linux for pid_t datatype */ 
-# include <sys/types.h>
+/* needed on linux for pid_t datatype */
+#  include <sys/types.h>
 
-/* needed for PATH_MAX */
-# include <linux/limits.h>
+/* needed for PATH_MAX, as this is not defined in limits.h on linux */
+#  include <linux/limits.h>
 
-/* needed for waitpid, as it's not linked in stdlib.h on linux */
-# include <sys/wait.h>
+/* needed for waitpid, on mac this is linked in stdib.h */
+#  include <sys/wait.h>
 
-#endif
+# endif
 
 /***** MACROS *****/
 
