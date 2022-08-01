@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 11:11:59 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 13:18:32 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,24 @@ static void	handle_cd_helper(t_sh *shell, int dash_flag)
 
 void	handle_cd(t_sh *shell)
 {
-	int		dash_flag;
+	int	dash_flag;
+	int	no_args_flag;
 
-	dash_flag = 0;
+	dash_flag = FALSE;
+	no_args_flag = FALSE;
 	if (ft_array_len(shell->arg_list) == 1)
 	{
+		no_args_flag = TRUE;
 		if (!no_args(shell))
 			return ;
 	}
 	else if (ft_strcmp(shell->arg_list[1], "-") == 0)
 	{
-		dash_flag = 1;
+		dash_flag = TRUE;
 		if (!dash_arg(shell))
 			return ;
 	}
 	handle_cd_helper(shell, dash_flag);
+	if (no_args_flag)
+		ft_strdel(shell->arg_list + 1);
 }

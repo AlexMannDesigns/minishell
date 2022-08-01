@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 16:28:33 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 13:42:34 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static void	shell_control(t_sh *shell)
 	int		err;
 
 	err = FALSE;
+	update_underscore(shell, TRUE);
 	if (ft_strstr(BUILTINS, shell->arg_list[0]))
 		builtin_control(shell);
 	else if (is_in_path(shell, FALSE, &err))
 	{
-		update_underscore(shell, TRUE);
 		pid = fork();
 		bin_control(shell, pid);
 		waitpid(pid, &status, 0);
@@ -81,10 +81,10 @@ int	main(void)
 	int		new_line;
 	t_sh	*shell;
 
+	print_header();
 	initialise_shell(&shell);
 	if (!shell)
 		exit(EXIT_FAILURE);
-	print_header();
 	ft_putstr(PROMPT);
 	while (1)
 	{

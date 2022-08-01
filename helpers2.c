@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:10:39 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:58:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/01 13:42:29 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	update_existing_env(t_sh *shell, char *str, int env_idx)
 {
+	if (!str || !shell->env[env_idx])
+		return (0);
 	ft_strdel(&(shell->env[env_idx]));
 	shell->env[env_idx] = ft_strdup(str);
 	if (!shell->env[env_idx])
@@ -29,6 +31,8 @@ int	add_new_env_var(t_sh *shell, char *str)
 	size_t	j;
 	char	**new_env;
 
+	if (!str)
+		return (0);
 	len = ft_array_len(shell->env);
 	new_env = (char **) ft_memalloc(sizeof(char *) * (len + 2));
 	if (!new_env)
