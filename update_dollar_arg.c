@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:10:14 by amann             #+#    #+#             */
-/*   Updated: 2022/07/13 15:38:12 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/04 15:25:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
 	char	*temp2;
 	char	*temp3;
 
-	if ((*arg)[i + len + 1] == '\0')
-		return (1);
 	*temp = ft_strndup(*arg, i);
 	if (!(*temp))
 		return (0);
@@ -30,6 +28,13 @@ static int	remove_invalid_env(char **arg, size_t len, int i, char **temp)
 	*temp = temp3;
 	return (1);
 }
+
+/* We enter this function if an invalid dollar expansion was followed
+ * immediately by a dollar sign. In this scenario, we must check if what
+ * follows is a valid variable name or not.
+ * We must also be mindful that what preceded the invalid expansion is not
+ * lost as well.
+ * */
 
 static int	handle_remaining_arg(size_t len, int i, char **arg, t_sh *shell)
 {
@@ -59,35 +64,69 @@ static int	handle_remaining_arg(size_t len, int i, char **arg, t_sh *shell)
 	return (1);
 }
 
-static int	fix_up_arg_list(t_sh *shell, int idx)
+static void	fix_arg_list_loop(t_sh *shell, int idx, char ***new_argl)
 {
-	char	**new_arg_list;
-	size_t	len;
 	int		i;
 	int		j;
 
-	len = ft_array_len(shell->arg_list);
-	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
-	if (!new_arg_list)
-		return (0);
 	i = 0;
 	j = 0;
-	while (shell->arg_list[i])
+	while (shell->arg_list[j])
 	{
 		if (j != idx)
 		{
-			new_arg_list[i] = shell->arg_list[j];
+			(*new_argl)[i] = ft_strdup(shell->arg_list[j]);
+			if (!(*new_argl)[i])
+			{
+				ft_freearray((void ***) new_argl, ft_array_len(*new_argl));
+				return ;
+			}
 			i++;
 			j++;
 		}
 		else
 			j++;
 	}
+}
+
+/* If we are removing an entire arg from our arg_list because it contains an
+ * invalid dollar expansion and nothing else, we need to move the rest of the
+ * args down one spot to avoid them getting lost behind a NULL ptr.
+ * We then create a new array pointer and copy the args into it, sans the arg
+ * we are removing. We must then free our original array ptr and all its
+ * indicies.
+ * */
+
+static int	fix_up_arg_list(t_sh *shell, int idx)
+{
+	char	**new_arg_list;
+	size_t	len;
+
+	len = ft_array_len(shell->arg_list);
+	new_arg_list = (char **) ft_memalloc(sizeof(char *) * len);
+	if (!new_arg_list)
+		return (0);
+	fix_arg_list_loop(shell, idx, &new_arg_list);
+	if (!new_arg_list)
+		return (0);
+	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = new_arg_list;
 	return (1);
 }
 
-int	update_arg(t_sh *shell, char **arg, int idx)
+/* We arrive at this function if we have tried to expand a variable that does
+ * not exist in the environment. This must be removed from the string.
+ * First, we need to find if there are any further $ which will need to be
+ * expanded in future iterations. If there are not, we can just delete the
+ * string and set it to NULL.
+ * In this case, we must also check if we are at the end of the arg list, if
+ * not, the remaining args must all shuffle down one spot to avoid them
+ * getting lost behind a NULL ptr.
+ * Otherwise we must save the remainder, delete the string, then set the
+ * string to the start of the remainder.
+ * */
+
+int	update_dollar_arg(t_sh *shell, char **arg, int idx)
 {
 	size_t	len;
 	int		i;
@@ -98,9 +137,12 @@ int	update_arg(t_sh *shell, char **arg, int idx)
 	if ((*arg)[i] == '\0')
 	{
 		if (shell->arg_list[idx + 1] != NULL)
+		{
 			if (!fix_up_arg_list(shell, idx))
 				return (0);
-		ft_strdel(arg);
+		}
+		else
+			ft_strdel(arg);
 	}
 	else
 	{

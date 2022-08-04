@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 11:34:51 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/04 13:46:30 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	print_header(void);
 int		tilde_variable_assignment(char **str, char *home);
 
 /* update_dollar_arg.c */
-int		update_arg(t_sh *shell, char **arg, int idx);
+int		update_dollar_arg(t_sh *shell, char **arg, int idx);
 
 /* update_env.c */
 int		update_env_control(t_sh *shell, size_t i, int is_env);
