@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:12:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/04 18:14:30 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ static size_t	get_len(char *cli, t_copy_args *args)
 	{
 		while (cli[args->cursor + len]
 			&& !ft_iswhitespace(cli[args->cursor + len]))
+		{
+			if (cli[args->cursor + len] == '\"' || cli[args->cursor + len] == '\'')
+				break ;
 			len++;
+		}
 	}
 	return (len);
 }
@@ -56,6 +60,11 @@ static void	move_cursor(char *cli, t_copy_args *args)
 		args->idx++;
 	}
 }
+
+/* a basic struct is being used here to keep the number of args passed between
+ * functions to a minimum.
+ *
+ */
 
 static void	copy_args(char ***res, char *cli)
 {
@@ -86,12 +95,24 @@ static void	copy_args(char ***res, char *cli)
 	}
 }
 
+/* a very basic implementation of quote handling is present here.
+ * Every time we hit a quote, we iterate through to the next matching
+ * quote, interpreting everything in between literally.
+ * If there is no matching quote, the end of the string becomes the end of
+ * the last arg.
+ *
+ * On that basis, we count the total number of args at this point, and
+ * allocate an array of pointers of that size.
+ */
+
 static char	**handle_quotes(char *cli)
 {
 	size_t	arg_count;
 	char	**res;
 
+	ft_putendl("here");
 	arg_count = count_quote_args(cli);
+	ft_printf("%zu\n", arg_count);
 	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));
 	if (!res)
 		return (NULL);
@@ -100,6 +121,10 @@ static char	**handle_quotes(char *cli)
 		return (NULL);
 	return (res);
 }
+
+/* If our string contains quotes (" or ') we need a special parsing process
+ * otherwise, ft_split_whitespaces will suffice to create our arg list
+ */
 
 char	**create_arg_list(char *cli)
 {
