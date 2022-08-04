@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 16:33:46 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 13:07:16 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/04 11:47:28 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	update_underscore(t_sh *shell, unsigned int start)
 	char	*temp;
 	size_t	len;
 
-	len = ft_array_len(shell->arg_list) - 1;
+	len = ft_array_len(shell->arg_list);
+	if (len == 0)
+		return ;
+	len -= 1;
 	if (!start && len == 0)
 	{
 		temp = copy_first_word(shell->cli);

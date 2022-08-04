@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 13:42:34 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/04 11:40:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	parser_control(t_sh *shell)
 		expand_tildes(shell);
 	if (ft_strchr(shell->cli, '$'))
 		expand_dollars(shell);
+	if (ft_array_len(shell->arg_list) == 0)
+		return (0);
 	return (1);
 }
 
