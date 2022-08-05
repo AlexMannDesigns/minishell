@@ -96,6 +96,57 @@ static void	copy_args(char ***res, char *cli)
 }
 */
 
+static void	trim_args(char ***res)
+{
+	size_t	idx, in_quotes, i, j, i_flag;
+	char	*temp, quote_type;
+
+	idx = 0;
+	while ((*res)[idx])
+	{
+		if (ft_strchr((*res)[idx], '\"') || ft_strchr((*res)[idx], '\''))
+		{
+			temp = ft_strnew(ft_strlen((*res)[idx]));
+	//		ft_printf("%zu\n", ft_strlen((*res)[idx]));
+			in_quotes = FALSE;
+			quote_type = '\0';
+			i = j = 0;
+			while ((*res)[idx][i])
+			{
+				i_flag = FALSE;
+				if (((*res)[idx][i] == '\"' || (*res)[idx][i] == '\'') && !in_quotes)
+				{
+					in_quotes = TRUE;
+					quote_type = (*res)[idx][i];
+					i++;
+					i_flag = TRUE;
+				}
+				else if ((*res)[idx][i] == quote_type && in_quotes)
+				{
+					in_quotes = FALSE;
+					i++;
+					i_flag = TRUE;
+				}
+			//	ft_printf("char = %c in_quotes = %zu\n", (*res)[idx][i], in_quotes);
+				if ((in_quotes && !i_flag)
+					|| ((*res)[idx][i] != '\"' && (*res)[idx][i] != '\''))
+				{
+					temp[j] = (*res)[idx][i];
+					i++;
+					j++;
+				}
+				else if (!i_flag)
+					i++;
+			}
+		//	ft_putchar('\n');
+			ft_strdel(&(*res)[idx]);
+			(*res)[idx] = ft_strdup(temp);
+			ft_strdel(&temp);
+		}
+		idx++;
+	}
+}
+
 static void	copy_args(char ***res, char *cli)
 {
 	size_t	i, idx, len, in_quotes;
@@ -120,7 +171,7 @@ static void	copy_args(char ***res, char *cli)
 				len++;			
 			}
 			(*res)[idx] = ft_strndup(cli + i, len);
-			ft_putendl((*res)[idx]);
+	//		ft_putendl((*res)[idx]);
 			i += len;
 			idx++;
 		}
@@ -145,11 +196,12 @@ static char	**handle_quotes(char *cli)
 	char	**res;
 
 	arg_count = count_quote_args(cli);
-	ft_printf("%zu\n", arg_count);
+//	ft_printf("%zu\n", arg_count);
 	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));
 	if (!res)
 		return (NULL);
 	copy_args(&res, cli);
+	trim_args(&res);
 	if (!res)
 		return (NULL);
 	return (res);
