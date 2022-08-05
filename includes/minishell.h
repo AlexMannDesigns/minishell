@@ -72,14 +72,15 @@ typedef struct s_sh
 	char		*cli;
 }				t_sh;
 
-typedef struct s_copy_args
+typedef struct s_trim_args
 {
-	size_t	cursor;
-	size_t	concat;
-	size_t	quotes_flag;
-	size_t	len;
-	size_t	idx;
-}			t_copy_args;
+	size_t	in_quotes;
+	size_t	i;
+	size_t	j; 
+	size_t	i_flag;
+	char	*temp;
+	char	quote_type;
+}		t_trim_args;
 
 typedef void	(t_function)();
 
@@ -131,11 +132,11 @@ void	handle_unsetenv(t_sh *shell);
 int		check_whitespaces(char *s);
 int		get_env_idx(t_sh *shell, char *str);
 char	**copy_arr(char **arr);
-void	concat_args(char *cli, char ***res, t_copy_args args);
+//void	concat_args(char *cli, char ***res, t_copy_args args);
 size_t	name_length(char *str);
 
 /* helpers2.c */
-char	*copy_args_helper(char *cli, t_copy_args args);
+//char	*copy_args_helper(char *cli, t_copy_args args);
 size_t	var_name_len(char *dollar);
 int		add_new_env_var(t_sh *shell, char *str);
 int		update_existing_env(t_sh *shell, char *str, int env_idx);

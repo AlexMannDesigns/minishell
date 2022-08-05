@@ -61,11 +61,11 @@ size_t	var_name_len(char *dollar)
 		len++;
 	return (len);
 }
-
+/*
 char	*copy_args_helper(char *cli, t_copy_args args)
 {
 	if (args.len != 0)
 		return (ft_strndup(cli + args.cursor, args.len));
 	else
 		return (ft_strdup("\0"));
-}
+}*/

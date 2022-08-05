@@ -27,7 +27,7 @@ size_t	name_length(char *str)
 }
 
 /* ft_strjoin does not need malloc protection because other pointers
- * are freed regardless */
+ * are freed regardless 
 
 void	concat_args(char *cli, char ***res, t_copy_args args)
 {
@@ -48,7 +48,7 @@ void	concat_args(char *cli, char ***res, t_copy_args args)
 	ft_strdel(&temp);
 	ft_strdel(&temp2);
 }
-
+*/
 int	check_whitespaces(char *s)
 {
 	int	i;

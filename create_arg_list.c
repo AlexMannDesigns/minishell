@@ -96,10 +96,55 @@ static void	copy_args(char ***res, char *cli)
 }
 */
 
+static void	initialise_trim_struct(t_trim_args *trim)
+{
+	trim->in_quotes = FALSE;
+	trim->i = 0;
+	trim->j = 0;
+	trim->quote_type = '\0';
+}
+
+static void	quote_start(t_trim_args *t, char *res)
+{
+	t->in_quotes = TRUE;
+	t->quote_type = res[t->i];
+	t->i++;
+	t->i_flag = TRUE;
+}
+
+static void	quote_end(t_trim_args *t)
+{
+	t->in_quotes = FALSE;
+	t->i++;
+	t->i_flag = TRUE;
+}
+
+static void	trim_args_loop(char *res, char **temp)
+{
+	t_trim_args	t;
+	
+	initialise_trim_struct(&t);
+	while (res[t.i])
+	{
+		t.i_flag = FALSE;
+		if ((res[t.i] == '\"' || res[t.i] == '\'') && !t.in_quotes)
+			quote_start(&t, res);
+		else if (res[t.i] == t.quote_type && t.in_quotes)
+			quote_end(&t);
+		if ((t.in_quotes && !t.i_flag)
+			|| (res[t.i] != '\"' && res[t.i] != '\''))
+		{
+			(*temp)[t.j] = res[t.i];
+			t.i++;
+			t.j++;
+		}
+	}
+}
+
 static void	trim_args(char ***res)
 {
-	size_t	idx, in_quotes, i, j, i_flag;
-	char	*temp, quote_type;
+	size_t		idx;
+	char		*temp;
 
 	idx = 0;
 	while ((*res)[idx])
@@ -107,38 +152,7 @@ static void	trim_args(char ***res)
 		if (ft_strchr((*res)[idx], '\"') || ft_strchr((*res)[idx], '\''))
 		{
 			temp = ft_strnew(ft_strlen((*res)[idx]));
-	//		ft_printf("%zu\n", ft_strlen((*res)[idx]));
-			in_quotes = FALSE;
-			quote_type = '\0';
-			i = j = 0;
-			while ((*res)[idx][i])
-			{
-				i_flag = FALSE;
-				if (((*res)[idx][i] == '\"' || (*res)[idx][i] == '\'') && !in_quotes)
-				{
-					in_quotes = TRUE;
-					quote_type = (*res)[idx][i];
-					i++;
-					i_flag = TRUE;
-				}
-				else if ((*res)[idx][i] == quote_type && in_quotes)
-				{
-					in_quotes = FALSE;
-					i++;
-					i_flag = TRUE;
-				}
-			//	ft_printf("char = %c in_quotes = %zu\n", (*res)[idx][i], in_quotes);
-				if ((in_quotes && !i_flag)
-					|| ((*res)[idx][i] != '\"' && (*res)[idx][i] != '\''))
-				{
-					temp[j] = (*res)[idx][i];
-					i++;
-					j++;
-				}
-				else if (!i_flag)
-					i++;
-			}
-		//	ft_putchar('\n');
+			trim_args_loop((*res)[idx], &temp);
 			ft_strdel(&(*res)[idx]);
 			(*res)[idx] = ft_strdup(temp);
 			ft_strdel(&temp);
