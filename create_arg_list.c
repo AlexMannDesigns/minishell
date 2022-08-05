@@ -152,16 +152,20 @@ static void	trim_args(char ***res)
 		if (ft_strchr((*res)[idx], '\"') || ft_strchr((*res)[idx], '\''))
 		{
 			temp = ft_strnew(ft_strlen((*res)[idx]));
+			if (!temp)
+				return ;
 			trim_args_loop((*res)[idx], &temp);
 			ft_strdel(&(*res)[idx]);
 			(*res)[idx] = ft_strdup(temp);
 			ft_strdel(&temp);
+			if (!(*res)[idx])
+				return ;
 		}
 		idx++;
 	}
 }
 
-static void	copy_args(char ***res, char *cli)
+static int	copy_args(char ***res, char *cli)
 {
 	size_t	i, idx, len, in_quotes;
 	char	quote_type;
@@ -185,13 +189,15 @@ static void	copy_args(char ***res, char *cli)
 				len++;			
 			}
 			(*res)[idx] = ft_strndup(cli + i, len);
-	//		ft_putendl((*res)[idx]);
+			if (!(*res)[idx])
+				return (0);
 			i += len;
 			idx++;
 		}
 		else
 			i++;
 	}
+	return (1);
 }
 
 /* a very basic implementation of quote handling is present here.
@@ -214,7 +220,8 @@ static char	**handle_quotes(char *cli)
 	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));
 	if (!res)
 		return (NULL);
-	copy_args(&res, cli);
+	if (!copy_args(&res, cli))
+		return (NULL);
 	trim_args(&res);
 	if (!res)
 		return (NULL);
