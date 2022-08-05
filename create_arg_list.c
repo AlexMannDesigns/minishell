@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
+/*
 static size_t	get_len(char *cli, t_copy_args *args)
 {
 	size_t	len;
@@ -60,11 +60,11 @@ static void	move_cursor(char *cli, t_copy_args *args)
 		args->idx++;
 	}
 }
-
+*/
 /* a basic struct is being used here to keep the number of args passed between
  * functions to a minimum.
  *
- */
+
 
 static void	copy_args(char ***res, char *cli)
 {
@@ -94,6 +94,40 @@ static void	copy_args(char ***res, char *cli)
 			args.cursor++;
 	}
 }
+*/
+
+static void	copy_args(char ***res, char *cli)
+{
+	size_t	i, idx, len, in_quotes;
+	char	quote_type;
+
+	i = idx = in_quotes = 0;
+	quote_type = '\0';
+	while (cli[i])
+	{
+		if (!ft_iswhitespace(cli[i]))
+		{
+			len = 0;
+			while (cli[i + len] && (!ft_iswhitespace(cli[i + len]) || in_quotes))
+			{
+				if ((cli[i + len] == '\"' || cli[i + len] == '\'') && !in_quotes)
+				{
+					in_quotes = TRUE;
+					quote_type = cli[i + len];
+				}
+				else if (in_quotes && cli[i + len] == quote_type)
+					in_quotes = FALSE;
+				len++;			
+			}
+			(*res)[idx] = ft_strndup(cli + i, len);
+			ft_putendl((*res)[idx]);
+			i += len;
+			idx++;
+		}
+		else
+			i++;
+	}
+}
 
 /* a very basic implementation of quote handling is present here.
  * Every time we hit a quote, we iterate through to the next matching
@@ -110,7 +144,6 @@ static char	**handle_quotes(char *cli)
 	size_t	arg_count;
 	char	**res;
 
-	ft_putendl("here");
 	arg_count = count_quote_args(cli);
 	ft_printf("%zu\n", arg_count);
 	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));

@@ -83,7 +83,7 @@ int	main(void)
 	int		new_line;
 	t_sh	*shell;
 
-	print_header();
+//	print_header();
 	initialise_shell(&shell);
 	if (!shell)
 		exit(EXIT_FAILURE);

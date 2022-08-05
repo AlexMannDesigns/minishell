@@ -26,10 +26,10 @@
  *	however the following returns and error:
  *		ls -l"r t"
  *
- *	New heuristic: Words begin and end with whitespace characters that are NOT enclosed
- *	in quotes. Everything between quotes is interpreted literally.
- *	The quotes themselves are removed from the word, unless enclosed between quotes of
- *	a different type.
+ *	New heuristic: Words begin and end with whitespace characters that are NOT 
+ *	enclosedin quotes. Everything between quotes is interpreted literally.
+ *	The quotes themselves are removed from the word, unless enclosed between
+ *	quotes of a different type.
  */
 
 size_t	count_quote_args(char *cli)
@@ -40,12 +40,13 @@ size_t	count_quote_args(char *cli)
 	char	quote_type;
 
 	arg_count = i = in_quotes = 0;
+	quote_type = '\0';
 	while (cli[i])
 	{
 		if (!ft_iswhitespace(cli[i]))
 		{
 			arg_count++;
-			while ((cli[i] && !ft_iswhitespace(cli[i])) || (cli[i] && in_quotes))
+			while (cli[i] && (!ft_iswhitespace(cli[i]) ||  in_quotes))
 			{
 				//ft_putchar(cli[i]);
 				if ((cli[i] == '\"' || cli[i] == '\'') && !in_quotes)
