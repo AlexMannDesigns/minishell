@@ -95,7 +95,7 @@ static void	copy_args(char ***res, char *cli)
 	}
 }
 */
-
+/*
 static void	initialise_trim_struct(t_trim_args *trim)
 {
 	trim->in_quotes = FALSE;
@@ -103,43 +103,54 @@ static void	initialise_trim_struct(t_trim_args *trim)
 	trim->j = 0;
 	trim->quote_type = '\0';
 }
-
-static void	quote_start(t_trim_args *t, char *res)
+*/
+static void	quote_start(size_t *iq, char *qt, size_t *i, char c)
 {
-	t->in_quotes = TRUE;
-	t->quote_type = res[t->i];
-	t->i++;
-	t->i_flag = TRUE;
+	*iq = TRUE;
+	*qt = c;
+	(*i)++;
 }
 
-static void	quote_end(t_trim_args *t)
+static void	quote_end(size_t *iq, size_t *i)
 {
-	t->in_quotes = FALSE;
-	t->i++;
-	t->i_flag = TRUE;
+	*iq = FALSE;
+	(*i)++;
 }
 
 static void	trim_args_loop(char *res, char **temp)
 {
-	t_trim_args	t;
-	
-	initialise_trim_struct(&t);
-	while (res[t.i])
+	//t_trim_args	t;
+	size_t	in_quotes;
+	size_t	i;
+	size_t	j;
+	char	quote_type;
+
+	//initialise_trim_struct(&t);
+	in_quotes = FALSE;
+	i = 0;
+	j = 0;
+	quote_type = '\0';
+	while (res[i])
 	{
-		t.i_flag = FALSE;
-		if ((res[t.i] == '\"' || res[t.i] == '\'') && !t.in_quotes)
-			quote_start(&t, res);
-		else if (res[t.i] == t.quote_type && t.in_quotes)
-			quote_end(&t);
-		if ((t.in_quotes && !t.i_flag)
-			|| (res[t.i] != '\"' && res[t.i] != '\''))
+		if ((res[i] == '\"' || res[i] == '\'') && !in_quotes)
+			quote_start(&in_quotes, &quote_type, &i, res[i]);
+		else if (res[i] == quote_type && in_quotes)
+			quote_end(&in_quotes, &i);
+		else 
 		{
-			(*temp)[t.j] = res[t.i];
-			t.i++;
-			t.j++;
+			(*temp)[j] = res[i];
+			i++;
+			j++;
 		}
 	}
 }
+
+/* trim_args and copy_args could probably be refactored and combined 
+ * the logic they follow to find the args is identical.
+ * Perhaps you could use count args to save the start point of each
+ * word in the cli and then loop through with ft_strsub to chop them
+ * out, THEN go into trim args....
+ */
 
 static void	trim_args(char ***res)
 {
