@@ -103,6 +103,7 @@ void	expand_dollars(t_sh *shell)
 	char	*dollar_start;
 
 	idx = 0;
+//	ft_print_array(shell->arg_list);
 	while (shell->arg_list[idx])
 	{
 		dollar_start = ft_strchr(shell->arg_list[idx], '$');

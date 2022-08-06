@@ -57,7 +57,9 @@ size_t	var_name_len(char *dollar)
 	size_t	len;
 
 	len = 0;
-	while (dollar[len] && dollar[len] != '$')
+	while (dollar[len]
+		&& dollar[len] != '$')
+		//&& !ft_iswhitespace(dollar[len]))
 		len++;
 	return (len);
 }

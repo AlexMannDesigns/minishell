@@ -48,7 +48,6 @@ size_t	count_quote_args(char *cli)
 			arg_count++;
 			while (cli[i] && (!ft_iswhitespace(cli[i]) ||  in_quotes))
 			{
-				//ft_putchar(cli[i]);
 				if ((cli[i] == '\"' || cli[i] == '\'') && !in_quotes)
 				{
 					in_quotes = TRUE;
@@ -58,7 +57,6 @@ size_t	count_quote_args(char *cli)
 					in_quotes = FALSE;
 				i++;
 			}
-			//ft_putchar('\n');
 		}
 		else
 			i++;

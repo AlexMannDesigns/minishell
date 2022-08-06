@@ -14,6 +14,20 @@
 
 static int	parser_control(t_sh *shell)
 {
+	int	i;
+
+	i = 0;
+	while (shell->cli[i])
+	{
+		if (!ft_isascii(shell->cli[i]))
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(shell->cli, STDERR_FILENO);
+			ft_putstr_fd(": invalid command line\n", STDERR_FILENO);
+			return (0);
+		}
+		i++;
+	}
 	shell->arg_list = create_arg_list(shell->cli);
 	if (!shell->arg_list || !shell->arg_list[0])
 		return (0);

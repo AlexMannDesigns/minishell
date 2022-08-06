@@ -103,19 +103,7 @@ static void	initialise_trim_struct(t_trim_args *trim)
 	trim->j = 0;
 	trim->quote_type = '\0';
 }
-*/
-static void	quote_start(size_t *iq, char *qt, size_t *i, char c)
-{
-	*iq = TRUE;
-	*qt = c;
-	(*i)++;
-}
 
-static void	quote_end(size_t *iq, size_t *i)
-{
-	*iq = FALSE;
-	(*i)++;
-}
 
 static void	trim_args_loop(char *res, char **temp)
 {
@@ -144,21 +132,25 @@ static void	trim_args_loop(char *res, char **temp)
 		}
 	}
 }
-
+*/
 /* trim_args and copy_args could probably be refactored and combined 
  * the logic they follow to find the args is identical.
  * Perhaps you could use count args to save the start point of each
  * word in the cli and then loop through with ft_strsub to chop them
  * out, THEN go into trim args....
  */
-
-static void	trim_args(char ***res)
+/*
+static in	copy_args(char ***res, char *cli)
 {
+	size_t		i;
+	size_t		len;
 	size_t		idx;
 	char		*temp;
 
+	len = ft_strlen(cli);
 	idx = 0;
-	while ((*res)[idx])
+	i = 0;
+	while (cli[i])
 	{
 		if (ft_strchr((*res)[idx], '\"') || ft_strchr((*res)[idx], '\''))
 		{
@@ -175,82 +167,109 @@ static void	trim_args(char ***res)
 		idx++;
 	}
 }
-
-static int	copy_args(char ***res, char *cli)
+*/
+static void	quote_start(size_t *iq, char *qt, size_t *i, char c)
 {
-	size_t	i, idx, len, in_quotes;
-	char	quote_type;
+	*iq = TRUE;
+	*qt = c;
+	(*i)++;
+}
 
-	i = idx = in_quotes = 0;
+static void	quote_end(size_t *iq, size_t *i)
+{
+	*iq = FALSE;
+	(*i)++;
+}
+
+static char	*check_quotes(char **temp, size_t in_quotes)
+{
+	if (in_quotes)
+	{
+		ft_strdel(temp);
+		ft_putstr_fd("minishell: input not correctly quoted\n", STDERR_FILENO);
+		return (NULL);
+	}
+	return (*temp);
+}
+
+static char	*copy_args_loop(char *cli, size_t *i)
+{
+	char	*temp;
+	char	quote_type;
+	size_t	in_quotes;
+	size_t	j;
+
+	temp = ft_strnew(ft_strlen(cli));
+	if (!temp)
+		return (NULL);
 	quote_type = '\0';
+	in_quotes = FALSE;
+	j = 0;
+	while (cli[*i] && (!ft_iswhitespace(cli[*i]) || in_quotes))
+	{
+		if ((cli[*i] == '\"' || cli[*i] == '\'') && !in_quotes)
+			quote_start(&in_quotes, &quote_type, i, cli[*i]);
+		else if (in_quotes && cli[*i] == quote_type)
+			quote_end(&in_quotes, i);
+		else
+		{
+			temp[j] = cli[*i];
+			(*i)++;
+			j++;
+		}
+	}
+	return (check_quotes(&temp, in_quotes));
+}
+
+static char	*copy_args_control(char *cli, size_t *i)
+{
+	char	*temp;
+	char	*result;
+
+	temp = copy_args_loop(cli, i);
+	if (!temp)
+		return (NULL);
+	result = ft_strdup(temp);
+	ft_strdel(&temp);
+	if (!result)
+		return (NULL);
+	return (result);
+}
+
+char	**create_arg_list(char *cli)
+{
+	size_t	i;
+	size_t	idx;
+	char	**res;
+
+	res = (char **) ft_memalloc(sizeof(char *) * (count_quote_args(cli) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	idx = 0;
+	while (cli[i])
+	{
+		if (!ft_isascii(cli[i]))
+			ft_putendl(cli);
+		i++;
+	}
+	i = 0;
 	while (cli[i])
 	{
 		if (!ft_iswhitespace(cli[i]))
 		{
-			len = 0;
-			while (cli[i + len] && (!ft_iswhitespace(cli[i + len]) || in_quotes))
+		//	ft_putchar(cli[i]);
+		//	ft_putchar('\n');
+			res[idx] = copy_args_control(cli, &i);
+			if (!res[idx])
 			{
-				if ((cli[i + len] == '\"' || cli[i + len] == '\'') && !in_quotes)
-				{
-					in_quotes = TRUE;
-					quote_type = cli[i + len];
-				}
-				else if (in_quotes && cli[i + len] == quote_type)
-					in_quotes = FALSE;
-				len++;			
+				ft_freearray((void ***) &res, ft_array_len(res));
+				return (NULL);
 			}
-			(*res)[idx] = ft_strndup(cli + i, len);
-			if (!(*res)[idx])
-				return (0);
-			i += len;
 			idx++;
 		}
 		else
 			i++;
 	}
-	return (1);
-}
-
-/* a very basic implementation of quote handling is present here.
- * Every time we hit a quote, we iterate through to the next matching
- * quote, interpreting everything in between literally.
- * If there is no matching quote, the end of the string becomes the end of
- * the last arg.
- *
- * On that basis, we count the total number of args at this point, and
- * allocate an array of pointers of that size.
- */
-
-static char	**handle_quotes(char *cli)
-{
-	size_t	arg_count;
-	char	**res;
-
-	arg_count = count_quote_args(cli);
-//	ft_printf("%zu\n", arg_count);
-	res = (char **) ft_memalloc(sizeof(char *) * (arg_count + 1));
-	if (!res)
-		return (NULL);
-	if (!copy_args(&res, cli))
-		return (NULL);
-	trim_args(&res);
-	if (!res)
-		return (NULL);
-	return (res);
-}
-
-/* If our string contains quotes (" or ') we need a special parsing process
- * otherwise, ft_split_whitespaces will suffice to create our arg list
- */
-
-char	**create_arg_list(char *cli)
-{
-	char	**res;
-
-	if (!ft_strchr(cli, '\"') && !ft_strchr(cli, '\''))
-		return (ft_split_whitespace(cli));
-	res = handle_quotes(cli);
-	if (!res)
-		return (ft_split_whitespace(cli));
 	return (res);
 }
