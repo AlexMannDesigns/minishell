@@ -98,6 +98,7 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 	err = FALSE;
 	temp = shell->env;
 	shell->env = orig_env;
+//	ft_putendl("here");
 	if (is_in_path(shell, TRUE, &err))
 	{
 		shell->env = temp;

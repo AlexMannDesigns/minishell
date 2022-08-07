@@ -70,17 +70,8 @@ typedef struct s_sh
 	char		**arg_list;
 	char		**env;
 	char		*cli;
+	char		*path_to_bin;
 }				t_sh;
-
-typedef struct s_trim_args
-{
-	size_t	in_quotes;
-	size_t	i;
-	size_t	j; 
-	size_t	i_flag;
-	char	*temp;
-	char	quote_type;
-}		t_trim_args;
 
 typedef void	(t_function)();
 

@@ -51,6 +51,7 @@ static int	validate_abs_path(t_sh *shell, int is_env, int *err)
 		*err = TRUE;
 		return (0);
 	}
+	shell->path_to_bin = ft_strdup(shell->arg_list[0]);
 	return (1);
 }
 
@@ -80,11 +81,15 @@ static int	find_path(t_sh *shell, char **path_array, char **test_path)
 
 static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 {
-	ft_strdel(&(shell->arg_list[0]));
+//	ft_strdel(&(shell->arg_list[0]));
 	ft_freearray((void ***) p_arr, ft_array_len(*p_arr));
-	shell->arg_list[0] = ft_strdup(t_path);
-	if (!shell->arg_list[0])
+//	shell->arg_list[0] = ft_strdup(t_path);
+
+	shell->path_to_bin = ft_strdup(t_path);
+	if (!shell->path_to_bin)
 		return (0);
+//	if (!shell->arg_list[0])
+//		return (0);
 	free(t_path);
 	return (1);
 }

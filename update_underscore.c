@@ -60,6 +60,8 @@ void	update_underscore(t_sh *shell, unsigned int start)
 		var = ft_strjoin("_=", temp);
 		free(temp);
 	}
+	else if (start && shell->path_to_bin)
+		var = ft_strjoin("_=", shell->path_to_bin);
 	else if (start)
 		var = ft_strjoin("_=", shell->arg_list[0]);
 	else

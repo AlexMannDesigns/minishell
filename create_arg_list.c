@@ -245,14 +245,7 @@ char	**create_arg_list(char *cli)
 	res = (char **) ft_memalloc(sizeof(char *) * (count_quote_args(cli) + 1));
 	if (!res)
 		return (NULL);
-	i = 0;
 	idx = 0;
-	while (cli[i])
-	{
-		if (!ft_isascii(cli[i]))
-			ft_putendl(cli);
-		i++;
-	}
 	i = 0;
 	while (cli[i])
 	{

@@ -75,5 +75,6 @@ void	initialise_shell(t_sh **shell)
 	(*shell)->arg_list = NULL;
 	(*shell)->env = get_env();
 	(*shell)->cli = NULL;
+	(*shell)->path_to_bin = NULL;
 	set_shell_lvl(*shell);
 }

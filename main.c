@@ -46,6 +46,8 @@ static void	free_mem(t_sh *sh)
 		ft_freearray((void ***) &(sh->arg_list), ft_array_len(sh->arg_list));
 	if (sh->cli)
 		ft_strdel(&(sh->cli));
+	if (sh->path_to_bin)
+		ft_strdel(&(sh->path_to_bin));
 }
 
 /* also called in handle_env.c */
@@ -60,7 +62,7 @@ void	bin_control(t_sh *shell, pid_t pid)
 	}
 	else if (pid == 0)
 	{
-		if (execve(shell->arg_list[0], shell->arg_list, shell->env) == -1)
+		if (execve(shell->path_to_bin, shell->arg_list, shell->env) == -1)
 		{
 			print_error_start(shell, 0);
 			ft_putstr_fd(CHILD_PROC_ERR, STDERR_FILENO);
