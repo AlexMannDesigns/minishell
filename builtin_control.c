@@ -12,6 +12,20 @@
 
 #include "includes/minishell.h"
 
+/*
+ * To manage the execution of the six builtin functions required for the
+ * minishell, I have opted for a dispatch table. This is a clean, easily
+ * extensible method for handling the commands needed. A static variable
+ * declaration is used to improve performance. We are also checking for
+ * errors, although our shell_control function should ensure that we never
+ * end up here if the user did not input a valid builtin name.
+ *
+ * My builtin control, and all the builtin functions, have been declared as
+ * NULL. In retrospect, returning an int would make managing errors simpler
+ * in the case that the functions fail, as nil values can be passed back
+ * down the chain to the top layer control functions.
+ */
+
 static const t_builtin_disp	*get_builtin_disp(void)
 {
 	static const t_builtin_disp	dispatch_table[] = {

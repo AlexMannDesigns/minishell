@@ -38,3 +38,12 @@ void	print_access_error(int exists, struct stat sb)
 	else
 		ft_putstr_fd(OBJ_NOT_FOUND, STDERR_FILENO);
 }
+
+void	print_ascii_error(t_sh *shell)
+{
+	ft_putstr_fd(MINISHELL, STDERR_FILENO);
+	ft_putstr_fd(COLON, STDERR_FILENO);
+	ft_putstr_fd(shell->cli, STDERR_FILENO);
+	ft_putstr_fd(COLON, STDERR_FILENO);
+	ft_putstr_fd(ASCII_ERROR, STDERR_FILENO);
+}

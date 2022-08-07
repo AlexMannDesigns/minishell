@@ -13,7 +13,7 @@
 #variables
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -std=c99 -pedantic -O3 -g
-SRCS =  builtin_control.c check_user_dir.c count_quote_args.c create_arg_list.c	\
+SRCS =  builtin_control.c check_user_dir.c copy_args_control.c create_arg_list.c	\
 		dollar_next_middle_start_end.c expand_dollars.c expand_tildes.c			\
 		handle_cd.c handle_echo_exit.c handle_env.c handle_setenv_unsetenv.c	\
 		helpers.c helpers2.c initialise_shell.c main.c print_error.c			\

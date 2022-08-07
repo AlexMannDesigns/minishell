@@ -62,6 +62,8 @@
 # define IS_NOT_A_DIR "Not a directory\n"
 # define IS_A_DIR "Is a directory\n"
 # define PERMISSION_DENIED "Permission denied\n"
+# define QUOTES_ERROR "minishell: input not correctly quoted\n"
+# define ASCII_ERROR "invalid command, please input ascii characters only\n"
 
 /***** STRUCT PROTOTYPES *****/
 
@@ -89,8 +91,8 @@ void	builtin_control(t_sh *shell);
 /* check_user_dir.c */
 int		check_users(char *str, size_t len);
 
-/* count_quote_args.c */
-size_t	count_quote_args(char *cli);
+/* copy_args_control.c */
+char	*copy_args_control(char *cli, size_t *i);
 
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
@@ -123,11 +125,9 @@ void	handle_unsetenv(t_sh *shell);
 int		check_whitespaces(char *s);
 int		get_env_idx(t_sh *shell, char *str);
 char	**copy_arr(char **arr);
-//void	concat_args(char *cli, char ***res, t_copy_args args);
 size_t	name_length(char *str);
 
 /* helpers2.c */
-//char	*copy_args_helper(char *cli, t_copy_args args);
 size_t	var_name_len(char *dollar);
 int		add_new_env_var(t_sh *shell, char *str);
 int		update_existing_env(t_sh *shell, char *str, int env_idx);
@@ -142,6 +142,7 @@ void	bin_control(t_sh *shell, pid_t pid);
 void	print_error_start(t_sh *shell, int idx);
 void	print_env_error(t_sh *shell);
 void	print_access_error(int exits, struct stat sb);
+void	print_ascii_error(t_sh *shell);
 
 /* print_header.c */
 void	print_header(void);

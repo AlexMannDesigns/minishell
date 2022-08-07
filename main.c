@@ -12,6 +12,18 @@
 
 #include "includes/minishell.h"
 
+/*
+ * Before we run any commands, we need to interpret what the user has inputted
+ * as command line. This is where that happens.
+ * First, we check that what is being processed only contains ascii chars, to
+ * ensure no undefined behaviours happen and that the terminal has sent
+ * anything weird to our program. If it has, we stop here and return an error.
+ * For future shell projects it will be important to note that variable
+ * expansions happen first, so other order I have opted for here will not 
+ * work when full quote handling is required. However, creating our argv,
+ * then expanding any dollars and tildes, is fine for the minishell.
+ */
+
 static int	parser_control(t_sh *shell)
 {
 	int	i;
@@ -20,10 +32,8 @@ static int	parser_control(t_sh *shell)
 	while (shell->cli[i])
 	{
 		if (!ft_isascii(shell->cli[i]))
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(shell->cli, STDERR_FILENO);
-			ft_putstr_fd(": invalid command line\n", STDERR_FILENO);
+		{	
+			print_ascii_error(shell);
 			return (0);
 		}
 		i++;
@@ -40,17 +50,35 @@ static int	parser_control(t_sh *shell)
 	return (1);
 }
 
+/*
+ * Every time a command has finished executing, we need to free any memory
+ * which was allocated in our shell struct, and set those pointers to NULL.
+ * These variables will manage different data in every iteration, so this
+ * is a safe and efficient way of resetting them.
+ */
+
 static void	free_mem(t_sh *sh)
 {
 	if (sh->arg_list)
-		ft_freearray((void ***) &(sh->arg_list), ft_array_len(sh->arg_list));
+		ft_freearray((void ***) &(sh->arg_list),
+			ft_array_len(sh->arg_list));
 	if (sh->cli)
 		ft_strdel(&(sh->cli));
 	if (sh->path_to_bin)
 		ft_strdel(&(sh->path_to_bin));
 }
 
-/* also called in handle_env.c */
+/* 
+ * This function is also called in handle_env.c, hence why it
+ * has not been statically declared. Env will always search for a system
+ * binary rather than a builtin shell function, so this function can
+ * be reused, rather than having to write it out again.
+ *
+ * Here, we need to check our pid, to ensure that only the child process
+ * that has been forked is attempting to execute binaries that are held on
+ * the system. If something goes wrong here, that is probably a serious
+ * systemic issue so I have opted to close the program altogether.
+ */
 
 void	bin_control(t_sh *shell, pid_t pid)
 {
@@ -70,6 +98,14 @@ void	bin_control(t_sh *shell, pid_t pid)
 		}
 	}
 }
+
+/*
+ * This is our top-layer control function in the case that our user has
+ * input a command which contains something other than whitespace chars.
+ * Initially, we update our underscore variable, then decide whether
+ * to run a builtin function or something from the system. Finally, we
+ * catch any invalid command errors.
+ */
 
 static void	shell_control(t_sh *shell)
 {
@@ -99,7 +135,7 @@ int	main(void)
 	int		new_line;
 	t_sh	*shell;
 
-//	print_header();
+	print_header();
 	initialise_shell(&shell);
 	if (!shell)
 		exit(EXIT_FAILURE);

@@ -84,7 +84,6 @@ static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 //	ft_strdel(&(shell->arg_list[0]));
 	ft_freearray((void ***) p_arr, ft_array_len(*p_arr));
 //	shell->arg_list[0] = ft_strdup(t_path);
-
 	shell->path_to_bin = ft_strdup(t_path);
 	if (!shell->path_to_bin)
 		return (0);
