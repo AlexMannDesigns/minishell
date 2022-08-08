@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 13:50:11 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 17:07:53 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
  * First, we check that what is being processed only contains ascii chars, to
  * ensure no undefined behaviours happen and that the terminal has sent
  * anything weird to our program. If it has, we stop here and return an error.
- * For future shell projects it will be important to note that variable
- * expansions happen first, so other order I have opted for here will not
- * work when full quote handling is required. However, creating our argv,
- * then expanding any dollars and tildes, is fine for the minishell.
+ * I have opted to expand dollars before arranging the words into the arg_list
+ * and tildes afterwards, as this most closely mimics the behaviour of bash.
+ * Notably, quotes do not seem to inhibit the expansion of dollars but do with
+ * tildes.
  */
 
 static int	parser_control(t_sh *shell)
