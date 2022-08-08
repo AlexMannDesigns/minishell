@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:33:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:21:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 	err = FALSE;
 	temp = shell->env;
 	shell->env = orig_env;
-//	ft_putendl("here");
 	if (is_in_path(shell, TRUE, &err))
 	{
 		shell->env = temp;

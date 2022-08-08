@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   copy_args_control.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/08 12:03:54 by amann             #+#    #+#             */
+/*   Updated: 2022/08/08 12:04:12 by amann            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/minishell.h"
 
 /*
@@ -49,7 +61,6 @@ static char	*check_quotes(char **temp, size_t in_quotes)
  * it using ft_strdup and free-ing the old memory, which will sometimes
  * have trailing null bytes.
  */
-
 
 static char	*copy_args_loop(char *cli, size_t *i)
 {

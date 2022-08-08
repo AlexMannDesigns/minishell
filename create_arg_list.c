@@ -6,11 +6,26 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/08/04 18:14:30 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:17:56 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+static void	count_args_helper(char *cli, size_t *i, size_t *i_q, char *q_t)
+{
+	while (cli[*i] && (!ft_iswhitespace(cli[*i]) || *i_q))
+	{
+		if ((cli[*i] == '\"' || cli[*i] == '\'') && !*i_q)
+		{
+			*i_q = TRUE;
+			*q_t = cli[*i];
+		}
+		else if (*i_q && cli[*i] == *q_t)
+			*i_q = FALSE;
+			(*i)++;
+	}
+}
 
 /*
  * In this function we are counting the number of strings that will ultimately
@@ -27,24 +42,16 @@ static size_t	count_args(char *cli)
 	size_t	in_quotes;
 	char	quote_type;
 
-	arg_count = i = in_quotes = 0;
+	in_quotes = FALSE;
 	quote_type = '\0';
+	arg_count = 0;
+	i = 0;
 	while (cli[i])
 	{
 		if (!ft_iswhitespace(cli[i]))
 		{
 			arg_count++;
-			while (cli[i] && (!ft_iswhitespace(cli[i]) ||  in_quotes))
-			{
-				if ((cli[i] == '\"' || cli[i] == '\'') && !in_quotes)
-				{
-					in_quotes = TRUE;
-					quote_type = cli[i];
-				}
-				else if (in_quotes && cli[i] == quote_type)
-					in_quotes = FALSE;
-				i++;
-			}
+			count_args_helper(cli, &i, &in_quotes, &quote_type);
 		}
 		else
 			i++;

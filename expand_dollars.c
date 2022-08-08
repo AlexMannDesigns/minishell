@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:56:15 by amann             #+#    #+#             */
-/*   Updated: 2022/08/04 14:53:15 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:18:39 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	expand_dollars(t_sh *shell)
 	char	*dollar_start;
 
 	idx = 0;
-//	ft_print_array(shell->arg_list);
 	while (shell->arg_list[idx])
 	{
 		dollar_start = ft_strchr(shell->arg_list[idx], '$');

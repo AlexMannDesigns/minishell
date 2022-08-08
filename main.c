@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/08/04 11:40:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:03:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * ensure no undefined behaviours happen and that the terminal has sent
  * anything weird to our program. If it has, we stop here and return an error.
  * For future shell projects it will be important to note that variable
- * expansions happen first, so other order I have opted for here will not 
+ * expansions happen first, so other order I have opted for here will not
  * work when full quote handling is required. However, creating our argv,
  * then expanding any dollars and tildes, is fine for the minishell.
  */
@@ -32,7 +32,7 @@ static int	parser_control(t_sh *shell)
 	while (shell->cli[i])
 	{
 		if (!ft_isascii(shell->cli[i]))
-		{	
+		{
 			print_ascii_error(shell);
 			return (0);
 		}
@@ -68,7 +68,7 @@ static void	free_mem(t_sh *sh)
 		ft_strdel(&(sh->path_to_bin));
 }
 
-/* 
+/*
  * This function is also called in handle_env.c, hence why it
  * has not been statically declared. Env will always search for a system
  * binary rather than a builtin shell function, so this function can

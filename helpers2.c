@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:10:39 by amann             #+#    #+#             */
-/*   Updated: 2022/08/04 12:02:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:20:24 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,7 @@ size_t	var_name_len(char *dollar)
 	size_t	len;
 
 	len = 0;
-	while (dollar[len]
-		&& dollar[len] != '$')
-		//&& !ft_iswhitespace(dollar[len]))
+	while (dollar[len] && dollar[len] != '$')
 		len++;
 	return (len);
 }
-/*
-char	*copy_args_helper(char *cli, t_copy_args args)
-{
-	if (args.len != 0)
-		return (ft_strndup(cli + args.cursor, args.len));
-	else
-		return (ft_strdup("\0"));
-}*/
