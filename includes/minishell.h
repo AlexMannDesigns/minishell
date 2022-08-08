@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/04 13:46:30 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 14:58:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,8 @@ char	*copy_args_control(char *cli, size_t *i);
 /* create_arg_list.c */
 char	**create_arg_list(char *cli);
 
-/* dollar_start_middle_end.c */
-int		dollar_in_middle(char **arg, char *exp, int i);
-int		dollar_at_start(char **arg, char *exp);
-
 /* expand_dollars.c */
-void	expand_dollars(t_sh *shell);
+int		expand_dollars(t_sh *shell);
 
 /* expand_tildes.c */
 void	expand_tildes(t_sh *shell);

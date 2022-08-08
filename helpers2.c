@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:10:39 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 12:20:24 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/08 15:05:30 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ size_t	var_name_len(char *dollar)
 	size_t	len;
 
 	len = 0;
-	while (dollar[len] && dollar[len] != '$')
+	while (dollar[len]
+		&& dollar[len] != '$'
+		&& dollar[len] != '\"'
+		&& dollar[len] != '\''
+		&& !ft_iswhitespace(dollar[len]))
 		len++;
 	return (len);
 }
