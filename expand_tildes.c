@@ -6,82 +6,11 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 13:27:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:34:41 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-/* returning a NULL pointer from this function will not cause a crash,
- * no malloc protection needed
-*/
-/*
-static char	*tilde_plus_minus(char **str, t_sh *shell)
-{
-	int		idx;
-	char	*new_str;
-
-	if ((*str)[1] == '+')
-	{
-		idx = get_env_idx(shell, "PWD");
-		if (idx == -1)
-			return (NULL);
-		new_str = ft_strdup((shell->env[idx]) + 4);
-	}
-	else
-	{
-		idx = get_env_idx(shell, "OLDPWD");
-		if (idx == -1)
-			return (NULL);
-		new_str = ft_strdup((shell->env[idx]) + 7);
-	}
-	return (new_str);
-}
-
-// This function can also safely return NULL pointers
-
-static char	*tilde_username_or_slash(char **str, char *home)
-{
-	int				user_exists;
-	size_t			len;
-	char			*new_str;
-
-	new_str = NULL;
-	if ((*str)[1] == '/')
-		new_str = ft_strjoin(home, (*str) + 1);
-	else
-	{
-		len = name_length(*str);
-		user_exists = check_users(*str, len);
-		if (user_exists)
-			new_str = ft_strjoin("/Users/", (*str) + 1);
-	}
-	return (new_str);
-}
-
-static void	expand_tilde_helper(char **str, t_sh *shell, char *home)
-{
-	size_t	len;
-	char	*new_str;
-
-	len = ft_strlen(*str) - 1;
-	new_str = NULL;
-	if (len == 0)
-	{
-		new_str = ft_strdup(home);
-		if (!new_str)
-			return ;
-	}
-	if (len == 1 && ((*str)[1] == '+' || (*str)[1] == '-'))
-		new_str = tilde_plus_minus(str, shell);
-	else if (len >= 1)
-		new_str = tilde_username_or_slash(str, home);
-	if (new_str)
-	{
-		ft_strdel(str);
-		*str = new_str;
-	}
-}*/
 
 static size_t	skip_quote_block(char *cli, size_t i)
 {
@@ -106,18 +35,79 @@ static void	get_home_path(t_sh *shell, char **home)
 	}
 }
 
-static int expand_tildes_control(char **cli, char *home, size_t *i)
+static char	*tilde_username_expansion(t_sh *shell, size_t i)
 {
-	//cli[*i] will be a tilde here
+	int				user_exists;
+	char			*exp;
 
-	if ((*i == 0 || ft_iswhitespace((*cli)[*i - 1]))
-			&& (!(*cli)[*i + 1] || ft_iswhitespace((*cli)[*i + 1]) || (*cli)[*i + 1] == '/')) //tilde on it's own or preceding slash
+	exp = NULL;
+	user_exists = check_users(shell->cli + i);
+	if (user_exists)
+		exp = ft_strdup("/Users/");
+	return (exp);
+}
+
+/* malloc protection happens in expand_tildes_control() */
+static char	*tilde_plus_minus_expansion(t_sh *shell, size_t *i)
+{
+	int		idx;
+	char	*res;
+
+	if ((shell->cli)[*i + 1] == '+')
 	{
-		if (!basic_tilde_expansion(cli, home, i))
-			return (0);
+		idx = get_env_idx(shell, "PWD");
+		if (idx == -1)
+			return (NULL);
+		res = ft_strdup((shell->env[idx]) + 4);
 	}
-	if (home)
-		;
+	else
+	{
+		idx = get_env_idx(shell, "OLDPWD");
+		if (idx == -1)
+			return (NULL);
+		res = ft_strdup((shell->env[idx]) + 7);
+	}
+	return (res);
+}
+
+static int expand_tildes_control(t_sh *shell, char *home, size_t *i)
+{
+	char	*exp;
+	char	*temp;
+	size_t	factor; //determines the number of chars to replace in orig string
+
+	exp = NULL;
+	factor = 0;
+	if ((*i == 0 || ft_iswhitespace(shell->cli[*i - 1])))
+	{
+		if (!(shell->cli)[*i + 1] || ft_iswhitespace(shell->cli[*i + 1]) || shell->cli[*i + 1] == '/') //on it's own or preceding slash
+		{
+			exp = ft_strdup(home);
+			factor = 1;
+		}
+		else if ((ft_strncmp(shell->cli + *i, "~+", 2) == 0 || ft_strncmp(shell->cli + *i, "~-", 2) == 0)
+					&& (!(shell->cli)[*i + 2] || shell->cli[*i + 2] == '/' || ft_iswhitespace(shell->cli[*i + 2])))
+		{
+			exp = tilde_plus_minus_expansion(shell, i);
+			factor = 2;
+		}
+		else if (shell->cli[*i + 1])
+		{
+			exp = tilde_username_expansion(shell, *i);
+			factor = 1;
+		}
+		if (exp)
+		{
+			ft_putendl(exp);
+			temp = ft_string_insert(shell->cli, exp, *i, factor);
+			ft_strdel(&shell->cli);
+			if (!temp)
+				return (0);
+			shell->cli = ft_strdup(temp);
+			free(temp);
+			free(exp);
+		}
+	}
 	return (1);
 }
 
@@ -135,9 +125,9 @@ int		expand_tildes(t_sh *shell)
 		else if (shell->cli[i] == '~')
 		{
 			get_home_path(shell, &home);
-			if (!home)
-				break ;
-			if (!expand_tildes_control(&shell->cli, home, &i))
+	//		if (!home)
+	//			break ;
+			if (!expand_tildes_control(shell, home, &i))
 				return (0);
 		}
 		if (shell->cli[i]) //skip_quote_block() might move us to null byte

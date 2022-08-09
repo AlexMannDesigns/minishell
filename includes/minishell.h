@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 13:26:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:18:13 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ typedef struct s_builtin_disp
 /***** FUNCTION PROTOTYPES *****/
 
 /* basic_tilde_expansion */
-int	basic_tilde_expansion(char **cli, char *home, size_t *i);
+int	basic_tilde_expansion(char **cli, char *home, size_t *i, size_t factor);
 
 /* builtin_control.c */
 void	builtin_control(t_sh *shell);
 
 /* check_user_dir.c */
-int		check_users(char *str, size_t len);
+int		check_users(char *str);
 
 /* copy_args_control.c */
 char	*copy_args_control(char *cli, size_t *i);

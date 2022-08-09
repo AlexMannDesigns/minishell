@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:49:40 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:47:31 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:21:54 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	tilde_var_assignment_helper(char **str, int i, char *home)
 		temp = ft_string_insert(*str, home, i + 1, TRUE);
 	else
 	{
-		user_exists = check_users(*str + i + 1, name_length(*str + i + 2));
+		user_exists = check_users(*str + i + 1);
 		if (user_exists)
 			temp = ft_string_insert(*str, "/Users/", i + 1, TRUE);
 	}
