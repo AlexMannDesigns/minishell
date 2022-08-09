@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 15:18:13 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 18:06:21 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ typedef struct s_builtin_disp
 
 /***** FUNCTION PROTOTYPES *****/
 
-/* basic_tilde_expansion */
-int	basic_tilde_expansion(char **cli, char *home, size_t *i, size_t factor);
-
 /* builtin_control.c */
 void	builtin_control(t_sh *shell);
 
@@ -147,7 +144,10 @@ void	print_ascii_error(t_sh *shell);
 void	print_header(void);
 
 /* tilde_var_assignment.c */
-int		tilde_variable_assignment(char **str, char *home);
+int		tilde_variable_assignment(t_sh *shell, char **str, char *home);
+
+/* tilde_plus_minus_expansion */
+char	*tilde_plus_minus_expansion(t_sh *shell, size_t i);
 
 /* update_dollar_arg.c */
 int		update_dollar_arg(t_sh *shell, char **arg, int idx);

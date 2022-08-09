@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/08/09 13:26:35 by amann            ###   ########.fr        #
+#    Updated: 2022/08/09 18:08:17 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,12 @@
 NAME = minishell
 FLAGS = -Wall -Werror -Wextra -std=c99 -pedantic -O3 -g
 SRCS =  builtin_control.c check_user_dir.c copy_args_control.c create_arg_list.c\
-		expand_dollars.c expand_tildes.c basic_tilde_expansion.c				\
+		expand_dollars.c expand_tildes.c 										\
 		handle_cd.c handle_echo_exit.c handle_env.c handle_setenv_unsetenv.c	\
 		helpers.c helpers2.c initialise_shell.c main.c print_error.c			\
-		print_header.c tilde_var_assignment.c update_dollar_arg.c update_env.c	\
-		update_oldpwd.c update_underscore.c validate_command.c 
+		print_header.c tilde_plus_minus_expansion.c tilde_var_assignment.c		\
+		update_dollar_arg.c update_env.c update_oldpwd.c update_underscore.c	\
+		validate_command.c 
 OBJ = $(SRCS:%.c=%.o)
 HEADER = -I includes/
 LIB_DIR = libft/

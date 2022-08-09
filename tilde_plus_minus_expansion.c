@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_user_dir.c                                   :+:      :+:    :+:   */
+/*   tile_plus_minus_expansion.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/04 15:47:10 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 17:09:18 by amann            ###   ########.fr       */
+/*   Created: 2022/08/09 18:06:57 by amann             #+#    #+#             */
+/*   Updated: 2022/08/09 18:12:04 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	check_users(char *str)
+char	*tilde_plus_minus_expansion(t_sh *shell, size_t i)
 {
-	DIR				*users;
-	struct dirent	*current_obj;
-	int				res;
-	size_t			len;
+	int		idx;
+	char	*res;
 
-	res = FALSE;
-	users = opendir("/Users");
-	if (!users)
-		return (res);
-	current_obj = readdir(users);
-	while (current_obj != NULL)
+	if ((shell->cli)[i + 1] == '+')
 	{
-		len = ft_strlen(current_obj->d_name);
-		if (ft_strncmp(current_obj->d_name, str + 1, len) == 0)
-		{
-			res = TRUE;
-			break ;
-		}
-		current_obj = readdir(users);
+		idx = get_env_idx(shell, "PWD");
+		if (idx == -1)
+			return (NULL);
+		res = ft_strdup((shell->env[idx]) + 4);
 	}
-	closedir(users);
+	else
+	{
+		idx = get_env_idx(shell, "OLDPWD");
+		if (idx == -1)
+			return (NULL);
+		res = ft_strdup((shell->env[idx]) + 7);
+	}
 	return (res);
 }

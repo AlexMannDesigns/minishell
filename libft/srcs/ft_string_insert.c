@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:52:44 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 15:27:14 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 17:58:45 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ static char	*free_and_ret(char *start, char *end, char *s_p_i, int option)
 	return (NULL);
 }
 
+static int	overwrite_valid(char *orig, int idx, size_t overwrite)
+{
+	size_t	len;
+
+	len = ft_strlen(orig);
+	if ((overwrite + (size_t) idx) > len)
+		return (0);
+	return (1);
+}
+
 /* the overwrite param determines whether we overwrite the char at the idx,
  * or place the insert string before it. If 0, no overwrite happens,
  * otherwise, the number determines the number of characters overwritten.
@@ -42,7 +52,7 @@ char	*ft_string_insert(char *orig, char *insert, int idx, size_t overwrite)
 	char	*start_plus_insert;
 	char	*res;
 
-	if (!orig || !insert)
+	if (!orig || !insert || !overwrite_valid(orig, idx, overwrite))
 		return (NULL);
 	start = ft_strndup(orig, idx);
 	if (!start)
