@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/07/26 13:37:26 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:27:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* returning a NULL pointer from this function will not cause a crash,
  * no malloc protection needed
 */
-
+/*
 static char	*tilde_plus_minus(char **str, t_sh *shell)
 {
 	int		idx;
@@ -38,7 +38,7 @@ static char	*tilde_plus_minus(char **str, t_sh *shell)
 	return (new_str);
 }
 
-/* This function can also safely return NULL pointers */
+// This function can also safely return NULL pointers
 
 static char	*tilde_username_or_slash(char **str, char *home)
 {
@@ -81,8 +81,73 @@ static void	expand_tilde_helper(char **str, t_sh *shell, char *home)
 		ft_strdel(str);
 		*str = new_str;
 	}
+}*/
+
+static size_t	skip_quote_block(char *cli, size_t i)
+{
+	char	quote_type;
+
+	quote_type = cli[i];
+	while (cli[i] && cli[i] != quote_type)
+		i++;
+	return (i);
 }
 
+static void	get_home_path(t_sh *shell, char **home)
+{
+	int		idx;
+
+	if (!(*home))
+	{
+		idx = get_env_idx(shell, "HOME");
+		if (idx == -1)
+			return ;
+		*home = ft_strchr(shell->env[idx], '=') + 1;
+	}
+}
+
+static int expand_tildes_control(char **cli, char *home, size_t *i)
+{
+	//cli[*i] will be a tilde here
+
+	if ((*i == 0 || ft_iswhitespace((*cli)[*i - 1]))
+			&& (!(*cli)[*i + 1] || ft_iswhitespace((*cli)[*i + 1]) || (*cli)[*i + 1] == '/')) //tilde on it's own or preceding slash
+	{
+		if (!basic_tilde_expansion(cli, home, i))
+			return (0);
+	}
+	if (home)
+		;
+	return (1);
+}
+
+int		expand_tildes(t_sh *shell)
+{
+	size_t	i;
+	static char	*home;
+
+	i = 0;
+	while (shell->cli[i])
+	{
+//		ft_printf("%c\n", shell->cli[i]);
+		if (shell->cli[i] == '\"' || shell->cli[i] == '\'')
+			i = skip_quote_block(shell->cli, i);
+		else if (shell->cli[i] == '~')
+		{
+			get_home_path(shell, &home);
+			if (!home)
+				break ;
+			if (!expand_tildes_control(&shell->cli, home, &i))
+				return (0);
+		}
+		if (shell->cli[i]) //skip_quote_block() might move us to null byte
+			i++;
+	}
+	home = NULL;
+	return (1);
+}
+
+/*
 void	expand_tildes(t_sh *shell)
 {
 	int		i;
@@ -107,4 +172,4 @@ void	expand_tildes(t_sh *shell)
 		}
 		i++;
 	}
-}
+}*/

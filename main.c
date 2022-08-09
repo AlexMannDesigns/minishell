@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 16:48:52 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 17:07:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:08:23 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ static int	parser_control(t_sh *shell)
 		}
 		i++;
 	}
+	if (!expand_tildes(shell))
+		return (0);
 	if (!expand_dollars(shell))
 		return (0);
 	shell->arg_list = create_arg_list(shell->cli);
 	if (!shell->arg_list || !shell->arg_list[0])
 		return (0);
-	if (ft_strchr(shell->cli, '~'))
-		expand_tildes(shell);
 	if (ft_array_len(shell->arg_list) == 0)
 		return (0);
 	return (1);

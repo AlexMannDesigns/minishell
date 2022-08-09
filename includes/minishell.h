@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 14:58:36 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:26:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ typedef struct s_builtin_disp
 
 /***** FUNCTION PROTOTYPES *****/
 
+/* basic_tilde_expansion */
+int	basic_tilde_expansion(char **cli, char *home, size_t *i);
+
 /* builtin_control.c */
 void	builtin_control(t_sh *shell);
 
@@ -101,7 +104,7 @@ char	**create_arg_list(char *cli);
 int		expand_dollars(t_sh *shell);
 
 /* expand_tildes.c */
-void	expand_tildes(t_sh *shell);
+int		expand_tildes(t_sh *shell);
 
 /* handle_cd.c */
 void	handle_cd(t_sh *shell);
