@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/08/29 14:27:03 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/29 14:36:22 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,10 @@ static size_t	skip_quote_block(char *cli, size_t i)
 	return (i);
 }
 
-/*
- * The below 2 functions verify whether we have valid tilde
- * expansion syntax. Moving the if statements into separate
- * functions makes the contol function look a little tidier.
- */
-
 static int	check_basic_expansion(t_sh *shell, size_t i)
 {
 	if (!(shell->cli)[i + 1] || ft_iswhitespace(shell->cli[i + 1])
-		|| shell->cli[i + 1] == '/')
+		|| shell->cli[i + 1] == '/' || shell->cli[i + 1] == ':')
 		return (TRUE);
 	return (FALSE);
 }

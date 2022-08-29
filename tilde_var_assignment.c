@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:49:40 by amann             #+#    #+#             */
-/*   Updated: 2022/08/29 14:22:20 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/29 14:40:12 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void	var_assignment_helper(t_sh *shell, int i, char *home)
 
 	temp = NULL;
 	exp = NULL;
-	if (shell->cli[i + 2] == '/' || !(shell->cli[i + 2]))
+	if (shell->cli[i + 2] == '/' || shell->cli[i + 2] == ':'
+		|| !(shell->cli[i + 2]))
 		temp = ft_string_insert(shell->cli, home, i + 1, TRUE);
 	else if (tilde_check_plus_minus_expansion(shell, (size_t) i + 1))
 		temp = plus_minus(shell, i);
