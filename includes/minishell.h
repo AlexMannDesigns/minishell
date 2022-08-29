@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 16:27:57 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 18:06:21 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/29 14:25:44 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,20 @@ void	print_ascii_error(t_sh *shell);
 /* print_header.c */
 void	print_header(void);
 
-/* tilde_var_assignment.c */
-int		tilde_variable_assignment(t_sh *shell, char **str, char *home);
+/* tilde_check_plus_minus_expansion.c */
+int		tilde_check_plus_minus_expansion(t_sh *shell, size_t i);
 
-/* tilde_plus_minus_expansion */
+/* tilde_get_home_path.c */
+void	tilde_get_home_path(t_sh *shell, char **home);
+
+/* tilde_var_assignment.c */
+int		tilde_variable_assignment(t_sh *shell, char *home);
+
+/* tilde_plus_minus_expansion.c */
 char	*tilde_plus_minus_expansion(t_sh *shell, size_t i);
+
+/* tilde_username_expansion.c */
+char	*tilde_username_expansion(t_sh *shell, size_t i);
 
 /* update_dollar_arg.c */
 int		update_dollar_arg(t_sh *shell, char **arg, int idx);

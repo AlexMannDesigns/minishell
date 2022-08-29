@@ -6,13 +6,13 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:49:40 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 18:26:36 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/29 14:22:20 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static char	*plus_minus(t_sh *shell, char **str, int i)
+static char	*plus_minus(t_sh *shell, int i)
 {
 	char	*temp;
 	char	*res;
@@ -20,59 +20,70 @@ static char	*plus_minus(t_sh *shell, char **str, int i)
 	temp = tilde_plus_minus_expansion(shell, (size_t) i + 1);
 	if (!temp)
 		return (NULL);
-	res = ft_string_insert(*str, temp, i + 1, 2);
+	res = ft_string_insert(shell->cli, temp, i + 1, 2);
 	free(temp);
 	return (res);
 }
 
-static int	check_plus_minus(char *str, int i)
-{
-	if ((str[i + 2] == '+' || str[i + 2] == '-')
-			&& (!str[i + 3] || str[i + 3] == '/' || str[i + 3] == ':'))
-		return (TRUE);
-	return (FALSE);
-}
+/*
+ * Here, we know that our i variable is pointing to an '=' or ':' in str,
+ * followed by a tilde. Therefore, we need to check what follows those
+ * characters to determine the type of tilde expansion needed.
+ */
 
-static void	var_assignment_helper(t_sh *shell, char **str, int i, char *home)
+static void	var_assignment_helper(t_sh *shell, int i, char *home)
 {
 	char	*temp;
-	int		user_exists;
+	char	*exp;
 
 	temp = NULL;
-	if ((*str)[i + 2] == '/' || !(*str)[i + 2])
-		temp = ft_string_insert(*str, home, i + 1, TRUE);
-	else if (check_plus_minus(*str, i))
-		temp = plus_minus(shell, str, i);
+	exp = NULL;
+	if (shell->cli[i + 2] == '/' || !(shell->cli[i + 2]))
+		temp = ft_string_insert(shell->cli, home, i + 1, TRUE);
+	else if (tilde_check_plus_minus_expansion(shell, (size_t) i + 1))
+		temp = plus_minus(shell, i);
 	else
 	{
-		user_exists = check_users(*str + i + 1);
-		if (user_exists)
-			temp = ft_string_insert(*str, "/Users/", i + 1, TRUE);
+		exp = tilde_username_expansion(shell, i + 1);
+		if (exp)
+			temp = ft_string_insert(shell->cli, exp, i + 1, TRUE);
 	}
 	if (temp)
 	{
-		ft_strdel(str);
-		*str = ft_strdup(temp);
+		ft_strdel(&(shell->cli));
+		shell->cli = ft_strdup(temp);
 		ft_strdel(&temp);
+		if (exp)
+			free(exp);
 	}
 }
 
-int	tilde_variable_assignment(t_sh *shell, char **str, char *home)
+/*
+ * if there is an equals ('=') char in the string, and the HOME env var exists
+ * we come to this function to check for tilde expansions.
+ *
+ * In bash, the logic for tilde expansions when assigning variables, is that
+ * the tilde after the first equals and then any subsequent colon will be
+ * expanded. This is the logic of the while loop in this function.
+ */
+
+int	tilde_variable_assignment(t_sh *shell, char *home)
 {
 	int		i;
 	int		first_equals;
 
 	first_equals = FALSE;
 	i = 0;
-	while ((*str)[i])
+	while (shell->cli[i])
 	{
-		if ((*str)[i] == '=' && !first_equals && (*str)[i + 1] == '~')
+		if (shell->cli[i] == '=' && !first_equals && shell->cli[i + 1] == '~')
 		{
 			first_equals = TRUE;
-			var_assignment_helper(shell, str, i, home);
+			var_assignment_helper(shell, i, home);
 		}
-		else if ((*str)[i] == ':' && first_equals && (*str)[i + 1] == '~')
-			var_assignment_helper(shell, str, i, home);
+		else if (shell->cli[i] == ':' && first_equals
+			&& shell->cli[i + 1] == '~')
+			var_assignment_helper(shell, i, home);
 		i++;
 	}
 	return (1);

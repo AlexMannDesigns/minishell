@@ -6,7 +6,7 @@
 #    By: amann <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/06 13:23:10 by amann             #+#    #+#              #
-#    Updated: 2022/08/09 18:08:17 by amann            ###   ########.fr        #
+#    Updated: 2022/08/29 14:26:33 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS =  builtin_control.c check_user_dir.c copy_args_control.c create_arg_list.c
 		handle_cd.c handle_echo_exit.c handle_env.c handle_setenv_unsetenv.c	\
 		helpers.c helpers2.c initialise_shell.c main.c print_error.c			\
 		print_header.c tilde_plus_minus_expansion.c tilde_var_assignment.c		\
+		tilde_username_expansion.c tilde_check_plus_minus_expansion.c			\
+		tilde_get_home_path.c													\
 		update_dollar_arg.c update_env.c update_oldpwd.c update_underscore.c	\
 		validate_command.c 
 OBJ = $(SRCS:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 18:22:05 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/29 14:27:03 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,6 @@ static size_t	skip_quote_block(char *cli, size_t i)
 	while (cli[i] && cli[i] != quote_type)
 		i++;
 	return (i);
-}
-
-static void	get_home_path(t_sh *shell, char **home)
-{
-	int		idx;
-
-	if (!(*home))
-	{
-		idx = get_env_idx(shell, "HOME");
-		if (idx == -1)
-			return ;
-		*home = ft_strchr(shell->env[idx], '=') + 1;
-	}
-}
-
-static char	*tilde_username_expansion(t_sh *shell, size_t i)
-{
-	int				user_exists;
-	char			*exp;
-
-	exp = NULL;
-	user_exists = check_users(shell->cli + i);
-	if (user_exists)
-		exp = ft_strdup("/Users/");
-	return (exp);
 }
 
 /*
@@ -61,15 +36,17 @@ static int	check_basic_expansion(t_sh *shell, size_t i)
 	return (FALSE);
 }
 
-static int	check_plus_minus_expansion(t_sh *shell, size_t i)
-{
-	if ((ft_strncmp(shell->cli + i, "~+", 2) == 0
-			|| ft_strncmp(shell->cli + i, "~-", 2) == 0)
-		&& (!(shell->cli)[i + 2] || shell->cli[i + 2] == '/'
-		|| ft_iswhitespace(shell->cli[i + 2])))
-		return (TRUE);
-	return (FALSE);
-}
+/*
+ * This function will replace the tilde in our original string with the
+ * relevant expansion string. We can re-use our ft_string_insert function
+ * to handle this process, but must be careful to free up the memory
+ * which is no longer needed - as this function returns a pointer to
+ * a new string.
+ *
+ * The factor variable here determines how many characters we will overwrite,
+ * if we are dealing with a plus/minus expansion, both the tilde and the
+ * following character need to be overwritten.
+ */
 
 static int	execute_expansion(t_sh *shell, char *exp, size_t *i, size_t factor)
 {
@@ -114,7 +91,7 @@ static int	expand_tildes_control(t_sh *shell, char *home, size_t *i)
 	factor = 1;
 	if (check_basic_expansion(shell, *i))
 		exp = ft_strdup(home);
-	else if (check_plus_minus_expansion(shell, *i))
+	else if (tilde_check_plus_minus_expansion(shell, *i))
 	{
 		exp = tilde_plus_minus_expansion(shell, *i);
 		factor = 2;
@@ -133,9 +110,9 @@ int	expand_tildes(t_sh *shell)
 	size_t		equals;
 
 	equals = FALSE;
-	get_home_path(shell, &home);
+	tilde_get_home_path(shell, &home);
 	i = 0;
-	while (shell->cli[i])
+	while (home && shell->cli[i])
 	{
 		if (shell->cli[i] == '\"' || shell->cli[i] == '\'')
 			i = skip_quote_block(shell->cli, i);
@@ -145,12 +122,12 @@ int	expand_tildes(t_sh *shell)
 			if (!expand_tildes_control(shell, home, &i))
 				return (0);
 		}
-		else if (shell->cli[i] == '=')
+		else if (!equals && shell->cli[i] == '=')
 			equals = TRUE;
 		if (shell->cli[i])
 			i++;
 	}
-	if (equals)
-		tilde_variable_assignment(shell, &(shell->cli), home);
+	if (equals && home)
+		tilde_variable_assignment(shell, home);
 	return (1);
 }
