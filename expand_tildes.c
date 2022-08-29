@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/26 16:08:04 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 18:10:53 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 18:22:05 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ static char	*tilde_username_expansion(t_sh *shell, size_t i)
 		exp = ft_strdup("/Users/");
 	return (exp);
 }
+
+/*
+ * The below 2 functions verify whether we have valid tilde
+ * expansion syntax. Moving the if statements into separate
+ * functions makes the contol function look a little tidier.
+ */
 
 static int	check_basic_expansion(t_sh *shell, size_t i)
 {
@@ -93,6 +99,10 @@ static int	execute_expansion(t_sh *shell, char *exp, size_t *i, size_t factor)
  * overwrite in the original string, and pass these to ft_string_insert.
  * If anything goes wrong during this process, we simply
  * skip the expansion process altogether.
+ *
+ * Also note that we are skipping over any blocks of text enclosed in
+ * quotes and we are also handliing expansions of tildes in variable
+ * assignements, thus closely mimicing the behaviour of bash.
  */
 
 static int	expand_tildes_control(t_sh *shell, char *home, size_t *i)

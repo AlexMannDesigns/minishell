@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 12:49:40 by amann             #+#    #+#             */
-/*   Updated: 2022/08/09 18:09:38 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/09 18:26:36 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ static char	*plus_minus(t_sh *shell, char **str, int i)
 	return (res);
 }
 
+static int	check_plus_minus(char *str, int i)
+{
+	if ((str[i + 2] == '+' || str[i + 2] == '-')
+			&& (!str[i + 3] || str[i + 3] == '/' || str[i + 3] == ':'))
+		return (TRUE);
+	return (FALSE);
+}
+
 static void	var_assignment_helper(t_sh *shell, char **str, int i, char *home)
 {
 	char	*temp;
@@ -33,8 +41,7 @@ static void	var_assignment_helper(t_sh *shell, char **str, int i, char *home)
 	temp = NULL;
 	if ((*str)[i + 2] == '/' || !(*str)[i + 2])
 		temp = ft_string_insert(*str, home, i + 1, TRUE);
-	else if (((*str)[i + 2] == '+' || (*str)[i + 2] == '-')
-			&& (!(*str)[i + 3] || (*str)[i + 3] == '/' || (*str)[i + 3] == ':'))
+	else if (check_plus_minus(*str, i))
 		temp = plus_minus(shell, str, i);
 	else
 	{
