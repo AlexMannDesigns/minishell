@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 static void	remove_env_var_loop(t_sh *shell, int idx, char ***new_env)
 {

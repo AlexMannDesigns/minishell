@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 char	*tilde_plus_minus_expansion(t_sh *shell, size_t i)
 {

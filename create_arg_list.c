@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 static void	count_args_helper(char *cli, size_t *i, size_t *i_q, char *q_t)
 {

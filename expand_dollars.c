@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "minishell.h"
 
 static char	*concat_value(char *env_var, size_t var_len, char *d_s, int *d_idx)
 {
