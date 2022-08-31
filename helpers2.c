@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:10:39 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 15:05:30 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:23:37 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	update_existing_env(t_sh *shell, char *str, int env_idx)
 	return (1);
 }
 
-/* strdup in this function does not need malloc protection */
+/*
+ * ft_strdup in this function does not need malloc protection, it will
+ * just add another NULL pointer to the end of the env array if it fails
+ */
 
 int	add_new_env_var(t_sh *shell, char *str)
 {

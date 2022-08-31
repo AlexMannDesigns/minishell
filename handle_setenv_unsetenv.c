@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 12:58:46 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:35:55 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:41:57 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ static void	remove_env_var(t_sh *shell, int idx)
 	}
 }
 
+/*
+ * Removing environment variables is a little more complicated then adding.
+ * The main reason is that we need to move all the subsequent pointers up an
+ * index if we are deleting a variable from anywhere other than the end of
+ * the environment array.
+ *
+ * Calling in a loop allows us to remove multiple variables at a time.
+ */
+
 void	handle_unsetenv(t_sh *shell)
 {
 	int	i;
@@ -73,6 +82,15 @@ void	handle_unsetenv(t_sh *shell)
 		i++;
 	}
 }
+
+/*
+ * Perhaps the simplest builtin in the project. We can use thhe update_env
+ * function from our env handling, passing a flag to make sure we have valid
+ * variable names. As these will be permanent changes, we need to follow
+ * naming conventions strictly.
+ *
+ * We call in a loop to allow us to add multiple variables in a loop.
+ */
 
 void	handle_setenv(t_sh *shell)
 {

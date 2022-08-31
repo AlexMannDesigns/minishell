@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:25:19 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 15:59:27 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:15:10 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	get_equals_idx(char *str)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
 static int	check_valid_var_name(t_sh *shell, char *str, int is_env)
@@ -53,7 +53,7 @@ int	update_env_control(t_sh *shell, size_t i, int is_env)
 	if (!check_valid_var_name(shell, str, is_env))
 		return (0);
 	equals_idx = get_equals_idx(str);
-	if (equals_idx == 0 || equals_idx == -1)
+	if (equals_idx == 0)
 		return (0);
 	var_name = ft_strndup(str, equals_idx);
 	if (!var_name)

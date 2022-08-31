@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:54:58 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 12:21:10 by amann            ###   ########.fr       */
+/*   Updated: 2022/08/31 14:32:55 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,38 @@ static int	i_flag_control(t_sh *shell, char *str)
 	return (1);
 }
 
+/*
+ * The only option flag we are handling in this implementation is -i, so if
+ * we hit that, we can set the variable to TRUE and move *i to the next arg.
+ * We then loop until we hit an arg which does not contain an equals sign,
+ * as this indicates a variable assignment. Otherwise, we check for the i
+ * flag, because this needs and extra check for safety, and in all other
+ * cases we attempt to update the environment with the arg.
+ */
+
 static int	env_parser(t_sh *shell, size_t *i, int *i_flag)
 {
-	int		error;
+	int		no_error;
 
-	error = 1;
+	no_error = TRUE;
 	*i = 1;
-	if (ft_strcmp(shell->arg_list[1], "-i") == 0)
+	if (ft_strequ(shell->arg_list[1], "-i"))
 	{
 		*i = 2;
 		*i_flag = TRUE;
 		ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
 	}
-	while (shell->arg_list[*i])
+	while (shell->arg_list[*i] && no_error)
 	{
 		if (ft_strchr(shell->arg_list[*i], '=') == NULL)
 			break ;
 		else if (*i_flag)
-			error = i_flag_control(shell, shell->arg_list[*i]);
+			no_error = i_flag_control(shell, shell->arg_list[*i]);
 		else
-			error = update_env_control(shell, *i, TRUE);
+			no_error = update_env_control(shell, *i, TRUE);
 		(*i)++;
 	}
-	if (!error)
+	if (!no_error)
 		return (0);
 	return (1);
 }
@@ -86,6 +95,18 @@ static int	update_arg_list(t_sh *shell, size_t i)
 	return (1);
 }
 
+/*
+ * We now need to run the command in the temp environment. The cleanest and
+ * easiest way I found to do this was to reset the arg_list variable in the
+ * shell struct to where i is pointing in the original arg_list. This avoids
+ * having to pass extra variables to bin_control to ensure the correct
+ * argv is executed, for example.
+ *
+ * We then execute the command in much the same way as would happen in main.c
+ * with a non-env command. However, env does not handle builtins and we need
+ * to print our error messages slightly differently.
+ */
+
 static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 {
 	char	**temp;
@@ -109,6 +130,15 @@ static void	execute_env_command(t_sh *shell, char **orig_env, size_t i)
 		print_env_error(shell);
 	shell->env = temp;
 }
+
+/*
+ * The basic logic here is that if the command line passed is just 'env' with
+ * no args, we can just print the environment array. Otherwise we need to copy
+ * that array, creating a temporary one, which we can then run the command in.
+ * Then, we need to check the args are valid with env_parser, and then (if i
+ * is not now pointing to NULL) execute the command in our temp environment,
+ * free that environment and reset to the original.
+ */
 
 void	handle_env(t_sh *shell)
 {
