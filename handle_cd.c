@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:32:03 by amann             #+#    #+#             */
-/*   Updated: 2022/08/01 13:18:32 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/01 13:47:28 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ static void	handle_cd_helper(t_sh *shell, int dash_flag)
 	struct stat	sb;
 	int			exists;
 	char		cwd[PATH_MAX];
+	int			skip;
 
 	if (ft_is_dir(shell->arg_list[1]) && access(shell->arg_list[1], X_OK) == 0)
 	{
@@ -100,8 +101,9 @@ static void	handle_cd_helper(t_sh *shell, int dash_flag)
 	}
 	else
 	{
+		skip = ft_strequ("--", shell->arg_list[1]);
 		print_error_start(shell, 0);
-		ft_putstr_fd(shell->arg_list[1], STDERR_FILENO);
+		ft_putstr_fd(shell->arg_list[1 + skip], STDERR_FILENO);
 		ft_putstr_fd(COLON, STDERR_FILENO);
 		exists = stat(shell->arg_list[1], &sb);
 		print_access_error(exists, sb);
@@ -110,12 +112,14 @@ static void	handle_cd_helper(t_sh *shell, int dash_flag)
 
 void	handle_cd(t_sh *shell)
 {
-	int	dash_flag;
-	int	no_args_flag;
+	int		dash_flag;
+	int		no_args_flag;
+	size_t	len;
 
 	dash_flag = FALSE;
 	no_args_flag = FALSE;
-	if (ft_array_len(shell->arg_list) == 1)
+	len = ft_array_len(shell->arg_list);
+	if (len == 1 || (len == 2 && ft_strequ("--", shell->arg_list[1])))
 	{
 		no_args_flag = TRUE;
 		if (!no_args(shell))
