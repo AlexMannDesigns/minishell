@@ -59,7 +59,7 @@ static char	**get_env(void)
 		ms_env[i] = ft_strdup(environ[i]);
 		if (!ms_env[i])
 		{
-			ft_freearray((void ***) &ms_env, ft_array_len(ms_env));
+			ft_free_array((void ***) &ms_env, ft_array_len(ms_env));
 			exit(EXIT_FAILURE);
 		}
 		i++;

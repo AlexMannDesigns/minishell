@@ -61,7 +61,7 @@ static void	ft_split_ws_loop(const char *str, char ***arr)
 			(*arr)[idx] = ft_strndup(str + i, len);
 			if (!(*arr)[idx])
 			{
-				ft_freearray((void ***) arr, ft_array_len(*arr));
+				ft_free_array((void ***) arr, ft_array_len(*arr));
 				return ;
 			}
 			i += len;

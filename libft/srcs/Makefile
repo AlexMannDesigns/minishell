@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/01 13:44:30 by amann             #+#    #+#              #
-#    Updated: 2022/07/26 13:02:19 by amann            ###   ########.fr        #
+#    Updated: 2022/09/01 13:06:32 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIB =  ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c	
 		ft_strcmp.c ft_strcpy.c	ft_strdel.c ft_strdup.c	ft_striter.c			\
 		ft_striteri.c ft_strjoin.c ft_strlcat.c	ft_strlen.c ft_strncat.c		\
 		ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c ft_strsplit.c		\
-		ft_strstr.c ft_strsub.c	ft_strtrim.c ft_tolower.c ft_freearray.c		\
+		ft_strstr.c ft_strsub.c	ft_strtrim.c ft_tolower.c ft_free_array.c		\
 		ft_iswhitespace.c ft_abs.c ft_strnstr.c ft_strrchr.c ft_toupper.c		\
 		ft_isupper.c ft_lstadd_back.c ft_strndup.c ft_itoa_base.c				\
 		ft_itoa_base_unsigned.c	ft_abs_long.c ft_split_whitespace.c				\

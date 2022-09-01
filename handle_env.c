@@ -51,7 +51,7 @@ static int	env_parser(t_sh *shell, size_t *i, int *i_flag)
 	{
 		*i = 2;
 		*i_flag = TRUE;
-		ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
+		ft_free_array((void ***) &shell->env, ft_array_len(shell->env));
 	}
 	while (shell->arg_list[*i] && no_error)
 	{
@@ -84,13 +84,13 @@ static int	update_arg_list(t_sh *shell, size_t i)
 		new_arg_list[j] = ft_strdup(shell->arg_list[i]);
 		if (!new_arg_list[j])
 		{
-			ft_freearray((void ***) &new_arg_list, ft_array_len(new_arg_list));
+			ft_free_array((void ***) &new_arg_list, ft_array_len(new_arg_list));
 			return (0);
 		}
 		i++;
 		j++;
 	}
-	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
+	ft_free_array((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = new_arg_list;
 	return (1);
 }
@@ -162,7 +162,7 @@ void	handle_env(t_sh *shell)
 		else
 			execute_env_command(shell, orig_env, i);
 		if (shell->env)
-			ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
+			ft_free_array((void ***) &shell->env, ft_array_len(shell->env));
 		shell->env = orig_env;
 	}
 }

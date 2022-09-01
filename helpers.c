@@ -58,7 +58,7 @@ char	**copy_arr(char **arr)
 		res[i] = ft_strdup(arr[i]);
 		if (!res[i])
 		{
-			ft_freearray((void ***) &res, ft_array_len(res));
+			ft_free_array((void ***) &res, ft_array_len(res));
 			return (NULL);
 		}
 		i++;

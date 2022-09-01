@@ -16,7 +16,7 @@ static int	no_args(t_sh *shell)
 {
 	int	idx;
 
-	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
+	ft_free_array((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = (char **) ft_memalloc(sizeof(char *) * 3);
 	if (!shell->arg_list)
 		return (0);

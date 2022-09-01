@@ -45,7 +45,7 @@ static char	**final_res_malloc(char **res, const char *s)
 	final_res = (char **) ft_memalloc((i + 1) * sizeof(char *));
 	if (!final_res)
 	{
-		ft_freearray((void ***)(&final_res), i);
+		ft_free_array((void ***)(&final_res), i);
 		return (NULL);
 	}
 	i = 0;
@@ -55,7 +55,7 @@ static char	**final_res_malloc(char **res, const char *s)
 		i++;
 	}
 	final_res[i] = NULL;
-	ft_freearray((void ***)(&res), (ft_strlen(s) / 2));
+	ft_free_array((void ***)(&res), (ft_strlen(s) / 2));
 	return (final_res);
 }
 

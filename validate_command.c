@@ -81,7 +81,7 @@ static int	find_path(t_sh *shell, char **path_array, char **test_path)
 
 static int	update_comm(t_sh *shell, char ***p_arr, char *t_path)
 {
-	ft_freearray((void ***) p_arr, ft_array_len(*p_arr));
+	ft_free_array((void ***) p_arr, ft_array_len(*p_arr));
 	shell->path_to_bin = ft_strdup(t_path);
 	if (!shell->path_to_bin)
 		return (0);
@@ -110,6 +110,6 @@ int	is_in_path(t_sh *shell, int is_env, int *err)
 	test_path = NULL;
 	if (find_path(shell, path_array, &test_path))
 		return (update_comm(shell, &path_array, test_path));
-	ft_freearray((void ***) &path_array, ft_array_len(path_array));
+	ft_free_array((void ***) &path_array, ft_array_len(path_array));
 	return (0);
 }

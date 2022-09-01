@@ -60,7 +60,7 @@ static int	parser_control(t_sh *shell)
 static void	free_mem(t_sh *sh)
 {
 	if (sh->arg_list)
-		ft_freearray((void ***) &(sh->arg_list),
+		ft_free_array((void ***) &(sh->arg_list),
 			ft_array_len(sh->arg_list));
 	if (sh->cli)
 		ft_strdel(&(sh->cli));

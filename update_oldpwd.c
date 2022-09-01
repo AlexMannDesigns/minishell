@@ -22,12 +22,12 @@ static int	copy_env_to_new(t_sh *shell, char **new_env)
 		new_env[i] = ft_strdup(shell->env[i]);
 		if (!new_env[i])
 		{
-			ft_freearray((void ***) &new_env, ft_array_len(new_env));
+			ft_free_array((void ***) &new_env, ft_array_len(new_env));
 			return (0);
 		}
 		i++;
 	}
-	ft_freearray((void ***) &shell->env, ft_array_len(shell->env));
+	ft_free_array((void ***) &shell->env, ft_array_len(shell->env));
 	return (1);
 }
 

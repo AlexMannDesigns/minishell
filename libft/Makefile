@@ -6,7 +6,7 @@
 #    By: amann <amann@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/15 11:48:22 by amann             #+#    #+#              #
-#    Updated: 2022/08/08 17:30:22 by amann            ###   ########.fr        #
+#    Updated: 2022/09/01 13:05:36 by amann            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ LIB = $(LIB_DIR)ft_atoi.c $(LIB_DIR)ft_bzero.c $(LIB_DIR)ft_isalnum.c			\
 		$(LIB_DIR)ft_strlen.c $(LIB_DIR)ft_strncat.c $(LIB_DIR)ft_strncmp.c		\
 		$(LIB_DIR)ft_strncpy.c $(LIB_DIR)ft_strnequ.c $(LIB_DIR)ft_strnew.c		\
 		$(LIB_DIR)ft_strsplit.c	$(LIB_DIR)ft_strstr.c $(LIB_DIR)ft_strsub.c		\
-		$(LIB_DIR)ft_strtrim.c $(LIB_DIR)ft_tolower.c $(LIB_DIR)ft_freearray.c	\
+		$(LIB_DIR)ft_strtrim.c $(LIB_DIR)ft_tolower.c $(LIB_DIR)ft_free_array.c	\
 		$(LIB_DIR)ft_iswhitespace.c $(LIB_DIR)ft_abs.c $(LIB_DIR)ft_strnstr.c	\
 		$(LIB_DIR)ft_strrchr.c $(LIB_DIR)ft_toupper.c $(LIB_DIR)ft_abs_long.c	\
 		$(LIB_DIR)ft_lstadd_back.c $(LIB_DIR)ft_strndup.c $(LIB_DIR)ft_isupper.c\

@@ -6,7 +6,7 @@
 /*   By: amann <amann@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 12:41:30 by amann             #+#    #+#             */
-/*   Updated: 2022/07/28 14:05:08 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/01 13:07:51 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char		*ft_strnew(size_t size);
 /* free memory */
 void		ft_memdel(void **ap);
 void		ft_strdel(char **as);
-void		ft_freearray(void ***arr, size_t size);
+void		ft_free_array(void ***arr, size_t size);
 
 /* iterate/map */
 void		ft_striter(char *s, void (*f)(char *));

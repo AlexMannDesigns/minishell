@@ -91,7 +91,7 @@ char	**create_arg_list(char *cli)
 			res[idx] = copy_args_control(cli, &i);
 			if (!res[idx])
 			{
-				ft_freearray((void ***) &res, ft_array_len(res));
+				ft_free_array((void ***) &res, ft_array_len(res));
 				return (NULL);
 			}
 			idx++;

@@ -78,7 +78,7 @@ static void	fix_arg_list_loop(t_sh *shell, int idx, char ***new_argl)
 			(*new_argl)[i] = ft_strdup(shell->arg_list[j]);
 			if (!(*new_argl)[i])
 			{
-				ft_freearray((void ***) new_argl, ft_array_len(*new_argl));
+				ft_free_array((void ***) new_argl, ft_array_len(*new_argl));
 				return ;
 			}
 			i++;
@@ -109,7 +109,7 @@ static int	fix_up_arg_list(t_sh *shell, int idx)
 	fix_arg_list_loop(shell, idx, &new_arg_list);
 	if (!new_arg_list)
 		return (0);
-	ft_freearray((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
+	ft_free_array((void ***) &shell->arg_list, ft_array_len(shell->arg_list));
 	shell->arg_list = new_arg_list;
 	return (1);
 }
