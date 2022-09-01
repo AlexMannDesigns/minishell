@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 14:48:49 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 12:22:23 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/01 18:09:40 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,11 @@
 
 static void	print_abs_path_err(t_sh *shell, int err_flag)
 {
+	print_error_start(shell, 0);
 	if (err_flag == 1)
-	{
-		print_error_start(shell, 0);
 		ft_putstr_fd(IS_A_DIR, STDERR_FILENO);
-	}
 	else if (err_flag == 2)
-	{
-		print_error_start(shell, 0);
-		ft_putstr_fd(IS_NOT_A_DIR, STDERR_FILENO);
-	}
-	else if (err_flag == 3)
-	{
-		print_error_start(shell, 0);
 		ft_putstr_fd(OBJ_NOT_FOUND, STDERR_FILENO);
-	}
 }
 
 static int	validate_abs_path(t_sh *shell, int is_env, int *err)
@@ -40,10 +30,8 @@ static int	validate_abs_path(t_sh *shell, int is_env, int *err)
 	path = shell->arg_list[0];
 	if (ft_is_dir(path))
 		err_flag = 1;
-	else if (path[ft_strlen(path) - 1] == '/')
-		err_flag = 2;
 	else if (!ft_is_valid_path(path))
-		err_flag = 3;
+		err_flag = 2;
 	if (err_flag && !is_env)
 		print_abs_path_err(shell, err_flag);
 	if (err_flag)
