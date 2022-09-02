@@ -6,14 +6,14 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 12:03:54 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 12:04:12 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/02 17:58:33 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
- * These three functions were separated our to comply with norm.
+ * These three functions were separated out to comply with norm.
  * The logic for handling quoted command line is quite a complicated
  * thing to replicate, without sacrificing readability for brevity.
  * Also we have a function here which will check we are not in

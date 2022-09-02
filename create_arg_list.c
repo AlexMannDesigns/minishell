@@ -6,7 +6,7 @@
 /*   By: amann <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 15:20:12 by amann             #+#    #+#             */
-/*   Updated: 2022/08/08 12:17:56 by amann            ###   ########.fr       */
+/*   Updated: 2022/09/02 17:30:02 by amann            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	count_args_helper(char *cli, size_t *i, size_t *i_q, char *q_t)
 		}
 		else if (*i_q && cli[*i] == *q_t)
 			*i_q = FALSE;
-			(*i)++;
+		(*i)++;
 	}
 }
 
